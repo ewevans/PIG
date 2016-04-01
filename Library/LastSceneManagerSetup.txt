@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/Scenes/Sprint.unity
+  isLoaded: 1
+  isActive: 1
