@@ -5,7 +5,12 @@ using UnityEngine.UI;
 
 public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler {
 
-	public Card.CardType type;
+	public enum Type{
+		LASTING_EFFECT,
+		PLAY,
+		DISCARD
+	}
+	public Type type;
 	public int capacity = 1;
 	// Use this for initialization
 	void Start () {
@@ -21,11 +26,11 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
-			if (card != null && card.type == type && transform.childCount != capacity) {
+			Debug.Log (card.valid (type));
+			if (card != null && card.valid(type)) {
 				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
-				drag.Reordering (true);
-				if (drag != null) {
-					drag.potentialParent = transform;
+				if (drag != null && transform == drag.oldParent) {
+					drag.Reordering (true);
 				}
 			}
 		}
@@ -34,25 +39,41 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 		Debug.Log ("Card " + eventData.pointerDrag.name + " was dropped on " + name);
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
-			if (card != null && card.type == type) {
-				
+			if (card != null) {
 				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
-				if (drag != null) {
-					drag.parentTo = drag.potentialParent;
+				if (drag != null && card.valid (type)) {
+					if (type == Type.DISCARD || type == Type.PLAY) {
+						if (transform.childCount > 0) {
+							Destroy (transform.GetChild (0).gameObject);
+						}
+					}
+					drag.parentTo = transform;
 				}
 			}
 		}
-	}
-	public void OnPointerExit(PointerEventData eventData){
-		//Debug.Log ("PointerExit");
+		/*
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
-			if (card != null && card.type == type) {
+			if (card != null && card.valid(type)) {
+				
 				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
-				drag.Reordering (false);
-				if (drag != null && drag.potentialParent == transform) {
-					drag.potentialParent = drag.parentTo;
+				if (drag != null) {
+					drag.parentTo = transform;
 				}
+			}
+		}
+*/
+	}
+	public void OnPointerExit(PointerEventData eventData){
+		Debug.Log ("PointerExit");
+		if (eventData.pointerDrag != null) {
+			Card card = eventData.pointerDrag.GetComponent<Card> ();
+			if (card == null)
+				Debug.Log ("null");
+			if (card != null) {
+				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
+				if(drag != null)
+					drag.Reordering (false);
 			}
 		}
 	}
