@@ -20,6 +20,7 @@ public class Draw : MonoBehaviour, IPointerClickHandler {
 			if (hand.transform.childCount < 5) {
 				GameObject card = (GameObject)Instantiate (Resources.Load ("Coding30"));
 				card.transform.SetParent (hand.transform);
+				card.transform.localScale = new Vector3 (1, 1, 1);
 			}
 		}
 	}
