@@ -11,6 +11,8 @@ public class CameraAspect : MonoBehaviour {
 	void Start () {
 		float targetAspect = targetRatioWidth / targetRatioHeight;
 		float windowAspect = (float)Screen.width / (float)Screen.height;
+		float oldWidth = (float)Screen.width;
+		float oldHeight = (float)Screen.height;
 
 		float scaleHeight = windowAspect / targetAspect;
 

@@ -67,7 +67,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 	public void OnEndDrag(PointerEventData eventData){
 		Debug.Log ("EndDrag");
 		transform.SetParent (parentTo);
-		transform.SetSiblingIndex (placeHolder.transform.GetSiblingIndex ());
+		if (parentTo != oldParent) {
+			transform.SetSiblingIndex (placeHolder.transform.GetSiblingIndex ());
+		}
 		Destroy (placeHolder);
 		reordering = true;
 		DropZone landedZone = parentTo.gameObject.GetComponent<DropZone> ();

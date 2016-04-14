@@ -8,7 +8,8 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 	public enum Type{
 		LASTING_EFFECT,
 		PLAY,
-		DISCARD
+		DISCARD,
+		NONE
 	}
 	public Type type;
 	public int capacity = 1;
@@ -42,7 +43,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 			if (card != null) {
 				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
 				if (drag != null && card.valid (type)) {
-					if (type == Type.DISCARD || type == Type.PLAY) {
+					if (type == Type.DISCARD || type == Type.PLAY || type == Type.LASTING_EFFECT) {
 						if (transform.childCount > 0) {
 							Destroy (transform.GetChild (0).gameObject);
 						}
