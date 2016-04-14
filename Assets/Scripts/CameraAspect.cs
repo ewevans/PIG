@@ -5,11 +5,14 @@ public class CameraAspect : MonoBehaviour {
 
 	public float targetRatioWidth = 16.0f;
 	public float targetRatioHeight = 9.0f;
+	public GameObject UIScaler;
 
 	// Use this for initialization
 	void Start () {
 		float targetAspect = targetRatioWidth / targetRatioHeight;
 		float windowAspect = (float)Screen.width / (float)Screen.height;
+		float oldWidth = (float)Screen.width;
+		float oldHeight = (float)Screen.height;
 
 		float scaleHeight = windowAspect / targetAspect;
 
@@ -21,6 +24,7 @@ public class CameraAspect : MonoBehaviour {
 			rect.height = scaleHeight;
 			rect.x = 0;
 			rect.y = (1.0f - scaleHeight) / 2.0f;
+			UIScaler.transform.localScale = new Vector3 (1, scaleHeight, 1);
 
 			camera.rect = rect;
 		} else {
@@ -30,6 +34,7 @@ public class CameraAspect : MonoBehaviour {
 			rect.height = 1.0f;
 			rect.x = (1.0f - scaleWidth) / 2.0f;
 			rect.y = 0;
+			UIScaler.transform.localScale = new Vector3 (scaleWidth, 1, 1);
 
 			camera.rect = rect;
 		}
