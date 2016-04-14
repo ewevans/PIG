@@ -73,10 +73,11 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 		Destroy (placeHolder);
 		reordering = true;
 		DropZone landedZone = parentTo.gameObject.GetComponent<DropZone> ();
+		GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		if (landedZone != null) {
 			if (landedZone.type == DropZone.Type.LASTING_EFFECT) {
-				GetComponent<CanvasGroup> ().blocksRaycasts = true;
 			} else if (landedZone.type == DropZone.Type.PLAY) {
+				GetComponent<CanvasGroup> ().blocksRaycasts = false;
 				Card card = GetComponent<Card> ();
 				if (card != null) {
 					GameObject linesNumber = GameObject.Find ("LinesNumber");
@@ -91,6 +92,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 					defectsNumber.GetComponent<Text> ().text = "" + currentDefects;
 				}
 			} else if (landedZone.type == DropZone.Type.DISCARD) {
+				GetComponent<CanvasGroup> ().blocksRaycasts = false;
 			}
 		}
 	}
