@@ -28,7 +28,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
 			//Debug.Log (card.valid (type));
-			if (card != null && card.valid(type)) {
+			if (card != null) {
 				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
 				if (drag != null && transform == drag.oldParent) {
 					drag.Reordering (true);
@@ -66,14 +66,15 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 */
 	}
 	public void OnPointerExit(PointerEventData eventData){
-		//Debug.Log ("PointerExit");
+		Debug.Log ("PointerExit");
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
 			if (card == null)
-				//Debug.Log ("null");
+				Debug.Log ("null");
 			if (card != null) {
 				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
-				if(drag != null)
+				if (drag != null)
+					Debug.Log ("Not null");
 					drag.Reordering (false);
 			}
 		}
