@@ -29,6 +29,10 @@ public class GameSystem : MonoBehaviour {
 		int currentDefects = sprint.updateDefects (defects * coders);
 		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
 	}
+	public void flatDefects(int defects){
+		int currentDefects = sprint.updateDefects (defects);
+		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+	}
 	// Use this for initialization
 	void Start () {
 		sprint = GetComponent<Sprint> ();
