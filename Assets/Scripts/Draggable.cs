@@ -67,16 +67,18 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 	public void OnEndDrag(PointerEventData eventData){
 		Debug.Log ("EndDrag");
 		transform.SetParent (parentTo);
-		if (parentTo != oldParent) {
+		if (parentTo == oldParent) {
 			transform.SetSiblingIndex (placeHolder.transform.GetSiblingIndex ());
 		}
 		Destroy (placeHolder);
 		reordering = true;
 		DropZone landedZone = parentTo.gameObject.GetComponent<DropZone> ();
+		Debug.Log (parentTo.gameObject.name);
 		GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		if (landedZone != null) {
 			if (landedZone.type == DropZone.Type.LASTING_EFFECT) {
 			} else if (landedZone.type == DropZone.Type.PLAY) {
+				Debug.Log ("Thing1");
 				GetComponent<CanvasGroup> ().blocksRaycasts = false;
 				Card card = GetComponent<Card> ();
 				if (card != null) {
@@ -97,6 +99,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 			} else if (landedZone.type == DropZone.Type.DISCARD) {
 				GetComponent<CanvasGroup> ().blocksRaycasts = false;
 			}
+		} else {
+			Debug.Log ("null");
 		}
 	}
 }
