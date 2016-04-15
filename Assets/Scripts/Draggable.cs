@@ -80,6 +80,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 				GetComponent<CanvasGroup> ().blocksRaycasts = false;
 				Card card = GetComponent<Card> ();
 				if (card != null) {
+					card.Activate ();
+					/*
 					GameObject linesNumber = GameObject.Find ("LinesNumber");
 					GameObject defectsNumber = GameObject.Find ("DefectsNumber");
 
@@ -90,6 +92,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 					int currentDefects = int.Parse (defectsNumber.GetComponent<Text> ().text);
 					currentDefects += card.activateEffect.defectsPerCoder * 2;
 					defectsNumber.GetComponent<Text> ().text = "" + currentDefects;
+					/**/
 				}
 			} else if (landedZone.type == DropZone.Type.DISCARD) {
 				GetComponent<CanvasGroup> ().blocksRaycasts = false;

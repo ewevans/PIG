@@ -26,6 +26,9 @@ public class Card : MonoBehaviour {
 		DEVELOPMENT,
 		ANY
 	};
+
+	private GameObject gameSystem;
+
 	public CardType type = CardType.ANY;
 	public string title;
 	public string description = null;
@@ -51,6 +54,8 @@ public class Card : MonoBehaviour {
 		activateEffect.roleChange = roleChange;
 		activateEffect.loseRandomLastingEffect = loseRandomLastingEffect;
 		activateEffect.percentDefects = percentDefects;
+
+		gameSystem = GameObject.Find ("GameSystem");
 	}
 	public bool valid(DropZone.Type dztype){
 		if (type == CardType.LASTING_EFFECT) {
@@ -66,6 +71,9 @@ public class Card : MonoBehaviour {
 	}
 	public void Activate(){
 		Debug.Log ("Activating card " + title);
+		GameSystem system = gameSystem.GetComponent<GameSystem> ();
+		system.linesPerCoder (activateEffect.linesPerCoder);
+		system.defectsPerCoder (activateEffect.defectsPerCoder);
 	}
 	public void Deactivate(){
 		Debug.Log ("Deactivating card " + title);
