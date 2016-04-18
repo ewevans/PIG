@@ -50,6 +50,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 	}
 	public void OnDrag(PointerEventData eventData){
 		transform.position = eventData.position + offset;
+		/*
 		if(reordering){
 			int newIndex = potentialParent.childCount;
 			for (int index = 0; index < potentialParent.childCount; ++index) {
@@ -61,8 +62,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 					break;
 				}
 			}
-			placeHolder.transform.SetSiblingIndex (newIndex);
+			if (newIndex != placeHolder.transform.GetSiblingIndex ()) {
+				placeHolder.transform.SetSiblingIndex (newIndex);
+				int parIndex = placeHolder.transform.GetSiblingIndex();
+				eventData.
+			}
 		}
+		/**/
 	}
 	public void OnEndDrag(PointerEventData eventData){
 		Debug.Log ("EndDrag");

@@ -13,18 +13,27 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 	}
 	public Type type;
 	public int capacity = 1;
+
+	private Hand hand;
+
 	// Use this for initialization
 	void Start () {
-	
+		hand = GameObject.Find ("Hand").GetComponent<Hand>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+	public void parentItem(GameObject go){
+		if (transform.childCount > 0)
+			Destroy (transform.GetChild (0).gameObject);
+		go.transform.SetParent (transform);
+	}
 	public void OnPointerEnter(PointerEventData eventData){
+		hand.setHoverZone (gameObject);
 		//Debug.Log ("PointerEnter");
-
+		/*
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
 			//Debug.Log (card.valid (type));
@@ -35,8 +44,10 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 				}
 			}
 		}
+		/**/
 	}
 	public void OnDrop(PointerEventData eventData){
+		
 		Debug.Log ("Card " + eventData.pointerDrag.name + " was dropped on " + name);
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
@@ -52,7 +63,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 				}
 			}
 		}
-		/*
+
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
 			if (card != null && card.valid(type)) {
@@ -63,20 +74,23 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 				}
 			}
 		}
-*/
+/**/
 	}
 	public void OnPointerExit(PointerEventData eventData){
-		Debug.Log ("PointerExit");
+		hand.setHoverZone (null);
+		//Debug.Log ("PointerExit");
+		/*
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
 			if (card == null)
-				Debug.Log ("null");
+				//Debug.Log ("null");
 			if (card != null) {
 				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
 				if (drag != null)
-					Debug.Log ("Not null");
+					//Debug.Log ("Not null");
 					drag.Reordering (false);
 			}
 		}
+		*/
 	}
 }
