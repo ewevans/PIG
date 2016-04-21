@@ -7,6 +7,7 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 
 	private GameObject dragItem = null;
 	private GameObject canvas = null;
+	public GameObject controller;
 	private bool down = false;
 	private bool inHand = false;
 	private GameObject placeHolder;
@@ -47,6 +48,7 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 			dragItem.transform.localScale = new Vector3 (1, 1, 1);
 			dragItem.transform.SetParent (placeHolder.transform.parent);
 			dragItem.transform.SetSiblingIndex (placeHolder.transform.GetSiblingIndex ());
+			dragItem.transform.position = placeHolder.transform.position;
 			Destroy (placeHolder);
 			dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		}
@@ -83,17 +85,30 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 			dragItem.transform.localScale = new Vector3 (1, 1, 1);
 			if (hoverZone != null) {
 				DropZone zone = hoverZone.GetComponent<DropZone> ();
-				zone.parentItem (dragItem);
 				if (zone.type == DropZone.Type.DISCARD) {
+					zone.parentItem (dragItem);
 					dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = false;
+					controller.GetComponent<GameSystem> ().endTurn ();
 				} else if (zone.type == DropZone.Type.PLAY) {
-					dragItem.GetComponent<Card> ().Activate ();
-					dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = false;
+					if (dragItem.GetComponent<Card> ().Activate ()) {
+						zone.parentItem (dragItem);
+						dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = false;
+					} else {
+						dragItem.transform.SetParent (placeHolder.transform.parent);
+						dragItem.transform.SetSiblingIndex (placeHolder.transform.GetSiblingIndex ());
+						dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = true;
+					}
 				}
 				else if(zone.type == DropZone.Type.LASTING_EFFECT){
-					dragItem.GetComponent<Card> ().Activate ();
-					dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = true;
-					dragItem.GetComponent<Draggable> ().enabled = true;
+					if (dragItem.GetComponent<Card> ().Activate ()) {
+						zone.parentItem (dragItem);
+						dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = true;
+						dragItem.GetComponent<Draggable> ().enabled = true;
+					} else {
+						dragItem.transform.SetParent (placeHolder.transform.parent);
+						dragItem.transform.SetSiblingIndex (placeHolder.transform.GetSiblingIndex ());
+						dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = true;
+					}
 				}
 			} else {
 				dragItem.transform.SetParent (placeHolder.transform.parent);
@@ -115,7 +130,9 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 		Debug.Log (name + " Pointer Enter");
 		inHand = true;
 		if (dragging) {
+			dragItem.GetComponent<Image> ().color = Color.clear;
 			stopDragging ();
+			dragItem.GetComponent<Image> ().color = Color.white;
 			//startDrag ();
 		}
 	}

@@ -7,6 +7,8 @@ public class Sprint : MonoBehaviour {
 	public int linesDone = 0;
 	public int defectLimit = 0;
 	public int defects = 0;
+	public int sprintDuration = 0;
+	public int currentDay = 0;
 
 	public int updateLinesObjective(int change){
 		linesObjective += change;
@@ -23,6 +25,14 @@ public class Sprint : MonoBehaviour {
 	public int updateDefectLimit(int change){
 		defectLimit += change;
 		return defectLimit;
+	}
+	public int updateSprintDuration(int change){
+		sprintDuration += change;
+		return sprintDuration;
+	}
+	public int updateCurrentDay(int change){
+		currentDay += change;
+		return currentDay;
 	}
 	// Use this for initialization
 	void Start () {

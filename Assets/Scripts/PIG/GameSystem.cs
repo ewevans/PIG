@@ -10,11 +10,28 @@ public class GameSystem : MonoBehaviour {
 
 	private Sprint sprint;
 
+	private enum State{
+		NONE_PLAYED,
+		EFFECT_PLAYED,
+		DEV_PLAYED
+	};
+
 	public GameObject defectsDisplay;
 	public GameObject linesNumber;
 	public GameObject linesProgress;
+	public GameObject daysText;
+	public GameObject hand;
+
+	private State state = State.NONE_PLAYED;
 
 
+	private string[] cards = {
+		"Coding30",
+		"Coding40",
+		"Coding50",
+		"Coding75-10",
+		"Coding75-0"
+	};
 	public void linesPerCoder(int lines){
 		int currentLines = sprint.updateLinesDone (lines * coders);
 		linesNumber.GetComponent<Text> ().text = "" + currentLines;
@@ -32,6 +49,53 @@ public class GameSystem : MonoBehaviour {
 	public void flatDefects(int defects){
 		int currentDefects = sprint.updateDefects (defects);
 		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+	}
+	public bool nextDay(){
+		int currentDay = sprint.updateCurrentDay (1);
+		daysText.GetComponent<Text> ().text = "Day " + currentDay + " of " + sprint.sprintDuration;
+		return currentDay < sprint.sprintDuration;
+	}
+	public bool playCard(Card.CardType type){
+		if (type == Card.CardType.DEVELOPMENT) {
+			if (state == State.NONE_PLAYED || state == State.EFFECT_PLAYED) {
+				state = State.DEV_PLAYED;
+				return true;
+			} else{
+				return false;
+			}
+		} else if (type == Card.CardType.INSTANT_EFFECT || type == Card.CardType.LASTING_EFFECT) {
+			if (state == State.NONE_PLAYED) {
+				state = State.EFFECT_PLAYED;
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
+	private void drawCards(){
+		while (hand.transform.childCount < 6) {
+			GameObject card = (GameObject)Instantiate (Resources.Load (cards [Random.Range (0, 4)]));
+			card.transform.SetParent (hand.transform);
+			card.transform.localScale = new Vector3 (1, 1, 1);
+		}
+	}
+	public bool endTurn(){
+		Debug.Log ("End Turn");
+		if (nextDay ()) {
+			drawCards ();
+			state = State.NONE_PLAYED;
+		} else {
+		}
+		return false;
+		/* 
+		 * Advance day
+		 * If day >= duration
+		 * 		end sprint (restart for demo?)
+		 * else
+		 * 		display new day
+		 * 		change state to none played
+	   /**/
 	}
 	// Use this for initialization
 	void Start () {

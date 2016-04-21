@@ -55,7 +55,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
 				if (drag != null && card.valid (type)) {
 					if (type == Type.DISCARD || type == Type.PLAY || type == Type.LASTING_EFFECT) {
-						if (transform.childCount > 0) {
+						if (transform.childCount > 1) {
 							Destroy (transform.GetChild (0).gameObject);
 						}
 					}
@@ -78,6 +78,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 	}
 	public void OnPointerExit(PointerEventData eventData){
 		hand.setHoverZone (null);
+		Debug.Log (transform.childCount);
 		//Debug.Log ("PointerExit");
 		/*
 		if (eventData.pointerDrag != null) {
