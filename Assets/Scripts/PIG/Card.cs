@@ -69,11 +69,15 @@ public class Card : MonoBehaviour {
 		}
 		return false;
 	}
-	public void Activate(){
+	public bool Activate(){
 		Debug.Log ("Activating card " + title);
 		GameSystem system = gameSystem.GetComponent<GameSystem> ();
-		system.linesPerCoder (activateEffect.linesPerCoder);
-		system.defectsPerCoder (activateEffect.defectsPerCoder);
+		if (system.playCard (type)) {
+			system.linesPerCoder (activateEffect.linesPerCoder);
+			system.defectsPerCoder (activateEffect.defectsPerCoder);
+			return true;
+		}
+		return false;
 	}
 	public void Deactivate(){
 		Debug.Log ("Deactivating card " + title);
