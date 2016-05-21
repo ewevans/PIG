@@ -21,6 +21,7 @@ public class GameSystem : MonoBehaviour {
 	public GameObject linesProgress;
 	public GameObject daysText;
 	public GameObject hand;
+	public GameObject defectBar;
 
 	private State state = State.NONE_PLAYED;
 
@@ -45,10 +46,12 @@ public class GameSystem : MonoBehaviour {
 	public void defectsPerCoder(int defects){
 		int currentDefects = sprint.updateDefects (defects * coders);
 		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 	}
 	public void flatDefects(int defects){
 		int currentDefects = sprint.updateDefects (defects);
 		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 	}
 	public bool nextDay(){
 		int currentDay = sprint.updateCurrentDay (1);
@@ -100,6 +103,7 @@ public class GameSystem : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		sprint = GetComponent<Sprint> ();
+		defectBar.GetComponent<DefectBar> ().setMax (sprint.defectLimit);
 	}
 	
 	// Update is called once per frame
