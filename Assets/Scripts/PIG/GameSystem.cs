@@ -15,6 +15,7 @@ public class GameSystem : MonoBehaviour {
 		EFFECT_PLAYED,
 		DEV_PLAYED
 	};
+    public Deck deck = new Deck();
 
 	public GameObject defectsDisplay;
 	public GameObject linesNumber;
@@ -78,7 +79,9 @@ public class GameSystem : MonoBehaviour {
 	}
 	private void drawCards(){
 		while (hand.transform.childCount < 6) {
-			GameObject card = (GameObject)Instantiate (Resources.Load (cards [Random.Range (0, 4)]));
+            if (deck == null)
+                    Debug.Log("deck null");
+			GameObject card = Instantiate (Resources.Load (deck.DealCard(), typeof(GameObject))) as GameObject;
 			card.transform.SetParent (hand.transform);
 			card.transform.localScale = new Vector3 (1, 1, 1);
 		}
