@@ -75,6 +75,9 @@ public class Card : MonoBehaviour {
 		if (system.playCard (type)) {
 			system.linesPerCoder (activateEffect.linesPerCoder);
 			system.defectsPerCoder (activateEffect.defectsPerCoder);
+			if (activateEffect.roleChange) {
+				system.changeRoles (1);
+			}
 			return true;
 		}
 		return false;
