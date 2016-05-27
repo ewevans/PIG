@@ -83,6 +83,21 @@ public class GameSystem : MonoBehaviour {
 		}
 		return false;
 	}
+
+	public void discardHand(){
+		foreach (Transform child in hand.transform) {
+			GameObject.Destroy(child.gameObject);
+		}
+
+		for (int i = 0; i < 5; i++) {
+			GameObject card = Instantiate (Resources.Load (deck.DealCard (), typeof(GameObject))) as GameObject;
+			card.transform.SetParent (hand.transform);
+			card.transform.localScale = new Vector3 (1, 1, 1);
+		}
+
+		endTurn ();
+			
+	}
 	private void drawCards(){
 		while (hand.transform.childCount < 6) {
             if (deck == null)
