@@ -23,6 +23,7 @@ public class GameSystem : MonoBehaviour {
 	public GameObject daysText;
 	public GameObject hand;
 	public GameObject defectBar;
+	public GameObject roleAllocation;
 
 	private State state = State.NONE_PLAYED;
 
@@ -102,6 +103,11 @@ public class GameSystem : MonoBehaviour {
 		 * 		display new day
 		 * 		change state to none played
 	   /**/
+	}
+	public void changeRoles(int allowed){
+		RoleAllocation allocate = roleAllocation.GetComponent<RoleAllocation> ();
+		allocate.allotment = allowed;
+		allocate.init ();
 	}
 	// Use this for initialization
 	void Start () {
