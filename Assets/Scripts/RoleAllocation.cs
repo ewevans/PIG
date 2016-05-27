@@ -11,6 +11,7 @@ public class RoleAllocation : MonoBehaviour {
 	public GameObject testerZone;
 	public GameObject gameSystem;
 
+
 	private int numMoved;
 	private int previousCoders = 0;
 	private int previousDebuggers = 0;

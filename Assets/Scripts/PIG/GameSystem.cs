@@ -24,6 +24,8 @@ public class GameSystem : MonoBehaviour {
 	public GameObject hand;
 	public GameObject defectBar;
 	public GameObject roleAllocation;
+	public GameObject dayIndicator;
+	public GameObject dayIndicatorText;
 
 	private State state = State.NONE_PLAYED;
 
@@ -58,6 +60,9 @@ public class GameSystem : MonoBehaviour {
 	public bool nextDay(){
 		int currentDay = sprint.updateCurrentDay (1);
 		daysText.GetComponent<Text> ().text = "Day " + currentDay + " of " + sprint.sprintDuration;
+		dayIndicatorText.GetComponent<Text> ().text = "" + currentDay;
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * (float)currentDay / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 		return currentDay < sprint.sprintDuration;
 	}
 	public bool playCard(Card.CardType type){
