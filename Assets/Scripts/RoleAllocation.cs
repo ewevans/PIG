@@ -66,7 +66,7 @@ public class RoleAllocation : MonoBehaviour {
 		gs.coders = coderZone.transform.childCount;
 		gs.debuggers = debuggerZone.transform.childCount;
 		gs.testers = testerZone.transform.childCount;
-
+		gs.RoleAllocHudUpdate ();
 		transform.parent.localScale = new Vector3 (0, 0, 0);
 
 		for (int index = 0; index < coderZone.transform.childCount; ++index) {

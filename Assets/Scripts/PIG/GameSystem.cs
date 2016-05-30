@@ -17,6 +17,9 @@ public class GameSystem : MonoBehaviour {
 	};
     public Deck deck = new Deck();
 
+	public GameObject codersText;
+	public GameObject testersText;
+	public GameObject debuggersText;
 	public GameObject defectsDisplay;
 	public GameObject linesNumber;
 	public GameObject linesProgress;
@@ -84,19 +87,26 @@ public class GameSystem : MonoBehaviour {
 		return false;
 	}
 
+	public void RoleAllocHudUpdate (){
+		codersText.GetComponent<Text>().text = "x " + coders;
+		testersText.GetComponent<Text> ().text = "x " + testers;
+		debuggersText.GetComponent<Text> ().text = "x " + debuggers;
+	}
+
 	public void discardHand(){
-		foreach (Transform child in hand.transform) {
-			GameObject.Destroy(child.gameObject);
-		}
+		if (state == State.NONE_PLAYED) {
+			foreach (Transform child in hand.transform) {
+				GameObject.Destroy (child.gameObject);
+			}
 
-		for (int i = 0; i < 5; i++) {
-			GameObject card = Instantiate (Resources.Load (deck.DealCard (), typeof(GameObject))) as GameObject;
-			card.transform.SetParent (hand.transform);
-			card.transform.localScale = new Vector3 (1, 1, 1);
-		}
+			for (int i = 0; i < 5; i++) {
+				GameObject card = Instantiate (Resources.Load (deck.DealCard (), typeof(GameObject))) as GameObject;
+				card.transform.SetParent (hand.transform);
+				card.transform.localScale = new Vector3 (1, 1, 1);
+			}
 
-		endTurn ();
-			
+			endTurn ();
+		}
 	}
 	private void drawCards(){
 		while (hand.transform.childCount < 6) {
