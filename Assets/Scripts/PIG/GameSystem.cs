@@ -16,6 +16,7 @@ public class GameSystem : MonoBehaviour {
 		DEV_PLAYED
 	};
     public Deck deck = new Deck();
+    public EventDeck eventDeck = new EventDeck();
 
 	public GameObject codersText;
 	public GameObject testersText;
@@ -29,6 +30,9 @@ public class GameSystem : MonoBehaviour {
 	public GameObject roleAllocation;
 	public GameObject dayIndicator;
 	public GameObject dayIndicatorText;
+
+    
+    public GameObject eventSlot;
 
 	private State state = State.NONE_PLAYED;
 
@@ -73,6 +77,7 @@ public class GameSystem : MonoBehaviour {
 			if (state == State.NONE_PLAYED || state == State.EFFECT_PLAYED) {
 				state = State.DEV_PLAYED;
 				return true;
+
 			} else{
 				return false;
 			}
@@ -122,6 +127,7 @@ public class GameSystem : MonoBehaviour {
 		if (nextDay ()) {
 			drawCards ();
 			state = State.NONE_PLAYED;
+            startEvent(eventDeck.ChooseEvent());
 		} else {
 		}
 		return false;
@@ -134,6 +140,21 @@ public class GameSystem : MonoBehaviour {
 		 * 		change state to none played
 	   /**/
 	}
+
+    public void startEvent(string eventStarted)
+    {
+        //destroy previous event
+        foreach (Transform child in eventSlot.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+        //Make new event object from parameter string name
+        GameObject eventObj = Instantiate(Resources.Load("Events/" + eventStarted, typeof(GameObject))) as GameObject;
+        eventObj.transform.SetParent(eventSlot.transform);
+        eventObj.transform.localScale = new Vector3(1, 1, 1);
+    }
+
 	public void changeRoles(int allowed){
 		RoleAllocation allocate = roleAllocation.GetComponent<RoleAllocation> ();
 		allocate.allotment = allowed;
@@ -143,6 +164,8 @@ public class GameSystem : MonoBehaviour {
 	void Start () {
 		sprint = GetComponent<Sprint> ();
 		defectBar.GetComponent<DefectBar> ().setMax (sprint.defectLimit);
+        eventSlot.GetComponent < GameObject> ();
+
 	}
 	
 	// Update is called once per frame
