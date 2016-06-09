@@ -21,13 +21,13 @@ public class EventDeck {
         AddMultiple("LongDailyStandUp", 1);
         AddMultiple("MandatoryMeetings", 1);
         AddMultiple("MinorRequirementsEdit", 1);
-        AddMultiple("MissedDailyStandup", 1);
+        AddMultiple("MissedDailyStandUp", 1);
         AddMultiple("MissedDefects", 1);
         AddMultiple("MissedRequirements", 1);
         AddMultiple("MistakeOnTargetDate", 1);
         AddMultiple("ProductOwnerVacation", 1);
         AddMultiple("SickDeveloper", 1);
-        AddMultiple("WatchingYouTube", 1);
+        AddMultiple("WatchingViralVideos", 1);
         AddMultiple("WorkOverwritten", 1);
 
         //Add each card to the deck as many times as its probability attribute
