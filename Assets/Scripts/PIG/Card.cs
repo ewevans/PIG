@@ -57,23 +57,23 @@ public class Card : MonoBehaviour {
 
 
 		deactivateEffect = new Effect();
-		activateEffect.flatLines = -flatLines;
-		activateEffect.flatDefects = -flatDefects;
-		activateEffect.flatBudget = -flatBudget;
-		activateEffect.flatLinesObjective = -flatLinesObjective;
-		activateEffect.flatDevelopers = -flatDevelopers;
-		activateEffect.flatCoders = -flatCoders;
-		activateEffect.flatDays = -flatDays;
-		activateEffect.defectModifier = -defectModifier;
-		activateEffect.linesModifier = -linesModifier;
-		activateEffect.linesPerCoder = -linesPerCoder;
-		activateEffect.defectsPerCoder = -defectsPerCoder;
-		activateEffect.defectsPerDebugger = -defectsPerDebugger;
-		activateEffect.loseCodingTurn = loseCodingTurn;
-		activateEffect.loseEffectTurn = loseEffectTurn;
-		activateEffect.roleChange = roleChange;
-		activateEffect.loseRandomLastingEffect = loseRandomLastingEffect;
-		activateEffect.percentDefects = percentDefects;
+		deactivateEffect.flatLines = -flatLines;
+		deactivateEffect.flatDefects = -flatDefects;
+		deactivateEffect.flatBudget = -flatBudget;
+		deactivateEffect.flatLinesObjective = -flatLinesObjective;
+		deactivateEffect.flatDevelopers = -flatDevelopers;
+		deactivateEffect.flatCoders = -flatCoders;
+		deactivateEffect.flatDays = -flatDays;
+		deactivateEffect.defectModifier = -defectModifier;
+		deactivateEffect.linesModifier = -linesModifier;
+		deactivateEffect.linesPerCoder = -linesPerCoder;
+		deactivateEffect.defectsPerCoder = -defectsPerCoder;
+		deactivateEffect.defectsPerDebugger = -defectsPerDebugger;
+		deactivateEffect.loseCodingTurn = loseCodingTurn;
+		deactivateEffect.loseEffectTurn = loseEffectTurn;
+		deactivateEffect.roleChange = roleChange;
+		deactivateEffect.loseRandomLastingEffect = loseRandomLastingEffect;
+		deactivateEffect.percentDefects = percentDefects;
 
 		gameSystem = GameObject.Find ("GameSystem");
 	}

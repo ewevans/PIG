@@ -54,6 +54,8 @@ public class GameSystem : MonoBehaviour {
 	};
 	public void linesPerCoder(int lines){
 		int currentLines = sprint.updateLinesDone (Mathf.Max((lines + linesModifier) * (coders + coderMod), 0));
+		Debug.Log (currentLines + " Lines");
+		Debug.Log (lines + " Lines attempted");
 		linesNumber.GetComponent<Text> ().text = "" + currentLines;
 		linesProgress.GetComponent<Image> ().fillAmount = (float)currentLines / (float)sprint.linesObjective;
 	}
