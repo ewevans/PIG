@@ -8,6 +8,14 @@ public class GameSystem : MonoBehaviour {
 	public int debuggers = 2;
 	public int testers = 0;
 
+	public int coderMod = 0;
+
+	public int linesModifier = 0;
+	public int defectModifier = 0;
+	public int debugDefectModifier = 0;
+
+	private bool skipCoding = false;
+
 	private Sprint sprint;
 
 	private enum State{
@@ -45,7 +53,7 @@ public class GameSystem : MonoBehaviour {
 		"Coding75-0"
 	};
 	public void linesPerCoder(int lines){
-		int currentLines = sprint.updateLinesDone (lines * coders);
+		int currentLines = sprint.updateLinesDone (Mathf.Max((lines + linesModifier) * (coders + coderMod), 0));
 		linesNumber.GetComponent<Text> ().text = "" + currentLines;
 		linesProgress.GetComponent<Image> ().fillAmount = (float)currentLines / (float)sprint.linesObjective;
 	}
@@ -55,7 +63,7 @@ public class GameSystem : MonoBehaviour {
 		linesProgress.GetComponent<Image> ().fillAmount = (float)currentLines / (float)sprint.linesObjective;
 	}
 	public void defectsPerCoder(int defects){
-		int currentDefects = sprint.updateDefects (defects * coders);
+		int currentDefects = sprint.updateDefects (Mathf.Max((defects + defectModifier) * (coders + coderMod), 0));
 		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
 		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 	}
@@ -64,6 +72,58 @@ public class GameSystem : MonoBehaviour {
 		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
 		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 	}
+	public void flatBudget(int amount){
+		sprint.budget += amount;
+	}
+	public void flatLinesObjective(int change){
+		sprint.linesObjective += change;
+		linesProgress.GetComponent<Image> ().fillAmount = (float)sprint.linesDone / (float)sprint.linesObjective;
+	}
+	public void flatDevelopers(int change){
+		// ?
+	}
+	public void flatCoders(int change){
+		// ?
+	}
+	public void flatDays(int change){
+		sprint.updateSprintDuration (change);
+	}
+	public void changeDefectModifier(int mod){
+		defectModifier += mod;
+	}
+	public void changeLinesModifier(int mod){
+		linesModifier += mod;
+	}
+	public void defectsPerDebugger(int removed){
+		int currentDefects = sprint.updateDefects (Mathf.Max((debugDefectModifier + removed) * debuggers, 0));
+		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
+	}
+	public void loseCoding(){
+		skipCoding = true;
+		if (state == State.EFFECT_PLAYED) {
+			state = State.DEV_PLAYED;
+		}
+	}
+	public void loseEffect(){
+		state = State.EFFECT_PLAYED;
+		if (skipCoding) {
+			state = State.DEV_PLAYED;
+		}
+	}
+	public void loseRandomLasting(){
+		//	pick one at random
+		//	call its deactivate
+		//	destroy it
+	}
+	public int percentDefects(double percent){
+		int defectsRemoved = (int)((double)sprint.defects * percent);
+		int currentDefects = sprint.updateDefects (-defectsRemoved);
+		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
+		return defectsRemoved;
+	}
+
 	public bool nextDay(){
 		int currentDay = sprint.updateCurrentDay (1);
 		daysText.GetComponent<Text> ().text = "Day " + currentDay + " of " + sprint.sprintDuration;
@@ -84,6 +144,9 @@ public class GameSystem : MonoBehaviour {
 		} else if (type == Card.CardType.INSTANT_EFFECT || type == Card.CardType.LASTING_EFFECT) {
 			if (state == State.NONE_PLAYED) {
 				state = State.EFFECT_PLAYED;
+				if (skipCoding) {
+					state = State.DEV_PLAYED;
+				}
 				return true;
 			} else {
 				return false;
@@ -117,6 +180,15 @@ public class GameSystem : MonoBehaviour {
 		while (hand.transform.childCount < 6) {
             if (deck == null)
                     Debug.Log("deck null");
+			GameObject card = Instantiate (Resources.Load (deck.DealCard(), typeof(GameObject))) as GameObject;
+			card.transform.SetParent (hand.transform);
+			card.transform.localScale = new Vector3 (1, 1, 1);
+		}
+	}
+	private void drawCardsStart(){
+		while (hand.transform.childCount < 5) {
+			if (deck == null)
+				Debug.Log("deck null");
 			GameObject card = Instantiate (Resources.Load (deck.DealCard(), typeof(GameObject))) as GameObject;
 			card.transform.SetParent (hand.transform);
 			card.transform.localScale = new Vector3 (1, 1, 1);
@@ -165,6 +237,8 @@ public class GameSystem : MonoBehaviour {
 		sprint = GetComponent<Sprint> ();
 		defectBar.GetComponent<DefectBar> ().setMax (sprint.defectLimit);
         eventSlot.GetComponent < GameObject> ();
+
+		drawCardsStart ();
 
 	}
 	

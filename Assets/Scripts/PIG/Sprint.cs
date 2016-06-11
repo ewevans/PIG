@@ -9,6 +9,7 @@ public class Sprint : MonoBehaviour {
 	public int defects = 0;
 	public int sprintDuration = 0;
 	public int currentDay = 0;
+	public int budget = 5000;
 
 	public int updateLinesObjective(int change){
 		linesObjective += change;

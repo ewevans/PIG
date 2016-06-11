@@ -75,6 +75,14 @@ public class Card : MonoBehaviour {
 		if (system.playCard (type)) {
 			system.linesPerCoder (activateEffect.linesPerCoder);
 			system.defectsPerCoder (activateEffect.defectsPerCoder);
+			system.flatLines (activateEffect.flatLines);
+			system.flatDefects (activateEffect.flatDefects);
+			system.flatLinesObjective (activateEffect.flatLinesObjective + system.percentDefects(activateEffect.percentDefects));
+			system.flatDevelopers (activateEffect.flatDevelopers);
+			system.flatCoders (activateEffect.flatCoders);
+			system.flatDays (activateEffect.flatDays);
+			system.changeDefectModifier (activateEffect.defectModifier);
+			system.changeLinesModifier (activateEffect.linesModifier);
 			if (activateEffect.roleChange) {
 				system.changeRoles (1);
 			}
