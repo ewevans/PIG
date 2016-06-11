@@ -122,22 +122,22 @@ public class GameSystem : MonoBehaviour {
 		switch (which) {
 		case 1:
 			if (lastingSlot1.transform.childCount > 0) {
-				GameObject card = lastingSlot1.transform.GetChild (0);
+				GameObject card = lastingSlot1.transform.GetChild (0).gameObject;
 				card.GetComponent<Card> ().Deactivate ();
 				Destroy (card);
 			} else if (lastingSlot2.transform.childCount > 0) {
-				GameObject card = lastingSlot2.transform.GetChild (0);
+				GameObject card = lastingSlot2.transform.GetChild (0).gameObject;
 				card.GetComponent<Card> ().Deactivate ();
 				Destroy (card);
 			}
 			break;
 		case 2:
 			if (lastingSlot2.transform.childCount > 0) {
-				GameObject card = lastingSlot2.transform.GetChild (0);
+				GameObject card = lastingSlot2.transform.GetChild (0).gameObject;
 				card.GetComponent<Card> ().Deactivate ();
 				Destroy (card);
 			} else if (lastingSlot1.transform.childCount > 0) {
-				GameObject card = lastingSlot1.transform.GetChild (0);
+				GameObject card = lastingSlot1.transform.GetChild (0).gameObject;
 				card.GetComponent<Card> ().Deactivate ();
 				Destroy (card);
 			}
