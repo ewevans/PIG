@@ -55,6 +55,26 @@ public class Card : MonoBehaviour {
 		activateEffect.loseRandomLastingEffect = loseRandomLastingEffect;
 		activateEffect.percentDefects = percentDefects;
 
+
+		deactivateEffect = new Effect();
+		activateEffect.flatLines = -flatLines;
+		activateEffect.flatDefects = -flatDefects;
+		activateEffect.flatBudget = -flatBudget;
+		activateEffect.flatLinesObjective = -flatLinesObjective;
+		activateEffect.flatDevelopers = -flatDevelopers;
+		activateEffect.flatCoders = -flatCoders;
+		activateEffect.flatDays = -flatDays;
+		activateEffect.defectModifier = -defectModifier;
+		activateEffect.linesModifier = -linesModifier;
+		activateEffect.linesPerCoder = -linesPerCoder;
+		activateEffect.defectsPerCoder = -defectsPerCoder;
+		activateEffect.defectsPerDebugger = -defectsPerDebugger;
+		activateEffect.loseCodingTurn = loseCodingTurn;
+		activateEffect.loseEffectTurn = loseEffectTurn;
+		activateEffect.roleChange = roleChange;
+		activateEffect.loseRandomLastingEffect = loseRandomLastingEffect;
+		activateEffect.percentDefects = percentDefects;
+
 		gameSystem = GameObject.Find ("GameSystem");
 	}
 	public bool valid(DropZone.Type dztype){
@@ -91,7 +111,12 @@ public class Card : MonoBehaviour {
 		return false;
 	}
 	public void Deactivate(){
+		GameSystem system = gameSystem.GetComponent<GameSystem> ();
 		Debug.Log ("Deactivating card " + title);
+		system.flatDevelopers (deactivateEffect.flatDevelopers);
+		system.flatCoders (deactivateEffect.flatCoders);
+		system.changeDefectModifier (deactivateEffect.defectModifier);
+		system.changeLinesModifier (deactivateEffect.linesModifier);
 	}
 
 	public class Effect {

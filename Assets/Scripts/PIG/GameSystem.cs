@@ -83,7 +83,7 @@ public class GameSystem : MonoBehaviour {
 		// ?
 	}
 	public void flatCoders(int change){
-		// ?
+		coderMod += change;
 	}
 	public void flatDays(int change){
 		sprint.updateSprintDuration (change);
@@ -115,6 +115,37 @@ public class GameSystem : MonoBehaviour {
 		//	pick one at random
 		//	call its deactivate
 		//	destroy it
+
+		GameObject lastingSlot1 = GameObject.Find ("Lasting1");
+		GameObject lastingSlot2 = GameObject.Find ("Lasting2");
+		int which = (Random.Range (1, 2));
+		switch (which) {
+		case 1:
+			if (lastingSlot1.transform.childCount > 0) {
+				GameObject card = lastingSlot1.transform.GetChild (0);
+				card.GetComponent<Card> ().Deactivate ();
+				Destroy (card);
+			} else if (lastingSlot2.transform.childCount > 0) {
+				GameObject card = lastingSlot2.transform.GetChild (0);
+				card.GetComponent<Card> ().Deactivate ();
+				Destroy (card);
+			}
+			break;
+		case 2:
+			if (lastingSlot2.transform.childCount > 0) {
+				GameObject card = lastingSlot2.transform.GetChild (0);
+				card.GetComponent<Card> ().Deactivate ();
+				Destroy (card);
+			} else if (lastingSlot1.transform.childCount > 0) {
+				GameObject card = lastingSlot1.transform.GetChild (0);
+				card.GetComponent<Card> ().Deactivate ();
+				Destroy (card);
+			}
+			break;
+		default:
+			break;
+		}
+
 	}
 	public int percentDefects(double percent){
 		int defectsRemoved = (int)((double)sprint.defects * percent);
