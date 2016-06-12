@@ -65,8 +65,9 @@ public class Sprint : MonoBehaviour {
 
 		//	This first loop fills in 4 tasks for our test run, it should be removed eventually
 		for (int index = 0; index < tasks.Length; ++index) {
-			tasks [index] = new Task (500, 13, "Task " + (index + 1));
+			tasks [index] = new Task (500 + 100 * index, 13 + 3 * index, "Task " + (index + 1));
 		}
+		tasks [2].lines = 200;
 
 		//	This second loop figures out lines based on tasks and whatnot, also creates the task identifiers
 		for (int index = 0; index < tasks.Length; ++index) {
