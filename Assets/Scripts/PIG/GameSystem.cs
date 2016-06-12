@@ -93,7 +93,10 @@ public class GameSystem : MonoBehaviour {
 		coderMod += change;
 	}
 	public void flatDays(int change){
-		sprint.updateSprintDuration (change);
+		sprint.updateSprintDuration (change);daysText.GetComponent<Text> ().text = "Day " + sprint.currentDay + " of " + sprint.sprintDuration;
+		dayIndicatorText.GetComponent<Text> ().text = "" + sprint.currentDay;
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * (float)sprint.currentDay / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 	}
 	public void changeDefectModifier(int mod){
 		defectModifier += mod;
@@ -173,7 +176,7 @@ public class GameSystem : MonoBehaviour {
 	}
 	public bool playCard(Card.CardType type){
 		if (type == Card.CardType.DEVELOPMENT) {
-			if (state == State.NONE_PLAYED || state == State.EFFECT_PLAYED) {
+			if (!skipCoding && (state == State.NONE_PLAYED || state == State.EFFECT_PLAYED)) {
 				state = State.DEV_PLAYED;
 				return true;
 
@@ -235,6 +238,7 @@ public class GameSystem : MonoBehaviour {
 	}
 	public bool endTurn(){
 		Debug.Log ("End Turn");
+		skipCoding = false;
 		if (nextDay ()) {
 			drawCards ();
 			state = State.NONE_PLAYED;
@@ -264,6 +268,8 @@ public class GameSystem : MonoBehaviour {
         GameObject eventObj = Instantiate(Resources.Load("Events/" + eventStarted, typeof(GameObject))) as GameObject;
         eventObj.transform.SetParent(eventSlot.transform);
         eventObj.transform.localScale = new Vector3(1, 1, 1);
+		eventObj.GetComponent<Event> ().Activate ();
+
     }
 
 	public void changeRoles(int allowed){

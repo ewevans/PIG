@@ -40,6 +40,28 @@ public class Event : MonoBehaviour {
     private GameObject gameSystem;
 
     // Use this for initialization
+	void Awake(){
+		activateEffect = new Effect();
+		activateEffect.flatLines = flatLines;
+		activateEffect.flatDefects = flatDefects;
+		activateEffect.flatBudget = flatBudget;
+		activateEffect.flatLinesObjective = flatLinesObjective;
+		activateEffect.flatDevelopers = flatDevelopers;
+		activateEffect.flatCoders = flatCoders;
+		activateEffect.flatDays = flatDays;
+		activateEffect.defectModifier = defectModifier;
+		activateEffect.linesModifier = linesModifier;
+		activateEffect.linesPerCoder = linesPerCoder;
+		activateEffect.defectsPerCoder = defectsPerCoder;
+		activateEffect.defectsPerDebugger = defectsPerDebugger;
+		activateEffect.loseCodingTurn = loseCodingTurn;
+		activateEffect.loseEffectTurn = loseEffectTurn;
+		activateEffect.roleChange = roleChange;
+		activateEffect.loseRandomLastingEffect = loseRandomLastingEffect;
+		activateEffect.percentDefects = percentDefects;
+
+		gameSystem = GameObject.Find("GameSystem");
+	}
     void Start () {
         activateEffect = new Effect();
         activateEffect.flatLines = flatLines;
@@ -64,27 +86,42 @@ public class Event : MonoBehaviour {
 
     }
 
-    public bool Activate()
-    {
-        Debug.Log("Activating event " + title);
-        GameSystem system = gameSystem.GetComponent<GameSystem>();
-       // if (system.playEvent())
-        //{
-            system.linesPerCoder(activateEffect.linesPerCoder);
-            system.defectsPerCoder(activateEffect.defectsPerCoder);
-            if (activateEffect.roleChange)
-            {
-                system.changeRoles(1);
-            }
-            return true;
-       // }
-       // return false;
-    }
-
-    public void Deactivate()
-    {
-        Debug.Log("Deactivating card " + title);
-    }
+	public bool Activate(){
+		Debug.Log ("Activating card " + title);
+		gameSystem = GameObject.Find ("GameSystem");
+		GameSystem system = gameSystem.GetComponent<GameSystem> ();
+			system.linesPerCoder (activateEffect.linesPerCoder);
+			system.defectsPerCoder (activateEffect.defectsPerCoder);
+			system.flatLines (activateEffect.flatLines);
+			system.flatDefects (activateEffect.flatDefects);
+			system.flatLinesObjective (activateEffect.flatLinesObjective + system.percentDefects(activateEffect.percentDefects));
+			system.flatDevelopers (activateEffect.flatDevelopers);
+			system.flatCoders (activateEffect.flatCoders);
+			system.flatDays (activateEffect.flatDays);
+			system.changeDefectModifier (activateEffect.defectModifier);
+			system.changeLinesModifier (activateEffect.linesModifier);
+			system.flatBudget (activateEffect.flatBudget);
+			system.defectsPerDebugger (activateEffect.defectsPerDebugger);
+			if (activateEffect.roleChange) {
+				system.changeRoles (1);
+			}
+		if (activateEffect.loseEffectTurn) {
+			system.loseEffect ();
+		}
+		if (activateEffect.loseCodingTurn) {
+			system.loseCoding ();
+		}
+			return true;
+		return false;
+	}
+	public void Deactivate(){
+		GameSystem system = gameSystem.GetComponent<GameSystem> ();
+		Debug.Log ("Deactivating card " + title);
+		system.flatDevelopers (deactivateEffect.flatDevelopers);
+		system.flatCoders (deactivateEffect.flatCoders);
+		system.changeDefectModifier (deactivateEffect.defectModifier);
+		system.changeLinesModifier (deactivateEffect.linesModifier);
+	}
 
     // Update is called once per frame
     void Update () {
