@@ -26,14 +26,17 @@ public class DefectBar : MonoBehaviour {
 	public void reportDefects(int current){
 		greenBar.GetComponent<Image> ().fillAmount = Mathf.Min (1, (float)current / (float)greenDefects);
 		int remaining = 0;
-		if(current > greenDefects)
-		{
+		if (current > greenDefects) {
 			remaining = current - greenDefects;
 			yellowBar.GetComponent<Image> ().fillAmount = Mathf.Min (1, (float)remaining / (float)yellowDefects);
+		} else {
+			yellowBar.GetComponent<Image> ().fillAmount = 0;
 		}
 		if (current > yellowDefects + greenDefects) {
 			remaining = current - yellowDefects;
 			redBar.GetComponent<Image> ().fillAmount = Mathf.Min (1, (float)remaining / (float)redDefects);
+		} else {
+			redBar.GetComponent<Image> ().fillAmount = 0;
 		}
 	}
 	
