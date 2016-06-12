@@ -16,26 +16,44 @@ public class Sprint : MonoBehaviour {
 
 	public int updateLinesObjective(int change){
 		linesObjective += change;
+		if (linesObjective < 0) {
+			linesObjective = 0;
+		}
 		return linesObjective;
 	}
 	public int updateLinesDone(int change){
 		linesDone += change;
+		if (linesDone < 0) {
+			linesDone = 0;
+		}
 		return linesDone;
 	}
 	public int updateDefects(int change){
 		defects += change;
+		if (defects < 0) {
+			defects = 0;
+		}
 		return defects;
 	}
 	public int updateDefectLimit(int change){
 		defectLimit += change;
+		if (defectLimit < 0) {
+			defectLimit = 0;
+		}
 		return defectLimit;
 	}
 	public int updateSprintDuration(int change){
 		sprintDuration += change;
+		if (sprintDuration < 0) {
+			sprintDuration = 0;
+		}
 		return sprintDuration;
 	}
 	public int updateCurrentDay(int change){
 		currentDay += change;
+		if (currentDay < 0) {
+			currentDay = 0;
+		}
 		return currentDay;
 	}
 	// Use this for initialization

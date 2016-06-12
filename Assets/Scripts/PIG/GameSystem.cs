@@ -38,6 +38,7 @@ public class GameSystem : MonoBehaviour {
 	public GameObject roleAllocation;
 	public GameObject dayIndicator;
 	public GameObject dayIndicatorText;
+	public GameObject budgetDisplay;
 
     
     public GameObject eventSlot;
@@ -76,13 +77,17 @@ public class GameSystem : MonoBehaviour {
 	}
 	public void flatBudget(int amount){
 		sprint.budget += amount;
+		budgetDisplay.GetComponent<Text> ().text = "$" + sprint.budget;
 	}
 	public void flatLinesObjective(int change){
 		sprint.linesObjective += change;
 		linesProgress.GetComponent<Image> ().fillAmount = (float)sprint.linesDone / (float)sprint.linesObjective;
 	}
 	public void flatDevelopers(int change){
-		// ?
+		coders += change;
+		if (change != 0) {
+			changeRoles (Mathf.Abs (change));
+		}
 	}
 	public void flatCoders(int change){
 		coderMod += change;
@@ -97,7 +102,7 @@ public class GameSystem : MonoBehaviour {
 		linesModifier += mod;
 	}
 	public void defectsPerDebugger(int removed){
-		int currentDefects = sprint.updateDefects (Mathf.Max((debugDefectModifier + removed) * debuggers, 0));
+		int currentDefects = sprint.updateDefects (Mathf.Min((debugDefectModifier + removed) * debuggers, 0));
 		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
 		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 	}
@@ -163,6 +168,7 @@ public class GameSystem : MonoBehaviour {
 		dayIndicatorText.GetComponent<Text> ().text = "" + currentDay;
 		float location = linesProgress.GetComponent<RectTransform> ().rect.width * (float)currentDay / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
+		flatBudget (-100 * (coders + testers + debuggers));
 		return currentDay < sprint.sprintDuration;
 	}
 	public bool playCard(Card.CardType type){
@@ -270,6 +276,9 @@ public class GameSystem : MonoBehaviour {
 		sprint = GetComponent<Sprint> ();
 		defectBar.GetComponent<DefectBar> ().setMax (sprint.defectLimit);
         eventSlot.GetComponent < GameObject> ();
+
+
+		budgetDisplay.GetComponent<Text> ().text = "$" + sprint.budget;
 
 		drawCardsStart ();
 

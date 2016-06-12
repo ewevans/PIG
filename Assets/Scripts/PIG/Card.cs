@@ -103,6 +103,8 @@ public class Card : MonoBehaviour {
 			system.flatDays (activateEffect.flatDays);
 			system.changeDefectModifier (activateEffect.defectModifier);
 			system.changeLinesModifier (activateEffect.linesModifier);
+			system.flatBudget (activateEffect.flatBudget);
+			system.defectsPerDebugger (activateEffect.defectsPerDebugger);
 			if (activateEffect.roleChange) {
 				system.changeRoles (1);
 			}

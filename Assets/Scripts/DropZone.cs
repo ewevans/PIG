@@ -58,6 +58,9 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 						if (transform.childCount > 1) {
 							Destroy (transform.GetChild (0).gameObject);
 						}
+						if (transform.childCount > 1) {
+							Destroy (transform.GetChild (0).gameObject);
+						}
 					}
 					drag.parentTo = transform;
 				}
