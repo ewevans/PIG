@@ -203,12 +203,14 @@ public class GameSystem : MonoBehaviour {
 		debuggersText.GetComponent<Text> ().text = "x " + debuggers;
 	}
 
+	//Discarding Entire Player Hand
 	public void discardHand(){
 		if (state == State.NONE_PLAYED) {
+			//Deleting all existing cards in hand
 			foreach (Transform child in hand.transform) {
 				GameObject.Destroy (child.gameObject);
 			}
-
+			//Create new hand of cards
 			for (int i = 0; i < 5; i++) {
 				GameObject card = Instantiate (Resources.Load (deck.DealCard (), typeof(GameObject))) as GameObject;
 				card.transform.SetParent (hand.transform);
@@ -242,7 +244,16 @@ public class GameSystem : MonoBehaviour {
 		if (nextDay ()) {
 			drawCards ();
 			state = State.NONE_PLAYED;
-            startEvent(eventDeck.ChooseEvent());
+
+			//clean up any existing event dialog box
+			foreach (Transform child in eventSlot.transform)
+			{
+				GameObject.Destroy(child.gameObject);
+			}
+			//Randomize probability of an event occuring
+			if (Random.value > .80) {
+				startEvent (eventDeck.ChooseEvent ());
+			}
 		} else {
 		}
 		return false;
