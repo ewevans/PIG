@@ -21,7 +21,7 @@ public class Event : MonoBehaviour {
     public bool loseRandomLastingEffect = false;
     public double percentDefects = 0.0;
 
-    public enum Catagory
+    public enum Category
     {
         NONE,
         DATA,
@@ -31,6 +31,7 @@ public class Event : MonoBehaviour {
         REQ
     };
 
+	public Category category = Category.NONE;
     public string title;
     public string description = null;
     public double probability = 0.0;

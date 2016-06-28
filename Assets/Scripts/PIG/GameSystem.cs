@@ -18,6 +18,15 @@ public class GameSystem : MonoBehaviour {
 
 	private Sprint sprint;
 
+	public enum Category
+	{
+		NONE,
+		DATA,
+		COMM,
+		EXEC,
+		DEFECT,
+		REQ
+	};
 
 	private enum State{
 		NONE_PLAYED,
@@ -43,6 +52,8 @@ public class GameSystem : MonoBehaviour {
 	public GameObject scoreText;
     
     public GameObject eventSlot;
+	public GameObject lasting1;
+	public GameObject lasting2;
 
 	private State state = State.NONE_PLAYED;
 
@@ -274,9 +285,9 @@ public class GameSystem : MonoBehaviour {
 
     public void startEvent(string eventStarted)
     {
+		bool activate = true;
         //destroy previous event
-        foreach (Transform child in eventSlot.transform)
-        {
+        foreach (Transform child in eventSlot.transform) {
             GameObject.Destroy(child.gameObject);
         }
 
@@ -284,8 +295,22 @@ public class GameSystem : MonoBehaviour {
         GameObject eventObj = Instantiate(Resources.Load("Events/" + eventStarted, typeof(GameObject))) as GameObject;
         eventObj.transform.SetParent(eventSlot.transform);
         eventObj.transform.localScale = new Vector3(1, 1, 1);
-		eventObj.GetComponent<Event> ().Activate ();
 
+		//if event category doesn't match either lasting pile then activate
+		if (lasting1.transform.childCount > 0) {
+			if (lasting1.GetComponent<Card>().category.Equals(eventSlot.GetComponent<Event>().category)) {
+				activate = false;
+			}
+		}
+		if (lasting1.transform.childCount > 0) {
+			if (lasting1.GetComponent<Card>().category.Equals(eventSlot.GetComponent<Event>().category)) {
+				activate = false;
+			}
+		}
+
+		if (activate) {
+			eventObj.GetComponent<Event> ().Activate ();
+		}
     }
 
 	public void changeRoles(int allowed){
