@@ -105,6 +105,11 @@ public class Card : MonoBehaviour {
 			system.changeLinesModifier (activateEffect.linesModifier);
 			system.flatBudget (activateEffect.flatBudget);
 			system.defectsPerDebugger (activateEffect.defectsPerDebugger);
+
+			//****************** Score Update Call - DE **************************
+			system.ScoreUpdate (activateEffect.linesPerCoder, type);
+//			//*********************************************************************
+
 			if (activateEffect.roleChange) {
 				system.changeRoles (1);
 			}

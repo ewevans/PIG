@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class Sprint : MonoBehaviour {
@@ -11,6 +12,8 @@ public class Sprint : MonoBehaviour {
 	public int sprintDuration = 0;
 	public int currentDay = 0;
 	public int budget = 5000;
+
+	public List<Turn> TurnList = new List<Turn> ();
 
 	public Task[] tasks;
 
@@ -49,6 +52,7 @@ public class Sprint : MonoBehaviour {
 		}
 		return sprintDuration;
 	}
+
 	public int updateCurrentDay(int change){
 		currentDay += change;
 		if (currentDay < 0) {
@@ -56,6 +60,8 @@ public class Sprint : MonoBehaviour {
 		}
 		return currentDay;
 	}
+
+
 	// Use this for initialization
 	void Start () {
 		tasks = new Task[4];

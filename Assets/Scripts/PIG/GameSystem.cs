@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class GameSystem : MonoBehaviour {
-
+	public int score = 0;
 	public int coders = 2;
 	public int debuggers = 2;
 	public int testers = 0;
@@ -17,6 +17,7 @@ public class GameSystem : MonoBehaviour {
 	private bool skipCoding = false;
 
 	private Sprint sprint;
+
 
 	private enum State{
 		NONE_PLAYED,
@@ -39,7 +40,7 @@ public class GameSystem : MonoBehaviour {
 	public GameObject dayIndicator;
 	public GameObject dayIndicatorText;
 	public GameObject budgetDisplay;
-
+	public GameObject scoreText;
     
     public GameObject eventSlot;
 
@@ -53,6 +54,7 @@ public class GameSystem : MonoBehaviour {
 		"Coding75-10",
 		"Coding75-0"
 	};
+
 	public void linesPerCoder(int lines){
 		int currentLines = sprint.updateLinesDone (Mathf.Max((lines + linesModifier) * (coders + coderMod), 0));
 		Debug.Log (currentLines + " Lines");
@@ -197,6 +199,7 @@ public class GameSystem : MonoBehaviour {
 		return false;
 	}
 
+	//Role Allocation HUD Display Update
 	public void RoleAllocHudUpdate (){
 		codersText.GetComponent<Text>().text = "x " + coders;
 		testersText.GetComponent<Text> ().text = "x " + testers;
@@ -220,6 +223,7 @@ public class GameSystem : MonoBehaviour {
 			endTurn ();
 		}
 	}
+
 	private void drawCards(){
 		while (hand.transform.childCount < 6) {
             if (deck == null)
@@ -240,6 +244,7 @@ public class GameSystem : MonoBehaviour {
 	}
 	public bool endTurn(){
 		Debug.Log ("End Turn");
+		TurnUpdate ();
 		skipCoding = false;
 		if (nextDay ()) {
 			drawCards ();
@@ -288,6 +293,44 @@ public class GameSystem : MonoBehaviour {
 		allocate.allotment = allowed;
 		allocate.init ();
 	}
+
+	public void TurnUpdate(){
+		
+		Turn turn = new Turn();
+		turn.turnDay = sprint.currentDay;
+		turn.turnBudget = sprint.budget;
+		turn.turnDefects = sprint.defects;
+		turn.turnLinesComnpleted = sprint.linesDone;
+		sprint.TurnList.Add (turn);
+
+		print ("TurnDay =" + turn.turnDay);
+		print ("TurnBudget =" + turn.turnBudget);
+		print ("TurnDefects =" + turn.turnDefects);
+		print ("List Count " + sprint.TurnList.Count);
+	}
+
+	// Score Update Method checks for type to determine value - DE
+	public void ScoreUpdate(int cardscore, Card.CardType type){
+		if (type == Card.CardType.DEVELOPMENT) {
+			score += cardscore;
+			}
+
+		else if (type == Card.CardType.INSTANT_EFFECT) {
+			score += 50;
+			}
+
+		else if (type == Card.CardType.LASTING_EFFECT) {
+			score += 150;
+			}
+
+		DisplayScore (score);
+	}
+		
+	// Display Score to SCORE HUD - DE
+	public void DisplayScore(int score){
+		scoreText.GetComponent<Text> ().text = score.ToString ();
+		}
+
 	// Use this for initialization
 	void Start () {
 		sprint = GetComponent<Sprint> ();
