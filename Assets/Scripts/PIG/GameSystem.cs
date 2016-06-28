@@ -341,6 +341,7 @@ public class GameSystem : MonoBehaviour {
 		budgetDisplay.GetComponent<Text> ().text = "$" + sprint.budget;
 
 		drawCardsStart ();
+		RoleAllocHudUpdate ();
 
 	}
 	

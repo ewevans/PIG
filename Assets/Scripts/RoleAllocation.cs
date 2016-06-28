@@ -68,13 +68,17 @@ public class RoleAllocation : MonoBehaviour {
 		gs.testers = testerZone.transform.childCount;
 		gs.RoleAllocHudUpdate ();
 		transform.parent.localScale = new Vector3 (0, 0, 0);
-
-		for (int index = 0; index < coderZone.transform.childCount; ++index) {
-			Destroy(coderZone.transform.GetChild(0).gameObject);
-		}for (int index = 0; index < debuggerZone.transform.childCount; ++index) {
-			Destroy(debuggerZone.transform.GetChild(0).gameObject);
-		}for (int index = 0; index < testerZone.transform.childCount; ++index) {
-			Destroy(testerZone.transform.GetChild(0).gameObject);
+		int numChildren = coderZone.transform.childCount;
+		for (int index = 0; index < numChildren; ++index) {
+			DestroyImmediate(coderZone.transform.GetChild(0).gameObject);
+		}
+		numChildren = debuggerZone.transform.childCount;
+		for (int index = 0; index < numChildren; ++index) {
+			DestroyImmediate(debuggerZone.transform.GetChild(0).gameObject);
+		}
+		numChildren = testerZone.transform.childCount;
+		for (int index = 0; index < numChildren; ++index) {
+			DestroyImmediate(testerZone.transform.GetChild(0).gameObject);
 		}
 	}
 	
