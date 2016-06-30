@@ -300,12 +300,12 @@ public class GameSystem : MonoBehaviour {
 
 		//if event category doesn't match either lasting pile then activate
 		if (lasting1.transform.childCount > 0) {
-			if (lasting1.GetComponent<Card>().category.Equals(eventSlot.GetComponent<Event>().category)) {
+			if (lasting1.GetComponentInChildren<Card>().category.Equals(eventSlot.GetComponentInChildren<Event>().category)) {
 				activate = false;
 			}
 		}
 		if (lasting1.transform.childCount > 0) {
-			if (lasting1.GetComponent<Card>().category.Equals(eventSlot.GetComponent<Event>().category)) {
+			if (lasting1.GetComponentInChildren<Card>().category.Equals(eventSlot.GetComponentInChildren<Event>().category)) {
 				activate = false;
 			}
 		}
