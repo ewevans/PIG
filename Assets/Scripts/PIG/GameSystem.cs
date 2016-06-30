@@ -46,6 +46,7 @@ public class GameSystem : MonoBehaviour {
 	public GameObject hand;
 	public GameObject defectBar;
 	public GameObject roleAllocation;
+	public GameObject dialogBox;
 	public GameObject dayIndicator;
 	public GameObject dayIndicatorText;
 	public GameObject budgetDisplay;
@@ -219,6 +220,7 @@ public class GameSystem : MonoBehaviour {
 
 	//Discarding Entire Player Hand
 	public void discardHand(){
+		updateDialogBox ("This is the Title!", "This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used.");
 		if (state == State.NONE_PLAYED) {
 			//Deleting all existing cards in hand
 			foreach (Transform child in hand.transform) {
@@ -317,6 +319,11 @@ public class GameSystem : MonoBehaviour {
 		RoleAllocation allocate = roleAllocation.GetComponent<RoleAllocation> ();
 		allocate.allotment = allowed;
 		allocate.init ();
+	}
+
+	public void updateDialogBox(string title, string body){
+		DialogBox dialog = dialogBox.GetComponent<DialogBox> ();
+		dialog.init(title, body);
 	}
 
 	public void TurnUpdate(){
