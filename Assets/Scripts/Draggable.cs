@@ -27,6 +27,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 	}
 	public void OnBeginDrag(PointerEventData eventData){
 		Debug.Log ("BeginDrag");
+		/*
 		placeHolder = new GameObject ();
 		placeHolder.transform.SetParent (transform.parent);
 		LayoutElement le = placeHolder.AddComponent<LayoutElement> ();
@@ -43,9 +44,19 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 		parentTo = transform.parent;
 		oldParent = transform.parent;
 		potentialParent = parentTo;
+
 		transform.SetParent (parentTo.parent);
+*/
+		offset.x = transform.position.x - eventData.position.x;
+		offset.y = transform.position.y - eventData.position.y;
 
 		GetComponent<CanvasGroup> ().blocksRaycasts = false;
+
+		parentTo = transform.parent;
+		oldParent = transform.parent;
+		potentialParent = parentTo;
+
+		transform.SetParent (parentTo.parent);
 
 	}
 	public void OnDrag(PointerEventData eventData){
@@ -72,6 +83,11 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 	}
 	public void OnEndDrag(PointerEventData eventData){
 		Debug.Log ("EndDrag");
+		transform.SetParent (parentTo);
+		if(parentTo.GetComponent<DropZone>().type != DropZone.Type.DISCARD)
+			GetComponent<CanvasGroup> ().blocksRaycasts = true;
+		Debug.Log (parentTo.name);
+		/*
 		transform.SetParent (parentTo);
 		if (parentTo == oldParent) {
 			transform.SetSiblingIndex (placeHolder.transform.GetSiblingIndex ());
@@ -100,13 +116,15 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 					int currentDefects = int.Parse (defectsNumber.GetComponent<Text> ().text);
 					currentDefects += card.activateEffect.defectsPerCoder * 2;
 					defectsNumber.GetComponent<Text> ().text = "" + currentDefects;
-					/**/
+					/*
 				}
 			} else if (landedZone.type == DropZone.Type.DISCARD) {
+				Debug.Log ("Thing2");
 				GetComponent<CanvasGroup> ().blocksRaycasts = false;
 			}
 		} else {
 			Debug.Log ("null");
 		}
+		/**/
 	}
 }

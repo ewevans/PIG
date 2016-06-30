@@ -6,7 +6,8 @@ public class CardPointer : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 	private Hand hand;
 	public void OnPointerEnter(PointerEventData eventData){
 		Debug.Log (name + " Pointer Enter");
-		hand.setDragItem (gameObject);
+		if(transform.parent.GetComponent<Hand>() != null)
+			hand.setDragItem (gameObject);
 	}
 	public void OnPointerExit(PointerEventData eventData){
 		Debug.Log (name + " Pointer Exit");

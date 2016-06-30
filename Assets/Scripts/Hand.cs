@@ -101,6 +101,9 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 				}
 				else if(zone.type == DropZone.Type.LASTING_EFFECT){
 					if (dragItem.GetComponent<Card> ().Activate ()) {
+						if (hoverZone.transform.childCount > 0) {
+							hoverZone.transform.GetChild (0).GetComponent<Card> ().Deactivate ();
+						}
 						zone.parentItem (dragItem);
 						dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = true;
 						dragItem.GetComponent<Draggable> ().enabled = true;

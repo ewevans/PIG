@@ -27,11 +27,19 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 	}
 	public void parentItem(GameObject go){
 		if (transform.childCount > 0)
-			Destroy (transform.GetChild (0).gameObject);
+			DestroyImmediate (transform.GetChild (0).gameObject);
 		go.transform.SetParent (transform);
 	}
 	public void OnPointerEnter(PointerEventData eventData){
 		hand.setHoverZone (gameObject);
+		Debug.Log ("Enter " + name);
+		if (eventData != null && eventData.pointerDrag != null) {
+			Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
+			if (drag != null && type == Type.DISCARD) {
+				drag.parentTo = transform;
+			} else {
+			}
+		}
 		//Debug.Log ("PointerEnter");
 		/*
 		if (eventData.pointerDrag != null) {
@@ -47,7 +55,7 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 		/**/
 	}
 	public void OnDrop(PointerEventData eventData){
-		
+		/*
 		Debug.Log ("Card " + eventData.pointerDrag.name + " was dropped on " + name);
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
@@ -55,17 +63,15 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 				Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
 				if (drag != null && card.valid (type)) {
 					if (type == Type.DISCARD || type == Type.PLAY || type == Type.LASTING_EFFECT) {
-						if (transform.childCount > 1) {
-							Destroy (transform.GetChild (0).gameObject);
-						}
-						if (transform.childCount > 1) {
-							Destroy (transform.GetChild (0).gameObject);
+						while (transform.childCount > 1) {
+							DestroyImmediate (transform.GetChild (0).gameObject);
 						}
 					}
 					drag.parentTo = transform;
 				}
 			}
 		}
+
 
 		if (eventData.pointerDrag != null) {
 			Card card = eventData.pointerDrag.GetComponent<Card> ();
@@ -78,10 +84,33 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 			}
 		}
 /**/
+		if (type == Type.DISCARD || type == Type.PLAY || type == Type.LASTING_EFFECT) {
+			Debug.Log ("Count = " + transform.childCount);
+			while (transform.childCount > 0) {
+				DestroyImmediate (transform.GetChild (0).gameObject);
+			}
+			Debug.Log ("Count = " + transform.childCount);
+		}
+		if (type == Type.DISCARD) {
+			if (eventData != null && eventData.pointerDrag != null) {
+				Card card = eventData.pointerDrag.GetComponent<Card> ();
+				if (card != null) {
+					if (card.type == Card.CardType.LASTING_EFFECT) {
+						card.Deactivate ();
+					}
+				}
+			}
+		}
 	}
 	public void OnPointerExit(PointerEventData eventData){
 		hand.setHoverZone (null);
-		Debug.Log (transform.childCount);
+		Debug.Log ("Exit " + name);
+		if (eventData != null && eventData.pointerDrag != null) {
+			Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
+			if (drag != null) {
+				drag.parentTo = drag.oldParent;
+			}
+		}
 		//Debug.Log ("PointerExit");
 		/*
 		if (eventData.pointerDrag != null) {
