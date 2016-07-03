@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameSystem : MonoBehaviour {
 	public int score = 0;
@@ -17,6 +18,7 @@ public class GameSystem : MonoBehaviour {
 	private bool skipCoding = false;
 
 	private Sprint sprint;
+	public NewGame newgame;
 
 	public enum Category
 	{
@@ -35,6 +37,7 @@ public class GameSystem : MonoBehaviour {
 	};
     public Deck deck = new Deck();
     public EventDeck eventDeck = new EventDeck();
+
 
 	public GameObject codersText;
 	public GameObject testersText;
@@ -55,6 +58,7 @@ public class GameSystem : MonoBehaviour {
     public GameObject eventSlot;
 	public GameObject lasting1;
 	public GameObject lasting2;
+	public GameObject summaryslot;
 
 	private State state = State.NONE_PLAYED;
 
@@ -220,7 +224,7 @@ public class GameSystem : MonoBehaviour {
 
 	//Discarding Entire Player Hand
 	public void discardHand(){
-		updateDialogBox ("This is the Title!", "This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used.");
+		//updateDialogBox ("This is the Title!", "This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used.");
 		if (state == State.NONE_PLAYED) {
 			//Deleting all existing cards in hand
 			foreach (Transform child in hand.transform) {
@@ -258,7 +262,20 @@ public class GameSystem : MonoBehaviour {
 	public bool endTurn(){
 		Debug.Log ("End Turn");
 		TurnUpdate ();
+
+		if (sprint.currentDay == sprint.sprintDuration) {
+		//if (sprint.currentDay == 4) {
+			//Debug.Log ("Budget = ", sprint.budget);
+			PlayerPrefs.SetInt ("Lines Done", sprint.linesDone);
+			PlayerPrefs.SetInt ("Lines Objective", sprint.linesObjective);
+			PlayerPrefs.SetInt ("Defects Generated", sprint.defects);
+			PlayerPrefs.SetInt ("Defects Max", sprint.defectLimit);
+			PlayerPrefs.SetInt ("Budget", sprint.budget);
+			SceneManager.LoadScene ("SprintSummary");
+		}
+	
 		skipCoding = false;
+
 		if (nextDay ()) {
 			drawCards ();
 			state = State.NONE_PLAYED;
@@ -272,7 +289,9 @@ public class GameSystem : MonoBehaviour {
 			if (Random.value > .80) {
 				startEvent (eventDeck.ChooseEvent ());
 			}
-		} else {
+		} 
+
+		else {
 		}
 		return false;
 		/* 
@@ -369,7 +388,6 @@ public class GameSystem : MonoBehaviour {
 		defectBar.GetComponent<DefectBar> ().setMax (sprint.defectLimit);
         eventSlot.GetComponent < GameObject> ();
 
-
 		budgetDisplay.GetComponent<Text> ().text = "$" + sprint.budget;
 
 		drawCardsStart ();
@@ -379,6 +397,17 @@ public class GameSystem : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
+		//Hide Summary Window until final day of Sprint is completed - DE
+//		if (sprint.currentDay != sprint.sprintDuration + 1) {
+//			//if (sprint.currentDay != 4) {
+//			summaryslot.SetActive (false);
+//		} 
+//		else {
+//			summaryslot.SetActive (true);
+//			GameObject eventObj = Instantiate (Resources.Load ("Events/SummaryWindow")) as GameObject;
+//			eventObj.transform.SetParent (summaryslot.transform);
+//			eventObj.transform.localScale = new Vector3 (1, 1, 1);
+//		}
 	}
 }

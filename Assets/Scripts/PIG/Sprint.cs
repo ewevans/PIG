@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Sprint : MonoBehaviour {
 
-	public int linesObjective = 0;
+	public int linesObjective = 1500;
 	public int linesDone = 0;
 	public int defectLimit = 0;
 	public int defects = 0;
