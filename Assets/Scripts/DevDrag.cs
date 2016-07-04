@@ -53,6 +53,7 @@ public class DevDrag : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragH
 		for (int index = 0; index < parentTo.childCount; ++index) {
 			Debug.Log ("Child " + index + parentTo.GetChild (index).name);
 		}
+		roleAllocate = GameObject.Find ("RollAllocationWindow");
 		roleAllocate.GetComponent<RoleAllocation> ().checkMoves ();
 	}
 }

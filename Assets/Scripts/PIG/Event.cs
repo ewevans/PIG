@@ -61,6 +61,12 @@ public class Event : MonoBehaviour {
 		activateEffect.loseRandomLastingEffect = loseRandomLastingEffect;
 		activateEffect.percentDefects = percentDefects;
 
+		deactivateEffect = new Effect ();
+		deactivateEffect.flatDevelopers = -flatDevelopers;
+		deactivateEffect.flatCoders = -flatCoders;
+		deactivateEffect.defectModifier = -defectModifier;
+		deactivateEffect.linesModifier = -linesModifier;
+
 		gameSystem = GameObject.Find("GameSystem");
 	}
     void Start () {
@@ -88,7 +94,7 @@ public class Event : MonoBehaviour {
     }
 
 	public bool Activate(){
-		Debug.Log ("Activating card " + title);
+		Debug.Log ("Activating Event " + title);
 		gameSystem = GameObject.Find ("GameSystem");
 		GameSystem system = gameSystem.GetComponent<GameSystem> ();
 			system.linesPerCoder (activateEffect.linesPerCoder);
@@ -117,7 +123,7 @@ public class Event : MonoBehaviour {
 	}
 	public void Deactivate(){
 		GameSystem system = gameSystem.GetComponent<GameSystem> ();
-		Debug.Log ("Deactivating card " + title);
+		Debug.Log ("Deactivating Event " + title);
 		system.flatDevelopers (deactivateEffect.flatDevelopers);
 		system.flatCoders (deactivateEffect.flatCoders);
 		system.changeDefectModifier (deactivateEffect.defectModifier);

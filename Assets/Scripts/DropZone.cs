@@ -32,7 +32,6 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 	}
 	public void OnPointerEnter(PointerEventData eventData){
 		hand.setHoverZone (gameObject);
-		Debug.Log ("Enter " + name);
 		if (eventData != null && eventData.pointerDrag != null) {
 			Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
 			if (drag != null && type == Type.DISCARD) {
@@ -85,11 +84,9 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 		}
 /**/
 		if (type == Type.DISCARD || type == Type.PLAY || type == Type.LASTING_EFFECT) {
-			Debug.Log ("Count = " + transform.childCount);
 			while (transform.childCount > 0) {
 				DestroyImmediate (transform.GetChild (0).gameObject);
 			}
-			Debug.Log ("Count = " + transform.childCount);
 		}
 		if (type == Type.DISCARD) {
 			if (eventData != null && eventData.pointerDrag != null) {
@@ -104,7 +101,6 @@ public class DropZone : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPoin
 	}
 	public void OnPointerExit(PointerEventData eventData){
 		hand.setHoverZone (null);
-		Debug.Log ("Exit " + name);
 		if (eventData != null && eventData.pointerDrag != null) {
 			Draggable drag = eventData.pointerDrag.GetComponent<Draggable> ();
 			if (drag != null) {

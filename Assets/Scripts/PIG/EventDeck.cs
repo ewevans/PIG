@@ -13,11 +13,11 @@ public class EventDeck {
 
     public void ResetDeck()
     {
-        //AddMultiple("BlueScreen", 1);
-        //AddMultiple("CorporateDownsizing", 1);
+        AddMultiple("BlueScreen", 1);
+        AddMultiple("CorporateDownsizing", 1);
         AddMultiple("CriticalBug", 1);
         AddMultiple("CriticalDataLoss", 1);
-        //AddMultiple("IQuit", 1);
+        AddMultiple("IQuit", 1);
         //AddMultiple("LongDailyStandUp", 1);
         AddMultiple("MandatoryMeetings", 1);
         //AddMultiple("MinorRequirementsEdit", 1);
@@ -26,7 +26,7 @@ public class EventDeck {
         AddMultiple("MissedRequirements", 1);
         AddMultiple("MistakeOnTargetDate", 1);
         AddMultiple("ProductOwnerVacation", 1);
-        //AddMultiple("SickDeveloper", 1);
+        AddMultiple("SickDeveloper", 1);
         AddMultiple("WatchingViralVideos", 1);
         AddMultiple("WorkOverwritten", 1);
 

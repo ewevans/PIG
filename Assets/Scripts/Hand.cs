@@ -15,7 +15,6 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 
 	private GameObject hoverZone = null;
 	public void OnPointerDown(PointerEventData eventData){
-		Debug.Log (name + " Pointer Down");
 		down = true;
 		if (dragItem != null) {
 			startDrag ();
@@ -54,7 +53,6 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 		}
 	}
 	public void OnPointerUp(PointerEventData eventData){
-		Debug.Log (name + " Pointer Up");
 		if (!inHand) {
 			if (dragging) {
 				stopDragging ();
@@ -122,7 +120,6 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 		}
 	}
 	public void OnPointerExit(PointerEventData eventData){
-		Debug.Log (name + " Pointer Exit");
 		inHand = false;
 		if (down) {
 			endDrag ();
@@ -130,7 +127,6 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 		}
 	}
 	public void OnPointerEnter(PointerEventData eventData){
-		Debug.Log (name + " Pointer Enter");
 		inHand = true;
 		if (dragging) {
 			dragItem.GetComponent<Image> ().color = Color.clear;

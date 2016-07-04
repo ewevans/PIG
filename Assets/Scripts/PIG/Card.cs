@@ -27,19 +27,11 @@ public class Card : MonoBehaviour {
 		ANY
 	};
 
-	public enum Category{
-		NONE,
-		DATA,
-		COMM,
-		EXEC,
-		DEFECT,
-		REQ
-	};
 
 	private GameObject gameSystem;
 
 	public CardType type = CardType.ANY;
-	public Category category = Category.NONE;
+	public Event.Category category = Event.Category.NONE;
 	public string title;
 	public string description = null;
 	public double probability = 0.0;

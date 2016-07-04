@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections.Generic;
 
 public class GameSystem : MonoBehaviour {
 	public int score = 0;
@@ -16,6 +17,7 @@ public class GameSystem : MonoBehaviour {
 	public int debugDefectModifier = 0;
 
 	private bool skipCoding = false;
+	private Dictionary<int, List<Event> > effectsToCancel = new Dictionary<int, List<Event> >();
 
 	private Sprint sprint;
 	public NewGame newgame;
@@ -60,6 +62,9 @@ public class GameSystem : MonoBehaviour {
 	public GameObject lasting2;
 	public GameObject summaryslot;
 
+	public GameObject effectLight;
+	public GameObject devLight;
+
 	private State state = State.NONE_PLAYED;
 
 
@@ -102,18 +107,35 @@ public class GameSystem : MonoBehaviour {
 		linesProgress.GetComponent<Image> ().fillAmount = (float)sprint.linesDone / (float)sprint.linesObjective;
 	}
 	public void flatDevelopers(int change){
-		coders += change;
+		if (change < 0) {
+			int numToRemove = -change;
+			while (coders > 0 && numToRemove > 0) {
+				coders -= 1;
+				numToRemove -= 1;
+			}
+			while (debuggers > 0 && numToRemove > 0) {
+				debuggers -= 1;
+				numToRemove -= 1;
+			}
+			while (testers > 0 && numToRemove > 0) {
+				testers -= 1;
+				numToRemove -= 1;
+			}
+		} else
+			coders += change;
 		if (change != 0) {
 			changeRoles (Mathf.Abs (change));
 		}
 	}
 	public void flatCoders(int change){
 		coderMod += change;
+		if (coders < 0)
+			coders = 0;
 	}
 	public void flatDays(int change){
 		sprint.updateSprintDuration (change);daysText.GetComponent<Text> ().text = "Day " + sprint.currentDay + " of " + sprint.sprintDuration;
 		dayIndicatorText.GetComponent<Text> ().text = "" + sprint.currentDay;
-		float location = linesProgress.GetComponent<RectTransform> ().rect.width * (float)sprint.currentDay / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 1f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 	}
 	public void changeDefectModifier(int mod){
@@ -127,16 +149,38 @@ public class GameSystem : MonoBehaviour {
 		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
 		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 	}
+	private void setState(State newState){
+		state = newState;
+		switch (state) {
+		case State.NONE_PLAYED:
+			effectLight.GetComponent<Image> ().color = Color.green;
+			devLight.GetComponent<Image> ().color = Color.green;
+			break;
+		case State.EFFECT_PLAYED:
+			effectLight.GetComponent<Image> ().color = Color.red;
+			devLight.GetComponent<Image> ().color = Color.green;
+			break;
+		case State.DEV_PLAYED:
+			effectLight.GetComponent<Image> ().color = Color.red;
+			devLight.GetComponent<Image> ().color = Color.red;
+			break;
+		default:
+			effectLight.GetComponent<Image> ().color = Color.green;
+			devLight.GetComponent<Image> ().color = Color.green;
+			break;
+		}
+	}
 	public void loseCoding(){
 		skipCoding = true;
+		devLight.GetComponent<Image> ().color = Color.red;
 		if (state == State.EFFECT_PLAYED) {
-			state = State.DEV_PLAYED;
+			setState (State.DEV_PLAYED);
 		}
 	}
 	public void loseEffect(){
-		state = State.EFFECT_PLAYED;
+		setState (State.EFFECT_PLAYED);
 		if (skipCoding) {
-			state = State.DEV_PLAYED;
+			setState (State.DEV_PLAYED);
 		}
 	}
 	public void loseRandomLasting(){
@@ -187,7 +231,7 @@ public class GameSystem : MonoBehaviour {
 		int currentDay = sprint.updateCurrentDay (1);
 		daysText.GetComponent<Text> ().text = "Day " + currentDay + " of " + sprint.sprintDuration;
 		dayIndicatorText.GetComponent<Text> ().text = "" + currentDay;
-		float location = linesProgress.GetComponent<RectTransform> ().rect.width * (float)currentDay / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)currentDay - 1f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 		flatBudget (-100 * (coders + testers + debuggers));
 		return currentDay < sprint.sprintDuration;
@@ -195,7 +239,7 @@ public class GameSystem : MonoBehaviour {
 	public bool playCard(Card.CardType type){
 		if (type == Card.CardType.DEVELOPMENT) {
 			if (!skipCoding && (state == State.NONE_PLAYED || state == State.EFFECT_PLAYED)) {
-				state = State.DEV_PLAYED;
+				setState (State.DEV_PLAYED);
 				return true;
 
 			} else{
@@ -203,9 +247,9 @@ public class GameSystem : MonoBehaviour {
 			}
 		} else if (type == Card.CardType.INSTANT_EFFECT || type == Card.CardType.LASTING_EFFECT) {
 			if (state == State.NONE_PLAYED) {
-				state = State.EFFECT_PLAYED;
+				setState (State.EFFECT_PLAYED);
 				if (skipCoding) {
-					state = State.DEV_PLAYED;
+					setState (State.DEV_PLAYED);
 				}
 				return true;
 			} else {
@@ -277,8 +321,13 @@ public class GameSystem : MonoBehaviour {
 		skipCoding = false;
 
 		if (nextDay ()) {
+			if (effectsToCancel.ContainsKey(sprint.currentDay) && effectsToCancel [sprint.currentDay] != null) {
+				foreach (Event canceller in effectsToCancel[sprint.currentDay]) {
+					canceller.Deactivate ();
+				}
+			}
 			drawCards ();
-			state = State.NONE_PLAYED;
+			setState (State.NONE_PLAYED);
 
 			//clean up any existing event dialog box
 			foreach (Transform child in eventSlot.transform)
@@ -315,22 +364,32 @@ public class GameSystem : MonoBehaviour {
         //Make new event object from parameter string name
         GameObject eventObj = Instantiate(Resources.Load("Events/" + eventStarted, typeof(GameObject))) as GameObject;
         eventObj.transform.SetParent(eventSlot.transform);
-        eventObj.transform.localScale = new Vector3(1, 1, 1);
+        eventObj.transform.localScale = new Vector3(0, 0, 0);
 
 		//if event category doesn't match either lasting pile then activate
 		if (lasting1.transform.childCount > 0) {
-			if (lasting1.GetComponentInChildren<Card>().category.Equals(eventSlot.GetComponentInChildren<Event>().category)) {
+			if (lasting1.GetComponentInChildren<Card>().category == eventObj.GetComponent<Event>().category) {
+				Debug.Log (lasting1.GetComponentInChildren<Card> ().name + " blocked " + eventObj.GetComponent<Event> ().name);
 				activate = false;
 			}
 		}
-		if (lasting1.transform.childCount > 0) {
-			if (lasting1.GetComponentInChildren<Card>().category.Equals(eventSlot.GetComponentInChildren<Event>().category)) {
+		if (lasting2.transform.childCount > 0) {
+			if (lasting2.GetComponentInChildren<Card>().category == eventObj.GetComponent<Event>().category) {
+				Debug.Log (lasting2.GetComponentInChildren<Card> ().name + " blocked " + eventObj.GetComponent<Event> ().name);
 				activate = false;
 			}
 		}
 
 		if (activate) {
 			eventObj.GetComponent<Event> ().Activate ();
+			eventObj.transform.localScale = new Vector3(1, 1, 1);
+			Event ev = eventObj.GetComponent<Event> ();
+			if (ev.eventDuration > 0) {
+				if (!effectsToCancel.ContainsKey(sprint.currentDay + ev.eventDuration) || effectsToCancel [sprint.currentDay + ev.eventDuration] == null) {
+					effectsToCancel [sprint.currentDay + ev.eventDuration] = new List<Event> ();
+				}
+				effectsToCancel [sprint.currentDay + ev.eventDuration].Add (ev);
+			}
 		}
     }
 
