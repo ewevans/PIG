@@ -13,9 +13,6 @@ public class RoleAllocation : MonoBehaviour {
 
 
 	private int numMoved;
-	private int previousCoders = 0;
-	private int previousDebuggers = 0;
-	private int previousTesters = 0;
 
 	private int[] previousValues = new int[3];
 	// Use this for initialization
