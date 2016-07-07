@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 public class GameSystem : MonoBehaviour {
 	public int score = 0;
-	public int coders = 2;
-	public int debuggers = 2;
-	public int testers = 0;
+	public int coders;
+	public int debuggers;
+	public int testers;
 
 	public int coderMod = 0;
 
