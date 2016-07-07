@@ -234,7 +234,7 @@ public class GameSystem : MonoBehaviour {
 		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)currentDay - 1f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 		flatBudget (-100 * (coders + testers + debuggers));
-		return currentDay < sprint.sprintDuration;
+		return currentDay <= sprint.sprintDuration;
 	}
 	public bool playCard(Card.CardType type){
 		if (type == Card.CardType.DEVELOPMENT) {
