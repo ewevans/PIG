@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
+
 public class GameSystem : MonoBehaviour {
 	public int score = 0;
 	public int coders = 2;
@@ -21,6 +22,7 @@ public class GameSystem : MonoBehaviour {
 
 	private Sprint sprint;
 	public NewGame newgame;
+
 
 	public enum Category
 	{
@@ -310,12 +312,25 @@ public class GameSystem : MonoBehaviour {
 		if (sprint.currentDay == sprint.sprintDuration) {
 		//if (sprint.currentDay == 4) {
 			//Debug.Log ("Budget = ", sprint.budget);
-			PlayerPrefs.SetInt ("Lines Done", sprint.linesDone);
-			PlayerPrefs.SetInt ("Lines Objective", sprint.linesObjective);
-			PlayerPrefs.SetInt ("Defects Generated", sprint.defects);
-			PlayerPrefs.SetInt ("Defects Max", sprint.defectLimit);
-			PlayerPrefs.SetInt ("Budget", sprint.budget);
+//			PlayerPrefs.SetInt ("Lines Done", sprint.linesDone);
+//			PlayerPrefs.SetInt ("Lines Objective", sprint.linesObjective);
+//			PlayerPrefs.SetInt ("Defects Generated", sprint.defects);
+//			PlayerPrefs.SetInt ("Defects Max", sprint.defectLimit);
+//			PlayerPrefs.SetInt ("Budget", sprint.budget);
+			GameStats.gamestats.linesdone = sprint.linesDone;
+			GameStats.gamestats.linesobjective = sprint.linesObjective;
+			GameStats.gamestats.defects = sprint.defects;
+			GameStats.gamestats.defectsmax = sprint.defectLimit;
+			GameStats.gamestats.budget = sprint.budget;
+			GameStats.gamestats.score = score;
+			RankManager rm = new RankManager();
+			rm.initiateRanks ();
+			GameStats.gamestats.rank = rm.currentrank;
+			GameStats.gamestats.nextrank = rm.currentnextrank;
+			GameStats.gamestats.nextrankscore = rm.currentnextrankscore;
+
 			SceneManager.LoadScene ("SprintSummary");
+			GameStats.gamestats.Save ();
 		}
 	
 		skipCoding = false;
