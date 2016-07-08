@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 public class GameSystem : MonoBehaviour {
 	public int score = 0;
-	public int coders = 2;
-	public int debuggers = 2;
-	public int testers = 0;
+	public int coders;
+	public int debuggers;
+	public int testers;
 
 	public int coderMod = 0;
 
@@ -236,7 +236,7 @@ public class GameSystem : MonoBehaviour {
 		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)currentDay - 1f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 		flatBudget (-100 * (coders + testers + debuggers));
-		return currentDay < sprint.sprintDuration;
+		return currentDay <= sprint.sprintDuration;
 	}
 	public bool playCard(Card.CardType type){
 		if (type == Card.CardType.DEVELOPMENT) {
