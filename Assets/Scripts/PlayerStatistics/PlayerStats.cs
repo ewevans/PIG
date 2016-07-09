@@ -19,15 +19,16 @@ public class PlayerStats : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake(){
+		
 		if (playerstats == null) 
 		{
 			playerstats = this;
 		} 
 		else if (playerstats != this)
 			Destroy (gameObject);
-		
 		StatsLoad();
-		//GameStats.PlayerData playerdata = new GameStats.PlayerData ();
+		//RankManager.rankmanager.initiateRanks ();
+
 	}
 
 	public void StatsLoad()
@@ -46,6 +47,8 @@ public class PlayerStats : MonoBehaviour {
 			rank = data.rank;
 			nextrank = data.nextrank;
 			nextrankscore = data.nextrankscore;
+
+
 		}
 	}
 

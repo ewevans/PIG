@@ -19,7 +19,8 @@ public class GameStats : MonoBehaviour {
 	public string rank;
 	public string nextrank;
 	public string nextrankscore;
-
+	public float codepercentage;
+	public float defectratio;
 
 	// Use this for initialization
 	void Awake(){
@@ -59,7 +60,8 @@ public class GameStats : MonoBehaviour {
 			newdata.rank = olddata.rank;
 			newdata.nextrank = olddata.nextrank;
 			newdata.nextrankscore = olddata.nextrankscore;
-			cumulativescore = newdata.score;
+			cumulativescore = olddata.score + score;
+		
 
 			newbf.Serialize (newfile, newdata);
 			newfile.Close ();
@@ -93,6 +95,28 @@ public class GameStats : MonoBehaviour {
 		{
 			FileUtil.DeleteFileOrDirectory(Application.persistentDataPath + "/playerstats.dat");
 		}	
+	}
+
+	public void Load()
+	{
+		if (File.Exists (Application.persistentDataPath + "/playerstats.dat")) {
+			BinaryFormatter bf = new BinaryFormatter ();
+			FileStream file = File.Open (Application.persistentDataPath + "/playerstats.dat", FileMode.Open);
+			PlayerData data = (PlayerData)bf.Deserialize (file);
+			file.Close ();
+
+			GameStats.gamestats.linesdone = data.linesdone;
+			GameStats.gamestats.linesobjective = data.linesobjective;
+			GameStats.gamestats.defects = data.defects;
+			GameStats.gamestats.budget = data.budget;
+			GameStats.gamestats.score = data.score;
+			GameStats.gamestats.rank = data.rank;
+			GameStats.gamestats.nextrank = data.nextrank;
+			GameStats.gamestats.nextrankscore = data.nextrankscore;
+			cumulativescore = score;
+			GameStats.gamestats.codepercentage = (GameStats.gamestats.linesdone / GameStats.gamestats.linesobjective) * 100;
+		}
+
 	}
 
 [Serializable]

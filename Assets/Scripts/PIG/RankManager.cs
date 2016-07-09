@@ -87,7 +87,8 @@ public class RankManager{
 			currentnextrank = ranklist [0].nextrank;
 			currentnextrankscore = ranklist [0].nextrankscore;
 		} 
-		else if (GameStats.gamestats.cumulativescore >= 2000 && GameStats.gamestats.cumulativescore <= 3499) {
+		else if ( GameStats.gamestats.cumulativescore >= 2000 && GameStats.gamestats.cumulativescore <= 3499) {
+			Debug.Log ("In second bracket " + GameStats.gamestats.cumulativescore);
 			currentrank = ranklist [1].rank;
 			currentnextrank = ranklist [1].nextrank;
 			currentnextrankscore = ranklist [1].nextrankscore;

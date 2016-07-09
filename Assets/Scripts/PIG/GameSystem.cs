@@ -324,13 +324,13 @@ public class GameSystem : MonoBehaviour {
 			GameStats.gamestats.budget = sprint.budget;
 			GameStats.gamestats.score = score;
 			RankManager rm = new RankManager();
+			SceneManager.LoadScene ("SprintSummary");
+
+			GameStats.gamestats.Save ();
 			rm.initiateRanks ();
 			GameStats.gamestats.rank = rm.currentrank;
 			GameStats.gamestats.nextrank = rm.currentnextrank;
 			GameStats.gamestats.nextrankscore = rm.currentnextrankscore;
-
-			SceneManager.LoadScene ("SprintSummary");
-			GameStats.gamestats.Save ();
 		}
 	
 		skipCoding = false;
@@ -350,7 +350,7 @@ public class GameSystem : MonoBehaviour {
 				GameObject.Destroy(child.gameObject);
 			}
 			//Randomize probability of an event occuring
-			if (Random.value > .80) {
+			if (Random.value > .90) {
 				startEvent (eventDeck.ChooseEvent ());
 			}
 		} 

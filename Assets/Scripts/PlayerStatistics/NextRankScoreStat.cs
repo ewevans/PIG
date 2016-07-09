@@ -7,7 +7,7 @@ public class NextRankScoreStat : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		GetComponent<Text> ().text = "Next Rank Score: " + PlayerStats.playerstats.nextrankscore;
+		GetComponent<Text> ().text = "Next Rank: " + GameStats.gamestats.nextrankscore;
 
 	}
 
