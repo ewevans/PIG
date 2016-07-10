@@ -7,7 +7,7 @@ public class CloseButton : MonoBehaviour {
 
 
 	public void LoadLevel(){
-		SceneManager.LoadScene ("Sprint");
+		SceneManager.LoadScene ("SprintBacklogSelection");
 	}
 
 }

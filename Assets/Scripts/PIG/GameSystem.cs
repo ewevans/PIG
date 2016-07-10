@@ -338,6 +338,29 @@ public class GameSystem : MonoBehaviour {
 //			PlayerPrefs.SetInt ("Defects Generated", sprint.defects);
 //			PlayerPrefs.SetInt ("Defects Max", sprint.defectLimit);
 //			PlayerPrefs.SetInt ("Budget", sprint.budget);
+			int linesDone = sprint.linesDone;
+			bool foundInData = false;
+			PersistantData data = PersistantData.persistantData;
+			for (int index = 0; index < sprint.tasks.Length; ++index) {
+				if (linesDone == 0) {
+					
+				} else if (linesDone > sprint.tasks [index].lines) {
+					sprint.tasks [index].linesDone = sprint.tasks [index].lines;
+					linesDone -= sprint.tasks [index].lines;
+				} else {
+					sprint.tasks [index].linesDone = linesDone;
+					linesDone = 0;
+				}
+				Debug.Log ("Len = " + data.projects [data.projectIndex].tasks.Length);
+				foundInData = false;
+				for (int pIndex = 0; !foundInData && pIndex < data.projects [data.projectIndex].tasks.Length; ++pIndex) {
+					Debug.Log (" pIndex = " + pIndex + "              index = " + index);
+					if (data.projects [data.projectIndex].tasks [pIndex].name == sprint.tasks [index].name) {
+						data.projects [data.projectIndex].tasks [pIndex].linesDone = sprint.tasks [index].linesDone;
+						foundInData = true;
+					}
+				}
+			}
 			GameStats.gamestats.linesdone = sprint.linesDone;
 			GameStats.gamestats.linesobjective = sprint.linesObjective;
 			GameStats.gamestats.defects = sprint.defects;

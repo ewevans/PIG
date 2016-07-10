@@ -64,12 +64,13 @@ public class Sprint : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		tasks = new Task[3];
+		if (PersistantData.persistantData != null && PersistantData.persistantData.sprintTasks != null) {
+			tasks = PersistantData.persistantData.sprintTasks;
+		} else {
+			tasks = new Task[3];
 
-		GameObject taskHolder = GameObject.Find ("TaskHolder");
-		float holderWidth = taskHolder.GetComponent<RectTransform> ().rect.width;
 
-		/* 
+			/* 
 		//	This first loop fills in 4 tasks for our test run, it should be removed eventually
 		for (int index = 0; index < tasks.Length; ++index) {
 			tasks [index] = new Task (500 + 100 * index, 13 + 3 * index, "Task " + (index + 1));
@@ -77,18 +78,22 @@ public class Sprint : MonoBehaviour {
 		tasks [2].lines = 200;
 		*/
 
-		//Tasks for example sprint in Project 2
-		//Task 1 is Transmission Control Unit with 800 LOC
-		tasks[0] = new Task(800, 15, "Transmission Control Unit");
-		//Task 3 is Human-machine Interface with 400 LOC
-		tasks[1] = new Task(400, 10, "Human-machine Interface");
-		//Task 3 is Seat Control System with 100 LOC
-		tasks[2] = new Task(100, 5, "Seat Control System");
+			//Tasks for example sprint in Project 2
+			//Task 1 is Transmission Control Unit with 800 LOC
+			tasks [0] = new Task (800, 15, "Transmission Control Unit");
+			//Task 3 is Human-machine Interface with 400 LOC
+			tasks [1] = new Task (400, 10, "Human-machine Interface");
+			//Task 3 is Seat Control System with 100 LOC
+			tasks [2] = new Task (100, 5, "Seat Control System");
+		}
+		GameObject taskHolder = GameObject.Find ("TaskHolder");
+		float holderWidth = taskHolder.GetComponent<RectTransform> ().rect.width;
 
 		//	This second loop figures out lines based on tasks and whatnot, also creates the task identifiers
 		for (int index = 0; index < tasks.Length; ++index) {
 			linesObjective += tasks [index].lines;
 			defectLimit += tasks [index].allowedDefects;
+			linesDone += tasks [index].linesDone;
 		}
 
 		float taskSizer = holderWidth / linesObjective;

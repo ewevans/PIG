@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Project {
 
+	public Project(){
+		initTestingTasks ();
+	}
 	public Task[] tasks;
 	// Use this for initialization
 	void Start () {
