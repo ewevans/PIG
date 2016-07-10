@@ -7,7 +7,7 @@ public class NewGame : MonoBehaviour {
 
 	public void StartNewGame (int SceneToChangeTo) 
 	{
-		SceneManager.LoadScene ("SprintBacklogSelection");
+		SceneManager.LoadScene (SceneToChangeTo);
 	}
 	
 
