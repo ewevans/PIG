@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using UnityEditor;
+//using UnityEditor;
 
 public class GameStats : MonoBehaviour {
 	public static GameStats gamestats;
@@ -93,7 +93,8 @@ public class GameStats : MonoBehaviour {
 	{
 		if (File.Exists (Application.persistentDataPath + "/playerstats.dat")) 
 		{
-			FileUtil.DeleteFileOrDirectory(Application.persistentDataPath + "/playerstats.dat");
+			//FileUtil.DeleteFileOrDirectory(Application.persistentDataPath + "/playerstats.dat");
+			File.Delete (Application.persistentDataPath + "/playerstats.dat");
 		}	
 	}
 

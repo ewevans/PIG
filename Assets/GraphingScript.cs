@@ -18,15 +18,19 @@ public class GraphingScript : MonoBehaviour {
 	
 	}
 	public void refreshChart(){
-		drawTicks ();
 		List<Turn> turns = gameSystem.GetComponent<Sprint> ().TurnList;
 		linesObjective = gameSystem.GetComponent<Sprint> ().linesObjective;
 		numDays = gameSystem.GetComponent<Sprint> ().sprintDuration;
+		drawTicks ();
 		for (int index = 0; index < turns.Count - 1; ++index) {
 			drawDot (turns [index].turnDay, linesObjective - turns [index].turnLinesComnpleted);
 			drawLine (turns [index].turnDay, linesObjective - turns [index].turnLinesComnpleted, turns [index + 1].turnDay, linesObjective - turns [index+1].turnLinesComnpleted);
 		}
-		drawDot (turns [turns.Count - 1].turnDay, linesObjective - turns[turns.Count - 1].turnLinesComnpleted);
+		if (turns.Count > 0) {
+			drawDot (turns [turns.Count - 1].turnDay, linesObjective - turns [turns.Count - 1].turnLinesComnpleted);
+			drawLine (turns [turns.Count - 1].turnDay, linesObjective - turns [turns.Count - 1].turnLinesComnpleted, gameSystem.GetComponent<Sprint> ().currentDay, linesObjective - gameSystem.GetComponent<Sprint> ().linesDone);
+		}
+		drawDot (gameSystem.GetComponent<Sprint> ().currentDay, linesObjective - gameSystem.GetComponent<Sprint> ().linesDone);
 	}
 	public void closeChart(){
 		while (transform.childCount > 0) {
@@ -37,34 +41,42 @@ public class GraphingScript : MonoBehaviour {
 		refreshChart ();
 	}
 	void drawTicks(){
-		for (int index = 1; index * 5 < numDays; ++index) {
-			drawTick (index * 5, true);
+		int linesPortion = linesObjective / 5;
+		int daysPortion = numDays / 4;
+		for (int index = 1; index * daysPortion < numDays; ++index) {
+			drawTick (index * daysPortion, true);
 		}
-		for (int index = 1; index * 400 < 2400; ++index) {
-			drawTick (index * 400, false);
+		for (int index = 1; index * linesPortion < linesObjective; ++index) {
+			drawTick (index * linesPortion, false);
 		}
 	}
 	void drawTick(int value, bool horizontal){
+		/*
 		GameObject tick = (GameObject)Instantiate (Resources.Load ("UIElements/LineSegment"));
 		tick.transform.SetParent (transform);
 		tick.transform.localScale = new Vector3 (10, 1, 1);
+		*/
 		if (horizontal) {
+			drawLine (value, 0, value, linesObjective, new Color(.75f, .75f, .75f));
+			/*
 			tick.transform.localPosition = new Vector3 (value * GetComponent<RectTransform> ().rect.width / (float)numDays, 0, 0);
 			tick.transform.localRotation = Quaternion.Euler (0, 0, 90);
-
+*/
 			GameObject number = (GameObject)Instantiate (Resources.Load ("UIElements/DaysAxis"));
 			number.GetComponent<Text> ().text = "" + value;
 			number.transform.SetParent (transform);
-			number.transform.localPosition = new Vector3 (tick.transform.localPosition.x, 0, 0);
+			number.transform.localPosition = new Vector3 (value * GetComponent<RectTransform> ().rect.width / (float)numDays, 0, 0);
 
 		} else {
+			drawLine (0, value, numDays, value, new Color(.75f, .75f, .75f));
+			/*
 			tick.transform.localPosition = new Vector3 (0, value * GetComponent<RectTransform> ().rect.height / (float)linesObjective, 0);
 			tick.transform.localRotation = Quaternion.Euler (0, 0, 0);
-
+*/
 			GameObject number = (GameObject)Instantiate (Resources.Load ("UIElements/LinesAxis"));
 			number.GetComponent<Text> ().text = "" + value;
 			number.transform.SetParent (transform);
-			number.transform.localPosition = new Vector3 (0, tick.transform.localPosition.y, 0);
+			number.transform.localPosition = new Vector3 (0, value * GetComponent<RectTransform> ().rect.height / (float)linesObjective, 0);
 		}
 	}
 	void drawDot(int x, int y){

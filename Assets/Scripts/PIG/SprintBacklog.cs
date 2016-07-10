@@ -13,12 +13,20 @@ public class SprintBacklog : MonoBehaviour {
 		while (transform.childCount > 0) {
 			DestroyImmediate (transform.GetChild (0).gameObject);
 		}
+		int linesCompleted = gameSystem.GetComponent<Sprint> ().linesDone;
 		Task[] tasks = gameSystem.GetComponent<Sprint> ().tasks;
 		GameObject taskObj;
 		foreach(Task task in tasks){
 			taskObj = (GameObject)Instantiate (Resources.Load ("UIElements/ListedTask"));
 			taskObj.transform.SetParent (transform);
-			taskObj.GetComponent<Text> ().text = task.name;
+			if (task.lines <= linesCompleted) {
+				taskObj.GetComponent<Text> ().text = task.name + ": " + task.lines + "/" + task.lines;
+				linesCompleted -= task.lines;
+			}
+			else{
+				taskObj.GetComponent<Text> ().text = task.name + ": " + linesCompleted + "/" + task.lines;
+				linesCompleted = 0;
+			}
 			taskObj.transform.localScale = new Vector3 (1, 1, 1);
 		}
 	}

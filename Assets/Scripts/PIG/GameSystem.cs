@@ -82,13 +82,11 @@ public class GameSystem : MonoBehaviour {
 		int currentLines = sprint.updateLinesDone (Mathf.Max((lines + linesModifier) * (coders + coderMod), 0));
 		Debug.Log (currentLines + " Lines");
 		Debug.Log (lines + " Lines attempted");
-		linesNumber.GetComponent<Text> ().text = "" + currentLines;
-		linesProgress.GetComponent<Image> ().fillAmount = (float)currentLines / (float)sprint.linesObjective;
+		refreshLines ();
 	}
 	public void flatLines(int lines){
 		int currentLines = sprint.updateLinesDone (lines);
-		linesNumber.GetComponent<Text> ().text = "" + currentLines;
-		linesProgress.GetComponent<Image> ().fillAmount = (float)currentLines / (float)sprint.linesObjective;
+		refreshLines ();
 	}
 	public void defectsPerCoder(int defects){
 		int currentDefects = sprint.updateDefects (Mathf.Max((defects + defectModifier) * (coders + coderMod), 0));
@@ -107,6 +105,7 @@ public class GameSystem : MonoBehaviour {
 	public void flatLinesObjective(int change){
 		sprint.linesObjective += change;
 		linesProgress.GetComponent<Image> ().fillAmount = (float)sprint.linesDone / (float)sprint.linesObjective;
+		refreshLines ();
 	}
 	public void flatDevelopers(int change){
 		if (change < 0) {
@@ -171,6 +170,7 @@ public class GameSystem : MonoBehaviour {
 			devLight.GetComponent<Image> ().color = Color.green;
 			break;
 		}
+		refreshLines ();
 	}
 	public void loseCoding(){
 		skipCoding = true;
@@ -309,7 +309,7 @@ public class GameSystem : MonoBehaviour {
 		Debug.Log ("End Turn");
 		TurnUpdate ();
 
-		if (sprint.currentDay == sprint.sprintDuration) {
+		if (sprint.currentDay >= sprint.sprintDuration) {
 		//if (sprint.currentDay == 4) {
 			//Debug.Log ("Budget = ", sprint.budget);
 //			PlayerPrefs.SetInt ("Lines Done", sprint.linesDone);
@@ -350,7 +350,7 @@ public class GameSystem : MonoBehaviour {
 				GameObject.Destroy(child.gameObject);
 			}
 			//Randomize probability of an event occuring
-			if (Random.value > .90) {
+			if (Random.value > .90 && sprint.currentDay != sprint.sprintDuration) {
 				startEvent (eventDeck.ChooseEvent ());
 			}
 		} 
@@ -406,6 +406,7 @@ public class GameSystem : MonoBehaviour {
 				effectsToCancel [sprint.currentDay + ev.eventDuration].Add (ev);
 			}
 		}
+		refreshLines ();
     }
 
 	public void changeRoles(int allowed){
@@ -466,7 +467,12 @@ public class GameSystem : MonoBehaviour {
 
 		drawCardsStart ();
 		RoleAllocHudUpdate ();
+		refreshLines ();
 
+	}
+	void refreshLines(){
+		linesNumber.GetComponent<Text> ().text = "" + sprint.linesDone + " / " + sprint.linesObjective;
+		linesProgress.GetComponent<Image> ().fillAmount = (float)sprint.linesDone / (float)sprint.linesObjective;
 	}
 	
 	// Update is called once per frame
