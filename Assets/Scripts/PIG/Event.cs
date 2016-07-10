@@ -102,13 +102,15 @@ public class Event : MonoBehaviour {
 			system.flatLines (activateEffect.flatLines);
 			system.flatDefects (activateEffect.flatDefects);
 			system.flatLinesObjective (activateEffect.flatLinesObjective + system.percentDefects(activateEffect.percentDefects));
-			system.flatDevelopers (activateEffect.flatDevelopers);
-			system.flatCoders (activateEffect.flatCoders);
 			system.flatDays (activateEffect.flatDays);
 			system.changeDefectModifier (activateEffect.defectModifier);
 			system.changeLinesModifier (activateEffect.linesModifier);
 			system.flatBudget (activateEffect.flatBudget);
 			system.defectsPerDebugger (activateEffect.defectsPerDebugger);
+
+		//system.flatDevelopers (activateEffect.flatDevelopers);
+		system.flatCoders (activateEffect.flatCoders);
+		system.eventDevelopers (activateEffect.flatDevelopers);
 			if (activateEffect.roleChange) {
 				system.changeRoles (1);
 			}
@@ -124,8 +126,10 @@ public class Event : MonoBehaviour {
 	public void Deactivate(){
 		GameSystem system = gameSystem.GetComponent<GameSystem> ();
 		Debug.Log ("Deactivating Event " + title);
-		system.flatDevelopers (deactivateEffect.flatDevelopers);
+		//system.flatDevelopers (deactivateEffect.flatDevelopers);
 		system.flatCoders (deactivateEffect.flatCoders);
+
+		system.eventDevelopers (deactivateEffect.flatDevelopers);
 		system.changeDefectModifier (deactivateEffect.defectModifier);
 		system.changeLinesModifier (deactivateEffect.linesModifier);
 	}

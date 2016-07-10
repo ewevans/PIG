@@ -69,6 +69,8 @@ public class GameSystem : MonoBehaviour {
 
 	private State state = State.NONE_PLAYED;
 
+	private int eventTriggerdAlloc = 0;
+
 
 	private string[] cards = {
 		"Coding30",
@@ -106,6 +108,25 @@ public class GameSystem : MonoBehaviour {
 		sprint.linesObjective += change;
 		linesProgress.GetComponent<Image> ().fillAmount = (float)sprint.linesDone / (float)sprint.linesObjective;
 		refreshLines ();
+	}
+	public void eventDevelopers(int change){
+		if (change < 0) {
+			int numToRemove = -change;
+			while (coders > 0 && numToRemove > 0) {
+				coders -= 1;
+				numToRemove -= 1;
+			}
+			while (debuggers > 0 && numToRemove > 0) {
+				debuggers -= 1;
+				numToRemove -= 1;
+			}
+			while (testers > 0 && numToRemove > 0) {
+				testers -= 1;
+				numToRemove -= 1;
+			}
+		} else
+			coders += change;
+		eventTriggerdAlloc += change;
 	}
 	public void flatDevelopers(int change){
 		if (change < 0) {
@@ -336,6 +357,7 @@ public class GameSystem : MonoBehaviour {
 		skipCoding = false;
 
 		if (nextDay ()) {
+			eventTriggerdAlloc = 0;
 			if (effectsToCancel.ContainsKey(sprint.currentDay) && effectsToCancel [sprint.currentDay] != null) {
 				foreach (Event canceller in effectsToCancel[sprint.currentDay]) {
 					canceller.Deactivate ();
@@ -352,6 +374,9 @@ public class GameSystem : MonoBehaviour {
 			//Randomize probability of an event occuring
 			if (Random.value > .90 && sprint.currentDay != sprint.sprintDuration) {
 				startEvent (eventDeck.ChooseEvent ());
+			}
+			if (eventTriggerdAlloc != 0) {
+				changeRoles(Mathf.Abs(eventTriggerdAlloc));
 			}
 		} 
 
