@@ -247,7 +247,8 @@ public class GameSystem : MonoBehaviour {
 		int currentDefects = sprint.updateDefects (-defectsRemoved);
 		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
 		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
-		return defectsRemoved;
+		//multiply by 5 to add 5 times as much LOC as Defects removed
+		return defectsRemoved*5;
 	}
 
 	public bool nextDay(){
@@ -295,13 +296,37 @@ public class GameSystem : MonoBehaviour {
 		if (state == State.NONE_PLAYED) {
 			//Deleting all existing cards in hand
 			foreach (Transform child in hand.transform) {
+				
 				GameObject.Destroy (child.gameObject);
 			}
+
+			//ETHAN: in order to be able to draw tester cards, removing below in future
+			//need to fix bug that only draws 1 card half the time 
 			//Create new hand of cards
-			for (int i = 0; i < 5; i++) {
+			/*for (int i = 0; i < 5; i++) {
 				GameObject card = Instantiate (Resources.Load (deck.DealCard (), typeof(GameObject))) as GameObject;
 				card.transform.SetParent (hand.transform);
 				card.transform.localScale = new Vector3 (1, 1, 1);
+			}*/
+			bool drewTester = false;
+			for (int i = 0; i < 5; i++) {
+				if (deck == null)
+					Debug.Log("deck null");
+				Debug.Log (testers);
+				//If they haven't drawn a tester this turn AND they have testers AND it rolls a tester card
+				if (!drewTester && testers > 0 && (Random.value < (.1f * testers))) {
+					//Added 10% extra chance per tester
+					GameObject card = Instantiate (Resources.Load (deck.DealTesterCard(), typeof(GameObject))) as GameObject;
+					card.transform.SetParent (hand.transform);
+					card.transform.localScale = new Vector3 (1, 1, 1);
+					drewTester = true;
+					Debug.Log ("tester drawn");
+				}
+				else {
+					GameObject card = Instantiate (Resources.Load (deck.DealCard(), typeof(GameObject))) as GameObject;
+					card.transform.SetParent (hand.transform);
+					card.transform.localScale = new Vector3 (1, 1, 1);
+				}
 			}
 
 			endTurn ();
@@ -309,12 +334,27 @@ public class GameSystem : MonoBehaviour {
 	}
 
 	private void drawCards(){
+		//if the player has drawn a tester this round
+		bool drewTester = false;
+		Debug.Log ("drew tester is " + drewTester.ToString());
 		while (hand.transform.childCount < 6) {
             if (deck == null)
                     Debug.Log("deck null");
-			GameObject card = Instantiate (Resources.Load (deck.DealCard(), typeof(GameObject))) as GameObject;
-			card.transform.SetParent (hand.transform);
-			card.transform.localScale = new Vector3 (1, 1, 1);
+			Debug.Log (testers);
+			//If they haven't drawn a tester this turn AND they have testers AND it rolls a tester card
+			if (!drewTester && testers > 0 && (Random.value < (.1f * testers))) {
+				//Added 10% extra chance per tester
+				GameObject card = Instantiate (Resources.Load (deck.DealTesterCard(), typeof(GameObject))) as GameObject;
+				card.transform.SetParent (hand.transform);
+				card.transform.localScale = new Vector3 (1, 1, 1);
+				drewTester = true;
+				Debug.Log ("tester drawn");
+			}
+			else {
+				GameObject card = Instantiate (Resources.Load (deck.DealCard(), typeof(GameObject))) as GameObject;
+				card.transform.SetParent (hand.transform);
+				card.transform.localScale = new Vector3 (1, 1, 1);
+			}
 		}
 	}
 	private void drawCardsStart(){
@@ -326,6 +366,7 @@ public class GameSystem : MonoBehaviour {
 			card.transform.localScale = new Vector3 (1, 1, 1);
 		}
 	}
+	
 	public bool endTurn(){
 		Debug.Log ("End Turn");
 		TurnUpdate ();

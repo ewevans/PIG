@@ -77,6 +77,23 @@ public class Deck
 
         return card;
     }
+
+	public string DealTesterCard()
+	{
+		float rand = Random.value;
+		string card = "";
+
+		if (rand < .33f) {
+			card = "UnitTesting";	
+		} else if (rand < .66f) {
+			card = "FormalTechReview";
+		} else {
+			card = "TestPlan";
+		}
+
+		return card;
+	}
+
 }
 
 
