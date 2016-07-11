@@ -23,13 +23,13 @@ public class Project {
 		//Task 3 is Seat Control System with 100 LOC
 		tasks[2] = new Task(100, 5, "Seat Control System");
 
-		tasks [3] = new Task (250, 13, "Battery Management System");
+		tasks [3] = new Task (250, 5, "Battery Management System");
 
-		tasks [4] = new Task (200, 12, "Speed Control Unit");
+		tasks [4] = new Task (200, 10, "Speed Control Unit");
 
-		tasks [5] = new Task (300, 14, "Global Positioning System");
+		tasks [5] = new Task (300, 10, "Global Positioning System");
 
-		tasks [6] = new Task (200, 11, "Door Control Unit");
+		tasks [6] = new Task (200, 10, "Door Control Unit");
 
 		tasks [7] = new Task (550, 15, "Engine Control System");
 	}
