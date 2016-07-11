@@ -4,10 +4,18 @@ using UnityEngine.UI;
 
 public class SBSProduct : MonoBehaviour {
 
+	public DialogBox dialogBox;
+
 	public Project project;
 	public GameObject sprintBacklog;
 	// Use this for initialization
 	void Start () {
+		//dialog box
+		updateDialogBox ("Organizing a Project into Sprints", "Each project is broken down into tasks that make up the product backlog. During " +
+			"a sprint planning meeting, the team takes tasks from the the product backlog and moves them to the sprint backlog, which is a set " +
+			"of work for the team to complete over a designated, fixed time period. Each sprint should carry a set deliverable that is the goal " +
+			"of the team for that sprint. In industry, if a sprint goal becomes obsolete, a sprint may be cancelled.");
+
 		project = PersistantData.persistantData.projects [PersistantData.persistantData.projectIndex];
 		Debug.Log ("Pre loop");
 		for (int index = 0; index < project.tasks.Length; ++index) {
@@ -37,6 +45,12 @@ public class SBSProduct : MonoBehaviour {
 	public void removeFromSprint(int index){
 		sprintBacklog.GetComponent<SBSSprint>().removeTask (project.tasks [index]);
 	}
+
+	public void updateDialogBox(string title, string body){
+		DialogBox dialog = dialogBox.GetComponent<DialogBox> ();
+		dialog.init(title, body);
+	}
+
 	// Update is called once per frame
 	void Update () {
 	

@@ -6,8 +6,13 @@ using UnityEngine.UI;
 public class SBSProductEntry : MonoBehaviour {
 
 	public int index = 0;
+
+
+
 	private bool inSprint = false;
 	void Start(){
+
+
 	}
 	// Update is called once per frame
 	void Update () {
@@ -23,4 +28,6 @@ public class SBSProductEntry : MonoBehaviour {
 		}
 		inSprint = !inSprint;
 	}
+
+
 }

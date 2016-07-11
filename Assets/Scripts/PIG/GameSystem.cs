@@ -71,6 +71,7 @@ public class GameSystem : MonoBehaviour {
 
 	private int eventTriggerdAlloc = 0;
 
+	private bool dialogStandup = false;
 
 	private string[] cards = {
 		"Coding30",
@@ -459,6 +460,15 @@ public class GameSystem : MonoBehaviour {
 
     public void startEvent(string eventStarted)
     {
+		if (!dialogStandup){
+			updateDialogBox ("Note on Daily Standups!",
+				"     In Scrum methodology, a quick morning meeting takes place before the team gets to work. In this 10-15 " +
+				"minute standing meeting, the Scrum Master asks the team what they did yesterday, what they're doing today, " +
+				"and if they have any impediments concerning their work.");
+			dialogStandup = true;
+		}
+
+		
 		bool activate = true;
         //destroy previous event
         foreach (Transform child in eventSlot.transform) {
