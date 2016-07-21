@@ -67,6 +67,8 @@ public class GameSystem : MonoBehaviour {
 	public GameObject effectLight;
 	public GameObject devLight;
 
+	public GameObject dailySpend;
+
 	private State state = State.NONE_PLAYED;
 
 	private int eventTriggerdAlloc = 0;
@@ -93,12 +95,12 @@ public class GameSystem : MonoBehaviour {
 	}
 	public void defectsPerCoder(int defects){
 		int currentDefects = sprint.updateDefects (Mathf.Max((defects + defectModifier) * (coders + coderMod), 0));
-		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects + "/" + sprint.defectLimit;
 		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 	}
 	public void flatDefects(int defects){
 		int currentDefects = sprint.updateDefects (defects);
-		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects + "/" + sprint.defectLimit;
 		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 	}
 	public void flatBudget(int amount){
@@ -169,7 +171,7 @@ public class GameSystem : MonoBehaviour {
 	}
 	public void defectsPerDebugger(int removed){
 		int currentDefects = sprint.updateDefects (Mathf.Min((debugDefectModifier + removed) * debuggers, 0));
-		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects + "/" + sprint.defectLimit;
 		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 	}
 	private void setState(State newState){
@@ -246,7 +248,7 @@ public class GameSystem : MonoBehaviour {
 	public int percentDefects(double percent){
 		int defectsRemoved = (int)((double)sprint.defects * percent);
 		int currentDefects = sprint.updateDefects (-defectsRemoved);
-		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects;
+		defectsDisplay.GetComponent<Text> ().text = "" + currentDefects + sprint.defectLimit;
 		defectBar.GetComponent<DefectBar> ().reportDefects (currentDefects);
 		//multiply by 5 to add 5 times as much LOC as Defects removed
 		return defectsRemoved*5;
@@ -289,6 +291,7 @@ public class GameSystem : MonoBehaviour {
 		codersText.GetComponent<Text>().text = "x " + coders;
 		testersText.GetComponent<Text> ().text = "x " + testers;
 		debuggersText.GetComponent<Text> ().text = "x " + debuggers;
+		updateSpend ();
 	}
 
 	//Discarding Entire Player Hand
@@ -560,6 +563,7 @@ public class GameSystem : MonoBehaviour {
 	void Start () {
 		sprint = GetComponent<Sprint> ();
 		defectBar.GetComponent<DefectBar> ().setMax (sprint.defectLimit);
+		defectsDisplay.GetComponent<Text> ().text = "0/" + sprint.defectLimit;
         eventSlot.GetComponent < GameObject> ();
 
 		budgetDisplay.GetComponent<Text> ().text = "$" + sprint.budget;
@@ -568,6 +572,9 @@ public class GameSystem : MonoBehaviour {
 		RoleAllocHudUpdate ();
 		refreshLines ();
 
+	}
+	void updateSpend(){
+		dailySpend.GetComponent<Text> ().text = "-$" + (100 * (coders + debuggers + testers)) + " / Day";
 	}
 	void refreshLines(){
 		linesNumber.GetComponent<Text> ().text = "" + sprint.linesDone + " / " + sprint.linesObjective;

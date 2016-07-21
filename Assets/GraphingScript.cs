@@ -66,6 +66,7 @@ public class GraphingScript : MonoBehaviour {
 			number.GetComponent<Text> ().text = "" + value;
 			number.transform.SetParent (transform);
 			number.transform.localPosition = new Vector3 (value * GetComponent<RectTransform> ().rect.width / (float)numDays, 0, 0);
+			number.transform.localScale = new Vector3 (1, 1, 1);
 
 		} else {
 			drawLine (0, value, numDays, value, new Color(.75f, .75f, .75f));
@@ -77,6 +78,7 @@ public class GraphingScript : MonoBehaviour {
 			number.GetComponent<Text> ().text = "" + value;
 			number.transform.SetParent (transform);
 			number.transform.localPosition = new Vector3 (0, value * GetComponent<RectTransform> ().rect.height / (float)linesObjective, 0);
+			number.transform.localScale = new Vector3 (1, 1, 1);
 		}
 	}
 	void drawDot(int x, int y){
