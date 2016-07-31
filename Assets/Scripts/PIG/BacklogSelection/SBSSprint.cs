@@ -30,6 +30,7 @@ public class SBSSprint : MonoBehaviour {
 		entry.transform.SetParent (transform);
 		entry.transform.localScale = new Vector3 (1, 1, 1);
 
+		entry.GetComponent<SBSSprintEntry> ().setPriority (task.priority);
 		entry.GetComponent<SBSSprintEntry> ().setName (task.name);
 		entry.GetComponent<SBSSprintEntry> ().setLines ("" + task.linesDone + "/" + task.lines);
 	}

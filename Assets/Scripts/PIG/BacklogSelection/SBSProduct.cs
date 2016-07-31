@@ -31,6 +31,7 @@ public class SBSProduct : MonoBehaviour {
 		entry.transform.SetParent (transform);
 		entry.transform.localScale = new Vector3 (1, 1, 1);
 
+		entry.GetComponent<SBSProductEntry> ().setPriority (task.priority);
 		entry.GetComponent<SBSProductEntry> ().setName (task.name);
 		entry.GetComponent<SBSProductEntry> ().index = transform.childCount - 1;
 		if (task.linesDone == task.lines) {

@@ -15,6 +15,25 @@ public class SBSProductEntry : MonoBehaviour {
 	public void setLines(string lines){
 		this.lines.GetComponent<Text> ().text = lines;
 	}
+	public void setPriority(Task.Priority priority){
+		switch (priority) {
+		case Task.Priority.HIGH:
+			name.GetComponent<Text> ().color = new Color (223f/255f, 0, 0);
+			lines.GetComponent<Text> ().color = new Color (223f/255f, 0, 0);
+			break;
+		case Task.Priority.MEDIUM:
+			name.GetComponent<Text> ().color = new Color (144f/255f, 140f/255f, 0);
+			lines.GetComponent<Text> ().color = new Color (144f/255f, 140f/255f, 0);
+			break;
+		case Task.Priority.LOW:
+			name.GetComponent<Text> ().color = new Color (6f/255f, 176f/255f, 0);
+			lines.GetComponent<Text> ().color = new Color (6f/255f, 176f/255f, 0);
+			break;
+		default:
+			break;
+		}
+
+	}
 
 
 	private bool inSprint = false;
