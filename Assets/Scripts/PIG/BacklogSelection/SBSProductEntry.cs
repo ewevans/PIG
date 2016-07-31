@@ -6,7 +6,15 @@ using UnityEngine.UI;
 public class SBSProductEntry : MonoBehaviour {
 
 	public int index = 0;
+	public GameObject name;
+	public GameObject lines;
 
+	public void setName(string name){
+		this.name.GetComponent<Text> ().text = name;
+	}
+	public void setLines(string lines){
+		this.lines.GetComponent<Text> ().text = lines;
+	}
 
 
 	private bool inSprint = false;

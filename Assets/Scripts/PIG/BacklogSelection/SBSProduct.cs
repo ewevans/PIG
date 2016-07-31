@@ -8,6 +8,7 @@ public class SBSProduct : MonoBehaviour {
 
 	public Project project;
 	public GameObject sprintBacklog;
+
 	// Use this for initialization
 	void Start () {
 		//dialog box
@@ -17,12 +18,12 @@ public class SBSProduct : MonoBehaviour {
 			"of the team for that sprint. In industry, if a sprint goal becomes obsolete, a sprint may be cancelled.");
 
 		project = PersistantData.persistantData.projects [PersistantData.persistantData.projectIndex];
-		Debug.Log ("Pre loop");
-		for (int index = 0; index < project.tasks.Length; ++index) {
+		//Debug.Log ("Pre loop");
+		for (int index = 0; index < project.tasks.Count; ++index) {
 			makeEntry (project.tasks [index], index);
-			Debug.Log ("In Loop");
+			//Debug.Log ("In Loop");
 		}
-		Debug.Log ("After Loop");
+		//Debug.Log ("After Loop");
 	}
 	private void makeEntry(Task task, int index){
 		GameObject entry = (GameObject)Instantiate (Resources.Load ("UIElements/ProductBacklogEntry"));
@@ -30,13 +31,14 @@ public class SBSProduct : MonoBehaviour {
 		entry.transform.SetParent (transform);
 		entry.transform.localScale = new Vector3 (1, 1, 1);
 
-		entry.GetComponentInChildren<Text> ().text = task.name + " - " + task.linesDone + "/" + task.lines;
-		entry.GetComponent<SBSProductEntry> ().index = index;
-
+		entry.GetComponent<SBSProductEntry> ().setName (task.name);
+		entry.GetComponent<SBSProductEntry> ().index = transform.childCount - 1;
 		if (task.linesDone == task.lines) {
-			entry.GetComponentInChildren<Text> ().text = task.name + " - COMPLETED!";
+			entry.GetComponent<SBSProductEntry> ().setLines ("COMPLETED!");
 			entry.GetComponentInChildren<Button> ().enabled = false;
 			entry.transform.GetChild (0).GetComponent<Image> ().color = new Color (0, 0, 0);
+		} else {
+			entry.GetComponent<SBSProductEntry> ().setLines ("" + task.linesDone + "/" + task.lines);
 		}
 	}
 	public void moveToSprint(int index){

@@ -30,8 +30,8 @@ public class SBSSprint : MonoBehaviour {
 		entry.transform.SetParent (transform);
 		entry.transform.localScale = new Vector3 (1, 1, 1);
 
-		entry.GetComponentInChildren<Text> ().text = task.name + " - " + task.linesDone + "/" + task.lines;
-		entry.GetComponent<SBSSprintEntry> ().index = index;
+		entry.GetComponent<SBSSprintEntry> ().setName (task.name);
+		entry.GetComponent<SBSSprintEntry> ().setLines ("" + task.linesDone + "/" + task.lines);
 	}
 	public void addTask(Task task){
 		tasks.Add (task);
@@ -58,8 +58,10 @@ public class SBSSprint : MonoBehaviour {
 		}
 	}
 	public void confirm(){
-		PersistantData.persistantData.sprintTasks = tasks.ToArray ();
-		SceneManager.LoadScene ("Sprint");
+		if (tasks.Count > 0) {
+			PersistantData.persistantData.sprintTasks = tasks.ToArray ();
+			SceneManager.LoadScene ("Sprint");
+		}
 	}
 
 }

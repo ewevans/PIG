@@ -4,34 +4,40 @@ using System.Collections.Generic;
 
 public class Project {
 
+	public string name;
 	public Project(){
-		initTestingTasks ();
+		name = "NONE";
 	}
-	public Task[] tasks;
+	public Project(string name){
+		this.name = name;
+		//initTestingTasks ();
+	}
+	public List<Task> tasks = new List<Task>();
 	// Use this for initialization
 	void Start () {
-	
+	}
+	public void addTask(Task task){
+		tasks.Add (task);
 	}
 	void initTestingTasks(){
-		tasks = new Task[8];
 
 		//Tasks for example sprint in Project 2
 		//Task 1 is Transmission Control Unit with 800 LOC
-		tasks[0] = new Task(800, 15, "Transmission Control Unit");
+		tasks.Add(new Task(800, 15,   "Transmission Control Unit", Task.Priority.HIGH));
 		//Task 3 is Human-machine Interface with 400 LOC
-		tasks[1] = new Task(400, 10, "Human-machine Interface");
+		tasks.Add(new Task(400, 10,   "Human-machine Interface", Task.Priority.LOW));
 		//Task 3 is Seat Control System with 100 LOC
-		tasks[2] = new Task(100, 5, "Seat Control System");
+		tasks.Add(new Task(100, 5,    "Seat Control System", Task.Priority.LOW));
 
-		tasks [3] = new Task (250, 5, "Battery Management System");
+		tasks.Add(new Task (250, 5,  "Battery Management System", Task.Priority.HIGH));
 
-		tasks [4] = new Task (200, 10, "Speed Control Unit");
+		tasks.Add(new Task (200, 10, "Speed Control Unit", Task.Priority.MEDIUM));
 
-		tasks [5] = new Task (300, 10, "Global Positioning System");
+		tasks.Add(new Task (300, 10, "Global Positioning System", Task.Priority.LOW));
 
-		tasks [6] = new Task (200, 10, "Door Control Unit");
+		tasks.Add(new Task (200, 10, "Door Control Unit", Task.Priority.MEDIUM));
 
-		tasks [7] = new Task (550, 15, "Engine Control System");
+		tasks.Add( new Task (550, 15, "Engine Control System", Task.Priority.HIGH));
 	}
 	
 	// Update is called once per frame

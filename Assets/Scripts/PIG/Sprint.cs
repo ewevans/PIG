@@ -80,11 +80,11 @@ public class Sprint : MonoBehaviour {
 
 			//Tasks for example sprint in Project 2
 			//Task 1 is Transmission Control Unit with 800 LOC
-			tasks [0] = new Task (800, 15, "Transmission Control Unit");
+			tasks [0] = new Task (800, 15, "Transmission Control Unit", Task.Priority.HIGH);
 			//Task 3 is Human-machine Interface with 400 LOC
-			tasks [1] = new Task (400, 10, "Human-machine Interface");
+			tasks [1] = new Task (400, 10, "Human-machine Interface", Task.Priority.LOW);
 			//Task 3 is Seat Control System with 100 LOC
-			tasks [2] = new Task (100, 5, "Seat Control System");
+			tasks [2] = new Task (100, 5, "Seat Control System", Task.Priority.MEDIUM);
 		}
 		GameObject taskHolder = GameObject.Find ("TaskHolder");
 		float holderWidth = taskHolder.GetComponent<RectTransform> ().rect.width;

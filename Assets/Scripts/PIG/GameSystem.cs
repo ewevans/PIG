@@ -396,9 +396,9 @@ public class GameSystem : MonoBehaviour {
 					sprint.tasks [index].linesDone = linesDone;
 					linesDone = 0;
 				}
-				Debug.Log ("Len = " + data.projects [data.projectIndex].tasks.Length);
+				Debug.Log ("Len = " + data.projects [data.projectIndex].tasks.Count);
 				foundInData = false;
-				for (int pIndex = 0; !foundInData && pIndex < data.projects [data.projectIndex].tasks.Length; ++pIndex) {
+				for (int pIndex = 0; !foundInData && pIndex < data.projects [data.projectIndex].tasks.Count; ++pIndex) {
 					Debug.Log (" pIndex = " + pIndex + "              index = " + index);
 					if (data.projects [data.projectIndex].tasks [pIndex].name == sprint.tasks [index].name) {
 						data.projects [data.projectIndex].tasks [pIndex].linesDone = sprint.tasks [index].linesDone;
