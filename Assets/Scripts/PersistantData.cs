@@ -11,7 +11,7 @@ public class PersistantData : MonoBehaviour {
 	};
 	public Task[] sprintTasks = null;
 	public int projectIndex = 1;
-	void resetTasks(){
+	public void resetTasks(){
 		foreach (Project project in projects){
 			foreach (Task task in project.tasks) {
 				task.linesDone = 0;
@@ -20,6 +20,11 @@ public class PersistantData : MonoBehaviour {
 	}
 	void initProjects(){
 		//	Project 1
+		projects [0].addTask (new Task (200, 5, "Placeholder task 1.1", Task.Priority.LOW));
+		projects [0].addTask (new Task (250, 10, "Placeholder task 1.2", Task.Priority.MEDIUM));
+		projects [0].addTask (new Task (300, 15, "Placeholder task 1.3", Task.Priority.HIGH));
+		projects [0].addTask (new Task (250, 10, "Placeholder task 1.4", Task.Priority.MEDIUM));
+		projects [0].addTask (new Task (200, 5, "Placeholder task 1.5", Task.Priority.LOW));
 		//	Project 2
 		projects[1].addTask(new Task(800, 15,   "Transmission Control Unit", Task.Priority.HIGH));
 
@@ -37,6 +42,12 @@ public class PersistantData : MonoBehaviour {
 
 		projects[1].addTask( new Task (550, 15, "Engine Control System", Task.Priority.HIGH));
 		//	Project 3
+
+		projects [2].addTask (new Task (200, 5, "Placeholder task 3.1", Task.Priority.LOW));
+		projects [2].addTask (new Task (250, 10, "Placeholder task 3.2", Task.Priority.MEDIUM));
+		projects [2].addTask (new Task (300, 15, "Placeholder task 3.3", Task.Priority.HIGH));
+		projects [2].addTask (new Task (250, 10, "Placeholder task 3.4", Task.Priority.MEDIUM));
+		projects [2].addTask (new Task (200, 5, "Placeholder task 3.5", Task.Priority.LOW));
 	}
 	void Awake(){
 		if (persistantData == null) 
