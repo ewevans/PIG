@@ -69,6 +69,8 @@ public class GameSystem : MonoBehaviour {
 
 	public GameObject dailySpend;
 
+	public GameObject earlyCompletion;
+
 	private State state = State.NONE_PLAYED;
 
 	private int eventTriggerdAlloc = 0;
@@ -83,15 +85,35 @@ public class GameSystem : MonoBehaviour {
 		"Coding75-0"
 	};
 
+	private bool endEarlyOffered = false;
+	public void showEarlyBox(){
+		earlyCompletion.transform.localScale = new Vector3 (1, 1, 1);
+	}
+	public void autoPlaySelected(){
+		flatDefects (sprint.currentDay - sprint.sprintDuration);
+		sprint.currentDay = sprint.sprintDuration;
+		endTurn ();
+	}
+	public void manualPlaySelected(){
+		//	nothing special happens?
+	}
+	public void doneEarlyCheck(){
+		if (sprint.linesDone >= sprint.linesObjective && !endEarlyOffered) {
+			sprint.linesDone = sprint.linesObjective;
+			endEarlyOffered = true;
+			showEarlyBox ();
+		}
+		refreshLines ();
+	}
 	public void linesPerCoder(int lines){
 		int currentLines = sprint.updateLinesDone (Mathf.Max((lines + linesModifier) * (coders + coderMod), 0));
 		Debug.Log (currentLines + " Lines");
 		Debug.Log (lines + " Lines attempted");
-		refreshLines ();
+		doneEarlyCheck ();
 	}
 	public void flatLines(int lines){
 		int currentLines = sprint.updateLinesDone (lines);
-		refreshLines ();
+		doneEarlyCheck ();
 	}
 	public void defectsPerCoder(int defects){
 		int currentDefects = sprint.updateDefects (Mathf.Max((defects + defectModifier) * (coders + coderMod), 0));
@@ -110,7 +132,7 @@ public class GameSystem : MonoBehaviour {
 	public void flatLinesObjective(int change){
 		sprint.linesObjective += change;
 		linesProgress.GetComponent<Image> ().fillAmount = (float)sprint.linesDone / (float)sprint.linesObjective;
-		refreshLines ();
+		doneEarlyCheck ();
 	}
 	public void eventDevelopers(int change){
 		if (change < 0) {
