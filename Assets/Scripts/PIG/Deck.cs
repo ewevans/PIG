@@ -27,7 +27,9 @@ public class Deck
         AddMultiple("ExecutiveSupport", 2);
         AddMultiple("FireDeveloper", 2);
         //AddMultiple("FormalTechReview", 2);
-        AddMultiple("HireDeveloper", 2);
+        AddMultiple("HireCoder", 1);
+		AddMultiple("HireDebugger", 1);
+		AddMultiple("HireTester", 1);
         AddMultiple("NegotiateBudget", 2);
         AddMultiple("NegotiateTime", 2);
         AddMultiple("PairProgramming", 2);

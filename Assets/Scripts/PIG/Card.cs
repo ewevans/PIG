@@ -9,6 +9,9 @@ public class Card : MonoBehaviour {
 	public int flatLinesObjective = 0;
 	public int flatDevelopers = 0;
 	public int flatCoders = 0;
+	public int flatPermCoders = 0;
+	public int flatPermDebuggers = 0;
+	public int flatPermTesters = 0;
 	public int flatDays = 0;
 	public int defectModifier = 0;
 	public int linesModifier = 0;
@@ -45,6 +48,9 @@ public class Card : MonoBehaviour {
 		activateEffect.flatLinesObjective = flatLinesObjective;
 		activateEffect.flatDevelopers = flatDevelopers;
 		activateEffect.flatCoders = flatCoders;
+		activateEffect.flatPermCoders = flatPermCoders;
+		activateEffect.flatPermDebuggers = flatPermDebuggers;
+		activateEffect.flatPermTesters = flatPermTesters;
 		activateEffect.flatDays = flatDays;
 		activateEffect.defectModifier = defectModifier;
 		activateEffect.linesModifier = linesModifier;
@@ -102,6 +108,9 @@ public class Card : MonoBehaviour {
 			system.flatLinesObjective (activateEffect.flatLinesObjective + system.percentDefects(activateEffect.percentDefects));
 			system.flatDevelopers (activateEffect.flatDevelopers);
 			system.flatCoders (activateEffect.flatCoders);
+			system.flatPermCoders (activateEffect.flatPermCoders);
+			system.flatPermDebuggers (activateEffect.flatPermDebuggers);
+			system.flatPermTesters (activateEffect.flatPermTesters);
 			system.flatDays (activateEffect.flatDays);
 			system.changeDefectModifier (activateEffect.defectModifier);
 			system.changeLinesModifier (activateEffect.linesModifier);
@@ -135,6 +144,9 @@ public class Card : MonoBehaviour {
 		public int flatLinesObjective = 0;
 		public int flatDevelopers = 0;
 		public int flatCoders = 0;
+		public int flatPermCoders = 0;
+		public int flatPermDebuggers = 0;
+		public int flatPermTesters = 0;
 		public int flatDays = 0;
 		public int defectModifier = 0;
 		public int linesModifier = 0;

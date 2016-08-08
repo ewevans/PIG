@@ -179,6 +179,24 @@ public class GameSystem : MonoBehaviour {
 		if (coders < 0)
 			coders = 0;
 	}
+	public void flatPermCoders(int change){
+		coders += change;
+		if (coders < 0)
+			coders = 0;
+		RoleAllocHudUpdate ();
+	}
+	public void flatPermDebuggers(int change){
+		debuggers += change; //coderMod += change;
+		if (debuggers < 0)
+			debuggers = 0;
+		RoleAllocHudUpdate ();
+	}
+	public void flatPermTesters(int change){
+		testers += change;//coderMod += change;
+		if (testers < 0)
+			testers = 0;
+		RoleAllocHudUpdate ();
+	}
 	public void flatDays(int change){
 		sprint.updateSprintDuration (change);daysText.GetComponent<Text> ().text = "Day " + sprint.currentDay + " of " + sprint.sprintDuration;
 		dayIndicatorText.GetComponent<Text> ().text = "" + sprint.currentDay;
