@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class SBSSprint : MonoBehaviour {
 
+	private int totalLines;
+	private int totalDefects;
+
+	public GameObject totalLinesDisplay;
+	public GameObject sprintsRemainingDisplay;
+	public GameObject defectsAllowedDisplay;
+
 	private List<Task> tasks;
 	// Use this for initialization
 	void Start () {
@@ -32,13 +39,26 @@ public class SBSSprint : MonoBehaviour {
 
 		entry.GetComponent<SBSSprintEntry> ().setPriority (task.priority);
 		entry.GetComponent<SBSSprintEntry> ().setName (task.name);
+		entry.GetComponent<SBSSprintEntry> ().setDefects ("" + task.allowedDefects);
 		entry.GetComponent<SBSSprintEntry> ().setLines ("" + task.linesDone + "/" + task.lines);
 	}
 	public void addTask(Task task){
+		totalLines += task.lines - task.linesDone;
+		totalLinesDisplay.GetComponent<Text> ().text = totalLines.ToString ();
+
+		totalDefects += task.allowedDefects;
+		defectsAllowedDisplay.GetComponent<Text> ().text = totalDefects.ToString ();
+
 		tasks.Add (task);
 		refreshList ();
 	}
 	public void removeTask(Task task){
+		totalLines -= (task.lines - task.linesDone);
+		totalLinesDisplay.GetComponent<Text> ().text = totalLines.ToString ();
+
+		totalDefects -= task.allowedDefects;
+		defectsAllowedDisplay.GetComponent<Text> ().text = totalDefects.ToString ();
+
 		tasks.Remove (task);
 		refreshList ();
 	}

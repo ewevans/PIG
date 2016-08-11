@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class Project {
 
 	public string name;
+	public int totalSprints;
+	public int sprintsDone = 0;
 	public Project(){
 		name = "NONE";
 	}
@@ -15,6 +17,12 @@ public class Project {
 	public List<Task> tasks = new List<Task>();
 	// Use this for initialization
 	void Start () {
+	}
+	public void setTotalSprints(int sprints){
+		totalSprints = sprints;
+	}
+	public void setSprintsDone(int sprints){
+		sprintsDone = sprints;
 	}
 	public void addTask(Task task){
 		tasks.Add (task);

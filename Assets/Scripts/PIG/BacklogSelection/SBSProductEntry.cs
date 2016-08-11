@@ -8,12 +8,16 @@ public class SBSProductEntry : MonoBehaviour {
 	public int index = 0;
 	public GameObject name;
 	public GameObject lines;
+	public GameObject defects;
 
 	public void setName(string name){
 		this.name.GetComponent<Text> ().text = name;
 	}
 	public void setLines(string lines){
 		this.lines.GetComponent<Text> ().text = lines;
+	}
+	public void setDefects(string defects){
+		this.defects.GetComponent<Text> ().text = defects;
 	}
 	public void setPriority(Task.Priority priority){
 		switch (priority) {

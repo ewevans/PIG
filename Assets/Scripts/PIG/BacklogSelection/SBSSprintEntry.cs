@@ -7,6 +7,11 @@ public class SBSSprintEntry : MonoBehaviour {
 	public int index = 0;
 	public GameObject name;
 	public GameObject lines;
+	public GameObject defects;
+
+	public void setDefects(string defects){
+		this.defects.GetComponent<Text> ().text = defects;
+	}
 
 	public void setName(string name){
 		this.name.GetComponent<Text>().text = name;

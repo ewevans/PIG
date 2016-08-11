@@ -8,6 +8,7 @@ public class SBSProduct : MonoBehaviour {
 
 	public Project project;
 	public GameObject sprintBacklog;
+	public GameObject sprintsRemainingDisplay;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,7 @@ public class SBSProduct : MonoBehaviour {
 			"of the team for that sprint. In industry, if a sprint goal becomes obsolete, a sprint may be cancelled.");
 
 		project = PersistantData.persistantData.projects [PersistantData.persistantData.projectIndex];
+		sprintsRemainingDisplay.GetComponent<Text> ().text = "" + (project.totalSprints - project.sprintsDone);
 		//Debug.Log ("Pre loop");
 		for (int index = 0; index < project.tasks.Count; ++index) {
 			makeEntry (project.tasks [index], index);
@@ -33,6 +35,7 @@ public class SBSProduct : MonoBehaviour {
 
 		entry.GetComponent<SBSProductEntry> ().setPriority (task.priority);
 		entry.GetComponent<SBSProductEntry> ().setName (task.name);
+		entry.GetComponent<SBSProductEntry> ().setDefects ("" + task.allowedDefects);
 		entry.GetComponent<SBSProductEntry> ().index = transform.childCount - 1;
 		if (task.linesDone == task.lines) {
 			entry.GetComponent<SBSProductEntry> ().setLines ("COMPLETED!");
