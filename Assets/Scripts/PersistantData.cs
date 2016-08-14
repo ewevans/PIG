@@ -15,7 +15,17 @@ public class PersistantData : MonoBehaviour {
 	}
 	public Task[] sprintTasks = null;
 	public int projectIndex = 1;
+
+	public int totalSprintTasks = 0;
+	public int completedSprintTasks = 0;
+	public int remainingBudget = 0;
+	public int runningDefects = 0;
+
 	public void resetTasks(){
+		totalSprintTasks = 0;
+		completedSprintTasks = 0;
+		remainingBudget = 0;
+		runningDefects = 0;
 		foreach (Project project in projects){
 			project.sprintsDone = 0;
 			foreach (Task task in project.tasks) {

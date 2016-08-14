@@ -14,7 +14,7 @@ public class CloseButton : MonoBehaviour {
 		if (sprintsLeft > 0) {
 			SceneManager.LoadScene ("SprintBacklogSelection");
 		} else {
-			SceneManager.LoadScene ("Main Menu");
+			SceneManager.LoadScene ("ProjectSummary");
 		}
 	}
 	void Start(){

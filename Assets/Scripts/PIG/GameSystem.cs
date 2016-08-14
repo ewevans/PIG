@@ -426,15 +426,22 @@ public class GameSystem : MonoBehaviour {
 			int linesDone = sprint.linesDone;
 			bool foundInData = false;
 			PersistantData data = PersistantData.persistantData;
+			data.totalSprintTasks = sprint.tasks.Length;
+			data.completedSprintTasks = 0;
+
+			data.runningDefects += sprint.defects;
+			data.remainingBudget += sprint.budget;
 			for (int index = 0; index < sprint.tasks.Length; ++index) {
 				if (linesDone == 0) {
 					
 				} else if (linesDone > sprint.tasks [index].lines) {
 					sprint.tasks [index].linesDone = sprint.tasks [index].lines;
 					linesDone -= sprint.tasks [index].lines;
+					data.completedSprintTasks++;
 				} else {
 					sprint.tasks [index].linesDone = linesDone;
 					linesDone = 0;
+					data.completedSprintTasks++;
 				}
 				Debug.Log ("Len = " + data.projects [data.projectIndex].tasks.Count);
 				foundInData = false;
