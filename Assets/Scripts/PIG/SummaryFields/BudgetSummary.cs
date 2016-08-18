@@ -14,10 +14,10 @@ public class BudgetSummary : MonoBehaviour {
 
 		if (budgetnumber < 0) {
 			GetComponent<Text> ().color = Color.red;
-			GetComponent<Text> ().text = "$" + budgetnumber + " you went over budget!!";
+			GetComponent<Text> ().text = "$" + budgetnumber + " (-150)";
 		} else {
 			GetComponent<Text> ().color = Color.green;
-			GetComponent<Text> ().text = "$" + budgetnumber + " you stayed within budget!! Good Job";
+			GetComponent<Text> ().text = "$" + budgetnumber + " (+150)";
 		}
 	}
 

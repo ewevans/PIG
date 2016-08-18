@@ -19,10 +19,10 @@ public class DefectsSummary : MonoBehaviour {
 
 		if (defectsnumber >= defectsmax) {
 			GetComponent<Text> ().color = Color.red;
-			GetComponent<Text> ().text = " " + defectsnumber + " with a limit of " + defectsmax;
+			GetComponent<Text> ().text = " " + defectsnumber + " with a limit of " + defectsmax + " (-150)";
 		} else if (defectsnumber < defectsmax) {
 			GetComponent<Text> ().color = Color.green;
-			GetComponent<Text> ().text = " " + defectsnumber + " with a limit of " + defectsmax;
+			GetComponent<Text> ().text = " " + defectsnumber + " with a limit of " + defectsmax + " (+150)";
 		}
 	}
 }

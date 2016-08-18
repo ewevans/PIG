@@ -17,10 +17,10 @@ public class Summary_LOC : MonoBehaviour {
 
 		if (LinesDone >= LinesObjective) {
 			GetComponent<Text> ().color = Color.green;
-			GetComponent<Text> ().text = " " + LinesDone + " of " + LinesObjective;
+			GetComponent<Text> ().text = " " + LinesDone + " of " + LinesObjective + " (+200)";
 		} else {
 			GetComponent<Text> ().color = Color.red;
-			GetComponent<Text> ().text = " " + LinesDone + " of " + LinesObjective;
+			GetComponent<Text> ().text = " " + LinesDone + " of " + LinesObjective + " (-150)";
 		}
 			
 	}
