@@ -419,13 +419,22 @@ public class GameSystem : MonoBehaviour {
 		TurnUpdate ();
 
 		if (sprint.currentDay >= sprint.sprintDuration) {
-		//if (sprint.currentDay == 4) {
-			//Debug.Log ("Budget = ", sprint.budget);
-//			PlayerPrefs.SetInt ("Lines Done", sprint.linesDone);
-//			PlayerPrefs.SetInt ("Lines Objective", sprint.linesObjective);
-//			PlayerPrefs.SetInt ("Defects Generated", sprint.defects);
-//			PlayerPrefs.SetInt ("Defects Max", sprint.defectLimit);
-//			PlayerPrefs.SetInt ("Budget", sprint.budget);
+			//Scoring Bonuses and Subtractions - DE
+			if (sprint.linesDone >= sprint.linesObjective)
+				score += 200;
+			else if(sprint.linesDone < sprint.linesObjective)
+					score -= 150;
+				
+			if (sprint.defects <= sprint.defectLimit)
+				score += 200;
+			else if (sprint.defects > sprint.defectLimit)
+				score -= 150;
+			
+			if (sprint.budget >= 0)
+				score += 200;
+			else if (sprint.budget < 0)
+				score -= 150;
+
 			int linesDone = sprint.linesDone;
 			bool foundInData = false;
 			PersistantData data = PersistantData.persistantData;
@@ -455,17 +464,25 @@ public class GameSystem : MonoBehaviour {
 						foundInData = true;
 					}
 				}
+
+
 			}
+
+
+		
+			//Transfer of player game stats to persistent object for use in summary scene
 			GameStats.gamestats.linesdone = sprint.linesDone;
 			GameStats.gamestats.linesobjective = sprint.linesObjective;
 			GameStats.gamestats.defects = sprint.defects;
 			GameStats.gamestats.defectsmax = sprint.defectLimit;
 			GameStats.gamestats.budget = sprint.budget;
 			GameStats.gamestats.score = score;
-			RankManager rm = new RankManager();
+			RankManager rm = new RankManager(); // Ranking instance
 			SceneManager.LoadScene ("SprintSummary");
 
 			GameStats.gamestats.Save ();
+
+			//Establish player ranking - DE
 			rm.initiateRanks ();
 			GameStats.gamestats.rank = rm.currentrank;
 			GameStats.gamestats.nextrank = rm.currentnextrank;
@@ -634,16 +651,6 @@ public class GameSystem : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		//Hide Summary Window until final day of Sprint is completed - DE
-//		if (sprint.currentDay != sprint.sprintDuration + 1) {
-//			//if (sprint.currentDay != 4) {
-//			summaryslot.SetActive (false);
-//		} 
-//		else {
-//			summaryslot.SetActive (true);
-//			GameObject eventObj = Instantiate (Resources.Load ("Events/SummaryWindow")) as GameObject;
-//			eventObj.transform.SetParent (summaryslot.transform);
-//			eventObj.transform.localScale = new Vector3 (1, 1, 1);
-//		}
+
 	}
 }
