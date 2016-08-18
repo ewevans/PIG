@@ -16,6 +16,9 @@ public class ProjectSelection : MonoBehaviour {
 	void Update () {
 
 	}
+	public void closeSplash(GameObject splash){
+		splash.transform.localScale = new Vector3 (0, 0, 0);
+	}
 	public void setWhich(int which){
 		project = which;
 	}
