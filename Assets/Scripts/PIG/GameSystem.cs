@@ -66,6 +66,7 @@ public class GameSystem : MonoBehaviour {
 	public GameObject lasting1;
 	public GameObject lasting2;
 	public GameObject summaryslot;
+	public GameObject NoEventText;
 
 	public GameObject effectLight;
 	public GameObject devLight;
@@ -509,7 +510,11 @@ public class GameSystem : MonoBehaviour {
 			//Randomize probability of an event occuring
 			if (Random.value > .90 && sprint.currentDay != sprint.sprintDuration) {
 				startEvent (eventDeck.ChooseEvent ());
+			} else {//give them a daily stand up without event
+				
+				startEvent ("NoEvent");
 			}
+				
 			if (eventTriggerdAlloc != 0) {
 				changeRoles(Mathf.Abs(eventTriggerdAlloc));
 			}
@@ -545,39 +550,45 @@ public class GameSystem : MonoBehaviour {
         foreach (Transform child in eventSlot.transform) {
             GameObject.Destroy(child.gameObject);
         }
+		NoEventText.GetComponent<Text> ().text = "";
 
         //Make new event object from parameter string name
         GameObject eventObj = Instantiate(Resources.Load("Events/" + eventStarted, typeof(GameObject))) as GameObject;
         eventObj.transform.SetParent(eventSlot.transform);
         eventObj.transform.localScale = new Vector3(0, 0, 0);
 
-		//if event category doesn't match either lasting pile then activate
-		if (lasting1.transform.childCount > 0) {
-			if (lasting1.GetComponentInChildren<Card>().category == eventObj.GetComponent<Event>().category) {
-				Debug.Log (lasting1.GetComponentInChildren<Card> ().name + " blocked " + eventObj.GetComponent<Event> ().name);
-				activate = false;
-			}
-		}
-		if (lasting2.transform.childCount > 0) {
-			if (lasting2.GetComponentInChildren<Card>().category == eventObj.GetComponent<Event>().category) {
-				Debug.Log (lasting2.GetComponentInChildren<Card> ().name + " blocked " + eventObj.GetComponent<Event> ().name);
-				activate = false;
-			}
-		}
-
-		if (activate) {
-			eventObj.GetComponent<Event> ().Activate ();
-			eventObj.transform.localScale = new Vector3(1, 1, 1);
-			Event ev = eventObj.GetComponent<Event> ();
-			if (ev.eventDuration > 0) {
-				if (!effectsToCancel.ContainsKey(sprint.currentDay + ev.eventDuration) || effectsToCancel [sprint.currentDay + ev.eventDuration] == null) {
-					effectsToCancel [sprint.currentDay + ev.eventDuration] = new List<Event> ();
+		if (eventStarted != "NoEvent") {
+			//if event category doesn't match either lasting pile then activate
+			if (lasting1.transform.childCount > 0) {
+				if (lasting1.GetComponentInChildren<Card> ().category == eventObj.GetComponent<Event> ().category) {
+					Debug.Log (lasting1.GetComponentInChildren<Card> ().name + " blocked " + eventObj.GetComponent<Event> ().name);
+					activate = false;
 				}
-				effectsToCancel [sprint.currentDay + ev.eventDuration].Add (ev);
 			}
+			if (lasting2.transform.childCount > 0) {
+				if (lasting2.GetComponentInChildren<Card> ().category == eventObj.GetComponent<Event> ().category) {
+					Debug.Log (lasting2.GetComponentInChildren<Card> ().name + " blocked " + eventObj.GetComponent<Event> ().name);
+					activate = false;
+				}
+			}
+
+			if (activate) {
+				eventObj.GetComponent<Event> ().Activate ();
+				eventObj.transform.localScale = new Vector3 (1, 1, 1);
+				Event ev = eventObj.GetComponent<Event> ();
+				if (ev.eventDuration > 0) {
+					if (!effectsToCancel.ContainsKey (sprint.currentDay + ev.eventDuration) || effectsToCancel [sprint.currentDay + ev.eventDuration] == null) {
+						effectsToCancel [sprint.currentDay + ev.eventDuration] = new List<Event> ();
+					}
+					effectsToCancel [sprint.currentDay + ev.eventDuration].Add (ev);
+				}
+			}
+			refreshLines ();
+		} else {//NoEvent
+			eventObj.transform.localScale = new Vector3 (1, 1, 1);
+			NoEventText.GetComponent<Text> ().text = "The Product Owner is upset with the current budget situation.";
 		}
-		refreshLines ();
-    }
+	}
 
 	public void changeRoles(int allowed){
 		RoleAllocation allocate = roleAllocation.GetComponent<RoleAllocation> ();
