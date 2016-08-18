@@ -33,6 +33,9 @@ public class GameSystem : MonoBehaviour {
 		DEFECT,
 		REQ
 	};
+	public bool canDevelop(){
+		return sprint.defects < sprint.defectLimit;
+	}
 
 	private enum State{
 		NONE_PLAYED,

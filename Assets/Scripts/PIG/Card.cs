@@ -91,7 +91,7 @@ public class Card : MonoBehaviour {
 		} else if (type == CardType.INSTANT_EFFECT) {
 			return dztype == DropZone.Type.PLAY || dztype == DropZone.Type.DISCARD;
 		} else if (type == CardType.DEVELOPMENT) {
-			return dztype == DropZone.Type.PLAY || dztype == DropZone.Type.DISCARD;
+			return (dztype == DropZone.Type.PLAY && gameSystem.GetComponent<GameSystem>().canDevelop()) || dztype == DropZone.Type.DISCARD;
 		} else if (type == CardType.ANY) {
 			return true;
 		}
