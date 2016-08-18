@@ -13,12 +13,15 @@ public class SBSProduct : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//dialog box
-		updateDialogBox ("Organizing a Project into Sprints", "Each project is broken down into tasks that make up the product backlog. During " +
-			"a sprint planning meeting, the team takes tasks from the the product backlog and moves them to the sprint backlog, which is a set " +
-			"of work for the team to complete over a designated, fixed time period. Each sprint should carry a set deliverable that is the goal " +
-			"of the team for that sprint. In industry, if a sprint goal becomes obsolete, a sprint may be cancelled.");
+		if (PersistantData.persistantData.projectIndex == 0 )
+			updateDialogBox ("Each Project starts with making a Sprint Backlog", "At the beginning of the sprint, the team selects"
+							+ " tasks to complete for the next 20 days. Make sure to:\n   Plan enough work for each sprint to complete "
+							+ "the project on time.\n   Consider defect limits, or how many defects are "
+							+ "allowed for that task.\n   Don't forget the customer's priority, which is color-coded in the text of the task.\n\n"
+							+ "For the tutorial project, completing 1000 Lines of Code each sprint is suggested.");
 
 		project = PersistantData.persistantData.projects [PersistantData.persistantData.projectIndex];
+
 		sprintsRemainingDisplay.GetComponent<Text> ().text = "" + (project.totalSprints - project.sprintsDone);
 		//Debug.Log ("Pre loop");
 		for (int index = 0; index < project.tasks.Count; ++index) {
