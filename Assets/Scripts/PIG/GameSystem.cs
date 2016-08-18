@@ -204,7 +204,9 @@ public class GameSystem : MonoBehaviour {
 	public void flatDays(int change){
 		sprint.updateSprintDuration (change);daysText.GetComponent<Text> ().text = "Day " + sprint.currentDay + " of " + sprint.sprintDuration;
 		dayIndicatorText.GetComponent<Text> ().text = "" + sprint.currentDay;
-		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 1f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		//ethan testing if day indictator off by 1 day
+		//float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 1f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 0f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 	}
 	public void changeDefectModifier(int mod){
@@ -302,7 +304,8 @@ public class GameSystem : MonoBehaviour {
 		int currentDay = sprint.updateCurrentDay (1);
 		daysText.GetComponent<Text> ().text = "Day " + currentDay + " of " + sprint.sprintDuration;
 		dayIndicatorText.GetComponent<Text> ().text = "" + currentDay;
-		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)currentDay - 1f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		//ethan testing 1f to 0f
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)currentDay - 0f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 		flatBudget (-100 * (coders + testers + debuggers));
 		return currentDay <= sprint.sprintDuration;
@@ -586,7 +589,42 @@ public class GameSystem : MonoBehaviour {
 			refreshLines ();
 		} else {//NoEvent
 			eventObj.transform.localScale = new Vector3 (1, 1, 1);
-			NoEventText.GetComponent<Text> ().text = "The Product Owner is upset with the current budget situation.";
+			//if first day of the sprint
+			if (sprint.currentDay == 1) {
+				if (Random.value > .5) {
+					NoEventText.GetComponent<Text> ().text = "The team is ready to get started on this sprint's tasks!";
+				} else {
+					NoEventText.GetComponent<Text> ().text = "This first daily stand-up focused on possible impediments for the new tasks.";
+				}
+			}//if defects are in red
+			else if (sprint.defects > sprint.defectLimit) {
+				NoEventText.GetComponent<Text> ().text = "defect limit";
+			}//if the LOC Progression FAR BEHIND
+			else if ((sprint.currentDay > 8) && (((float)sprint.linesDone / (float)(sprint.linesObjective - 400f)) < ((float)sprint.currentDay / (float)sprint.sprintDuration))) {
+				NoEventText.GetComponent<Text> ().text = "LOC far behind";
+			}//if the budget is below 0
+			else if (sprint.budget < 0) {
+				NoEventText.GetComponent<Text> ().text = "budget is 0";
+			}//if LOC Prog behind
+			else if ((sprint.currentDay > 4) && (((float)sprint.linesDone / (float)(sprint.linesObjective - 200f)) < ((float)sprint.currentDay / (float)sprint.sprintDuration))) {
+				NoEventText.GetComponent<Text> ().text = "LOC behind";
+			}//if defects are in yellow
+			else if (sprint.defects > (sprint.defectLimit / 2)) {
+				NoEventText.GetComponent<Text> ().text = "defects in yellow";
+			}//if team has more than 5 members
+			else if (coders + testers + debuggers > 5) {
+				NoEventText.GetComponent<Text> ().text = "big team";
+			}//if budget is set to run out
+			else if (sprint.budget < ((sprint.sprintDuration - sprint.currentDay) * 100 * (coders + testers + debuggers))) {
+				NoEventText.GetComponent<Text> ().text = "budget set to run out";
+			}
+
+
+				
+
+
+			//NoEventText.GetComponent<Text> ().text = "The Product Owner is upset with the current budget situation.";
+
 		}
 	}
 
@@ -650,6 +688,7 @@ public class GameSystem : MonoBehaviour {
 		drawCardsStart ();
 		RoleAllocHudUpdate ();
 		refreshLines ();
+		startEvent ("NoEvent");
 
 	}
 	void updateSpend(){
