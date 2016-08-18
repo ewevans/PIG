@@ -35,18 +35,16 @@ public class PersistantData : MonoBehaviour {
 	}
 	void initProjects(){
 		//	Project 1
-		projects [0].addTask (new Task (200, 5, "Placeholder task 1.1", Task.Priority.LOW));
-		projects [0].addTask (new Task (250, 10, "Placeholder task 1.2", Task.Priority.MEDIUM));
-		projects [0].addTask (new Task (300, 15, "Placeholder task 1.3", Task.Priority.HIGH));
-		projects [0].addTask (new Task (250, 10, "Placeholder task 1.4", Task.Priority.MEDIUM));
-		projects [0].addTask (new Task (200, 5, "Placeholder task 1.5", Task.Priority.LOW));
+		projects [0].addTask (new Task (500, 10, "Menu System", Task.Priority.MEDIUM));
+		projects [0].addTask (new Task (500, 10, "Game Preferences", Task.Priority.LOW));
+		projects [0].addTask (new Task (1000, 15, "Player Input System", Task.Priority.HIGH));
 
 		projects [0].setTotalSprints (2);
 		projects [0].setSprintsDone (0);
 		//	Project 2
-		projects[1].addTask(new Task(800, 15,   "Transmission Control Unit", Task.Priority.HIGH));
+		projects[1].addTask(new Task(1000, 15,   "Transmission Control Unit", Task.Priority.HIGH));
 
-		projects[1].addTask(new Task(400, 10,   "Human-machine Interface", Task.Priority.LOW));
+		projects[1].addTask(new Task(550, 10,   "Human-machine Interface", Task.Priority.LOW));
 
 		projects[1].addTask(new Task(100, 5,    "Seat Control System", Task.Priority.LOW));
 
@@ -54,22 +52,23 @@ public class PersistantData : MonoBehaviour {
 
 		projects[1].addTask(new Task (200, 10, "Speed Control Unit", Task.Priority.MEDIUM));
 
-		projects[1].addTask(new Task (300, 10, "Global Positioning System", Task.Priority.LOW));
+		projects[1].addTask(new Task (450, 10, "Global Positioning System", Task.Priority.LOW));
 
 		projects[1].addTask(new Task (200, 10, "Door Control Unit", Task.Priority.MEDIUM));
 
-		projects[1].addTask( new Task (550, 15, "Engine Control System", Task.Priority.HIGH));
+		projects[1].addTask( new Task (550, 5, "Engine Control System", Task.Priority.HIGH));
 
 
 		projects [1].setTotalSprints (3);
 		projects [1].setSprintsDone (0);
 		//	Project 3
 
-		projects [2].addTask (new Task (200, 5, "Placeholder task 3.1", Task.Priority.LOW));
-		projects [2].addTask (new Task (250, 10, "Placeholder task 3.2", Task.Priority.MEDIUM));
-		projects [2].addTask (new Task (300, 15, "Placeholder task 3.3", Task.Priority.HIGH));
-		projects [2].addTask (new Task (250, 10, "Placeholder task 3.4", Task.Priority.MEDIUM));
-		projects [2].addTask (new Task (200, 5, "Placeholder task 3.5", Task.Priority.LOW));
+		projects [2].addTask (new Task (1050, 10, "Structural Systems", Task.Priority.HIGH));
+		projects [2].addTask (new Task (575, 10, "Payload Systems", Task.Priority.LOW));
+		projects [2].addTask (new Task (725, 15, "Guidance Systems", Task.Priority.MEDIUM));
+		projects [2].addTask (new Task (900, 15, "Propulsion Systems", Task.Priority.HIGH));
+		projects [2].addTask (new Task (625, 5, "Life Support Systems", Task.Priority.HIGH));
+		projects [2].addTask (new Task (925, 15, "Communications Systems", Task.Priority.MEDIUM));
 
 		projects [2].setTotalSprints (4);
 		projects [2].setSprintsDone (0);
