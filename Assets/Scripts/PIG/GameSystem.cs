@@ -206,7 +206,7 @@ public class GameSystem : MonoBehaviour {
 		dayIndicatorText.GetComponent<Text> ().text = "" + sprint.currentDay;
 		//ethan testing if day indictator off by 1 day
 		//float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 1f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
-		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 0f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 0f) / ((float)sprint.sprintDuration+1) + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 	}
 	public void changeDefectModifier(int mod){
@@ -305,7 +305,7 @@ public class GameSystem : MonoBehaviour {
 		daysText.GetComponent<Text> ().text = "Day " + currentDay + " of " + sprint.sprintDuration;
 		dayIndicatorText.GetComponent<Text> ().text = "" + currentDay;
 		//ethan testing 1f to 0f
-		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)currentDay - 0f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)currentDay - 0f) / ((float)sprint.sprintDuration+1) + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 		flatBudget (-100 * (coders + testers + debuggers));
 		return currentDay <= sprint.sprintDuration;
@@ -598,26 +598,65 @@ public class GameSystem : MonoBehaviour {
 				}
 			}//if defects are in red
 			else if (sprint.defects > sprint.defectLimit) {
-				NoEventText.GetComponent<Text> ().text = "defect limit";
+				if (Random.value > .5) {
+					NoEventText.GetComponent<Text> ().text = "The buggy state of the code is causing impediments to your team! Try hiring a tester to find better cards.";
+				} else {
+					NoEventText.GetComponent<Text> ().text = "The Product Owner complains the glaring defects in latest release.";
+				}
 			}//if the LOC Progression FAR BEHIND
 			else if ((sprint.currentDay > 8) && (((float)sprint.linesDone / (float)(sprint.linesObjective - 400f)) < ((float)sprint.currentDay / (float)sprint.sprintDuration))) {
 				NoEventText.GetComponent<Text> ().text = "LOC far behind";
+				if (Random.value > .5) {
+					NoEventText.GetComponent<Text> ().text = "After checking the burndown chart, you can see the team is VERY far behind.";
+				} else {
+					NoEventText.GetComponent<Text> ().text = "During the stand-up, the team discusses why progress is so badly behind.";
+				}
 			}//if the budget is below 0
 			else if (sprint.budget < 0) {
-				NoEventText.GetComponent<Text> ().text = "budget is 0";
+				NoEventText.GetComponent<Text> ().text = "The Product Owner is upset with the budget situation. He hopes the extra money is worth it.";
 			}//if LOC Prog behind
 			else if ((sprint.currentDay > 4) && (((float)sprint.linesDone / (float)(sprint.linesObjective - 200f)) < ((float)sprint.currentDay / (float)sprint.sprintDuration))) {
-				NoEventText.GetComponent<Text> ().text = "LOC behind";
+				NoEventText.GetComponent<Text> ().text = "The team discusses the problems that have occurred in the last day and why progress has slowed.";
+				if (Random.value > .5) {
+					NoEventText.GetComponent<Text> ().text = "The team discusses the problems that have occurred in the last day and why progress has slowed.";
+				} else {
+					NoEventText.GetComponent<Text> ().text = "The burndown chart indicates that the team is falling behind.";
+				}
 			}//if defects are in yellow
 			else if (sprint.defects > (sprint.defectLimit / 2)) {
-				NoEventText.GetComponent<Text> ().text = "defects in yellow";
+				NoEventText.GetComponent<Text> ().text = "As a team, you all notice that the current state of the code is quite sloppy.";
 			}//if team has more than 5 members
 			else if (coders + testers + debuggers > 5) {
-				NoEventText.GetComponent<Text> ().text = "big team";
+				NoEventText.GetComponent<Text> ().text = "The Product Owner is worried that your team is growing too large. Try to reassign some developers.";
 			}//if budget is set to run out
 			else if (sprint.budget < ((sprint.sprintDuration - sprint.currentDay) * 100 * (coders + testers + debuggers))) {
-				NoEventText.GetComponent<Text> ().text = "budget set to run out";
+				NoEventText.GetComponent<Text> ().text = "By the math of the Product Owner, you're set to run out of money! Make cuts!";
+			} else {
+				float random = Random.value;
+				if (random < .1) {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n Always make sure that discussion in daily stand-ups are only concerned with the sprint.";
+				} else if (random < .2) {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n If a team member says a task is too big, remember to discuss creating smaller tasks in Retrospective. ";
+				} else if (random < .3) {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n Actually standing for the daily stand-up is recommended by many experts.";
+				} else if (random < .4) {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n To help keep the atmosphere light, some teams pass an item or ball when answering the big three questions.";
+				} else if (random < .5) {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n One main cause of failure of Scrum implementation is the team not correctly updating task status on the Scrum board.";
+				} else if (random < .6) {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n As a Scrum Master, ask the team how comfortable they are completing a task on time. The answer may lead to a possible impediment.";
+				} else if (random < .7) {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n Make sure the daily stand-up lasts no longer than 15 minutes. Otherwise, the point is moot.";
+				} else if (random < .8) {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n Leave problem-solving until after the stand-up. The purpose of the 15 minute meeting is organization.";
+				} else if (random < .9) {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n Always discuss the team's definition of done concerning different tasks. This will prevent unfinished work.";
+				} else {
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n If implementing Scrum, don't direct the team. The team is a self-organzing force.";
+				}
+
 			}
+
 
 
 				
