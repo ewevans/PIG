@@ -449,15 +449,16 @@ public class GameSystem : MonoBehaviour {
 			data.remainingBudget += sprint.budget;
 			for (int index = 0; index < sprint.tasks.Length; ++index) {
 				if (linesDone == 0) {
-					
-				} else if (linesDone > sprint.tasks [index].lines) {
+					// made > into >= because the last task wasn't counted
+				} else if (linesDone >= sprint.tasks [index].lines) {
 					sprint.tasks [index].linesDone = sprint.tasks [index].lines;
 					linesDone -= sprint.tasks [index].lines;
 					data.completedSprintTasks++;
 				} else {
 					sprint.tasks [index].linesDone = linesDone;
 					linesDone = 0;
-					data.completedSprintTasks++;
+					//removed this line, since it was adding task complete that wasnt
+					//data.completedSprintTasks++;
 				}
 				Debug.Log ("Len = " + data.projects [data.projectIndex].tasks.Count);
 				foundInData = false;
