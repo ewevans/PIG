@@ -206,7 +206,7 @@ public class GameSystem : MonoBehaviour {
 		dayIndicatorText.GetComponent<Text> ().text = "" + sprint.currentDay;
 		//ethan testing if day indictator off by 1 day
 		//float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 1f) / (float)sprint.sprintDuration + linesProgress.GetComponent<RectTransform>().rect.position.x;
-		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 0f) / ((float)sprint.sprintDuration+1) + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)sprint.currentDay - 1f) / ((float)sprint.sprintDuration) + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 	}
 	public void changeDefectModifier(int mod){
@@ -305,7 +305,7 @@ public class GameSystem : MonoBehaviour {
 		daysText.GetComponent<Text> ().text = "Day " + currentDay + " of " + sprint.sprintDuration;
 		dayIndicatorText.GetComponent<Text> ().text = "" + currentDay;
 		//ethan testing 1f to 0f
-		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)currentDay - 0f) / ((float)sprint.sprintDuration+1) + linesProgress.GetComponent<RectTransform>().rect.position.x;
+		float location = linesProgress.GetComponent<RectTransform> ().rect.width * ((float)currentDay - 1f) / ((float)sprint.sprintDuration) + linesProgress.GetComponent<RectTransform>().rect.position.x;
 		dayIndicator.transform.localPosition = new Vector3 (location, dayIndicator.transform.localPosition.y, dayIndicator.transform.localPosition.z);
 		flatBudget (-100 * (coders + testers + debuggers));
 		return currentDay <= sprint.sprintDuration;
