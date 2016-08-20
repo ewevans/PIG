@@ -5,9 +5,9 @@ public class PersistantData : MonoBehaviour {
 	public static PersistantData persistantData;
 
 	public Project[] projects = {
-		new Project("TO FILL IN"),
-		new Project("Car Systems"),
-		new Project("TO FILL IN")
+		new Project("Videogame Interface"),
+		new Project("Smart Car Systems"),
+		new Project("Rocket Systems")
 	};
 	public void sprintsDisplay(){
 		Debug.Log ("TotalSprints: " + projects [projectIndex].totalSprints);
@@ -45,7 +45,7 @@ public class PersistantData : MonoBehaviour {
 		//	Project 2
 		projects[1].addTask(new Task(1000, 15,   "Transmission Control Unit", Task.Priority.HIGH));
 
-		projects[1].addTask(new Task(550, 10,   "Human-machine Interface", Task.Priority.LOW));
+		projects[1].addTask(new Task(550, 10,   "Human-machine Interface", Task.Priority.MEDIUM));
 
 		projects[1].addTask(new Task(100, 5,    "Seat Control System", Task.Priority.LOW));
 

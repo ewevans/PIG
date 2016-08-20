@@ -24,6 +24,12 @@ public class GameSystem : MonoBehaviour {
 	public NewGame newgame;
 
 
+	private bool isTutorial(){
+		return PersistantData.persistantData.projectIndex == 0 && PersistantData.persistantData.projects[PersistantData.persistantData.projectIndex].sprintsDone == 0;
+	}
+	private void tutorialMessages(){
+		
+	}
 	public enum Category
 	{
 		NONE,
@@ -134,7 +140,7 @@ public class GameSystem : MonoBehaviour {
 		budgetDisplay.GetComponent<Text> ().text = "$" + sprint.budget;
 	}
 	public void flatLinesObjective(int change){
-		sprint.linesObjective += change;
+		sprint.updateLinesObjective (change);
 		linesProgress.GetComponent<Image> ().fillAmount = (float)sprint.linesDone / (float)sprint.linesObjective;
 		doneEarlyCheck ();
 	}
@@ -532,13 +538,18 @@ public class GameSystem : MonoBehaviour {
 				GameObject.Destroy(child.gameObject);
 			}
 			//Randomize probability of an event occuring
-			if (Random.value > .90 && sprint.currentDay != sprint.sprintDuration) {
-				startEvent (eventDeck.ChooseEvent ());
-			} else {//give them a daily stand up without event
-				
+			string[] tutMessage = TutorialMessages.getMessage(sprint.currentDay - 1);
+			if (isTutorial () && tutMessage != null) {
 				startEvent ("NoEvent");
+				updateDialogBox (tutMessage [0], tutMessage [1]);
+			} else {
+				if (Random.value > .90 && sprint.currentDay != sprint.sprintDuration) {
+					startEvent (eventDeck.ChooseEvent ());
+				} else {//give them a daily stand up without event
+
+					startEvent ("NoEvent");
+				}
 			}
-				
 			if (eventTriggerdAlloc != 0) {
 				changeRoles(Mathf.Abs(eventTriggerdAlloc));
 			}
@@ -745,6 +756,13 @@ public class GameSystem : MonoBehaviour {
 
 		budgetDisplay.GetComponent<Text> ().text = "$" + sprint.budget;
 
+		Debug.Log ("First day " + sprint.currentDay);
+		if (isTutorial()) {
+			string[] message = TutorialMessages.getMessage (0);
+			if (message != null) {
+				updateDialogBox (message [0], message [1]);
+			}
+		}
 		drawCardsStart ();
 		RoleAllocHudUpdate ();
 		refreshLines ();

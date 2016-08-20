@@ -22,12 +22,18 @@ public class Sprint : MonoBehaviour {
 		if (linesObjective < 0) {
 			linesObjective = 0;
 		}
+		if (linesDone > linesObjective) {
+			linesDone = linesObjective;
+		}
 		return linesObjective;
 	}
 	public int updateLinesDone(int change){
 		linesDone += change;
 		if (linesDone < 0) {
 			linesDone = 0;
+		}
+		if (linesDone > linesObjective) {
+			linesDone = linesObjective;
 		}
 		return linesDone;
 	}

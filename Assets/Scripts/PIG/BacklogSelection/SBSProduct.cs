@@ -9,6 +9,7 @@ public class SBSProduct : MonoBehaviour {
 	public Project project;
 	public GameObject sprintBacklog;
 	public GameObject sprintsRemainingDisplay;
+	public GameObject projectName;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +22,7 @@ public class SBSProduct : MonoBehaviour {
 							+ "For the tutorial project, completing 1000 Lines of Code each sprint is suggested.");
 
 		project = PersistantData.persistantData.projects [PersistantData.persistantData.projectIndex];
+		projectName.GetComponent<Text>().text = project.name;
 
 		sprintsRemainingDisplay.GetComponent<Text> ().text = "" + (project.totalSprints - project.sprintsDone);
 		//Debug.Log ("Pre loop");

@@ -22,6 +22,7 @@ public class GraphingScript : MonoBehaviour {
 		linesObjective = gameSystem.GetComponent<Sprint> ().linesObjective;
 		numDays = gameSystem.GetComponent<Sprint> ().sprintDuration;
 		drawTicks ();
+		drawLine (0, linesObjective, numDays, 0, new Color(.75f, .75f, .75f));
 		for (int index = 0; index < turns.Count - 1; ++index) {
 			drawDot (turns [index].turnDay, linesObjective - turns [index].turnLinesComnpleted);
 			drawLine (turns [index].turnDay, linesObjective - turns [index].turnLinesComnpleted, turns [index + 1].turnDay, linesObjective - turns [index+1].turnLinesComnpleted);
