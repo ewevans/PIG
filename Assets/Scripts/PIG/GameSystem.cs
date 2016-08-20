@@ -447,29 +447,49 @@ public class GameSystem : MonoBehaviour {
 
 			data.runningDefects += sprint.defects;
 			data.remainingBudget += sprint.budget;
-			for (int index = 0; index < sprint.tasks.Length; ++index) {
-				if (linesDone == 0) {
-					// made > into >= because the last task wasn't counted
-				} else if (linesDone >= sprint.tasks [index].lines) {
+
+			//if all tasks were complete
+			if (linesDone >= sprint.linesObjective) {
+				data.completedSprintTasks += sprint.tasks.Length;
+
+				for (int index = 0; index < sprint.tasks.Length; index++) {
 					sprint.tasks [index].linesDone = sprint.tasks [index].lines;
-					linesDone -= sprint.tasks [index].lines;
-					data.completedSprintTasks++;
-				} else {
-					sprint.tasks [index].linesDone = linesDone;
-					linesDone = 0;
-					//removed this line, since it was adding task complete that wasnt
-					//data.completedSprintTasks++;
-				}
-				Debug.Log ("Len = " + data.projects [data.projectIndex].tasks.Count);
-				foundInData = false;
-				for (int pIndex = 0; !foundInData && pIndex < data.projects [data.projectIndex].tasks.Count; ++pIndex) {
-					Debug.Log (" pIndex = " + pIndex + "              index = " + index);
-					if (data.projects [data.projectIndex].tasks [pIndex].name == sprint.tasks [index].name) {
-						data.projects [data.projectIndex].tasks [pIndex].linesDone = sprint.tasks [index].linesDone;
-						foundInData = true;
+					foundInData = false;
+					for (int pIndex = 0; !foundInData && pIndex < data.projects [data.projectIndex].tasks.Count; ++pIndex) {
+						Debug.Log (" pIndex = " + pIndex + "              index = " + index);
+						if (data.projects [data.projectIndex].tasks [pIndex].name == sprint.tasks [index].name) {
+							data.projects [data.projectIndex].tasks [pIndex].linesDone = sprint.tasks [index].linesDone;
+							foundInData = true;
+						}
 					}
 				}
+			}
+			else{
+				
+				for (int index = 0; index < sprint.tasks.Length; ++index) {
+					if (linesDone == 0) {
 
+						// made > into >= because the last task wasn't counted
+					} else if (linesDone >= sprint.tasks [index].lines) {
+						sprint.tasks [index].linesDone = sprint.tasks [index].lines;
+						linesDone -= sprint.tasks [index].lines;
+						data.completedSprintTasks++;
+					} else {
+						sprint.tasks [index].linesDone = linesDone;
+						linesDone = 0;
+						//removed this line, since it was adding task complete that wasnt
+						//data.completedSprintTasks++;
+					}
+					Debug.Log ("Len = " + data.projects [data.projectIndex].tasks.Count);
+					foundInData = false;
+					for (int pIndex = 0; !foundInData && pIndex < data.projects [data.projectIndex].tasks.Count; ++pIndex) {
+						Debug.Log (" pIndex = " + pIndex + "              index = " + index);
+						if (data.projects [data.projectIndex].tasks [pIndex].name == sprint.tasks [index].name) {
+							data.projects [data.projectIndex].tasks [pIndex].linesDone = sprint.tasks [index].linesDone;
+							foundInData = true;
+						}
+					}
+				}//end for loop
 
 			}
 
@@ -653,7 +673,7 @@ public class GameSystem : MonoBehaviour {
 				} else if (random < .9) {
 					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n Always discuss the team's definition of done concerning different tasks. This will prevent unfinished work.";
 				} else {
-					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n If implementing Scrum, don't direct the team. The team is a self-organzing force.";
+					NoEventText.GetComponent<Text> ().text = "Note on Agile Scrum:\n As a Scrum Master, don't direct the team. The team is a self-organzing force.";
 				}
 
 			}
