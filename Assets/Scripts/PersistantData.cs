@@ -21,18 +21,26 @@ public class PersistantData : MonoBehaviour {
 	public int remainingBudget = 0;
 	public int runningDefects = 0;
 
-	public void resetTasks(){
+	//added parameter to selectively delete only one project's tasks
+	public void resetTasks(int which){
 		totalSprintTasks = 0;
 		completedSprintTasks = 0;
 		remainingBudget = 0;
 		runningDefects = 0;
 
+		/*
 		foreach (Project project in projects){
 			project.sprintsDone = 0;
 			foreach (Task task in project.tasks) {
 				task.linesDone = 0;
 			}
+		}*/
+		//Ethan 8/20
+		//only deleting started project's tasks due to messing up how checking proj progress
+		foreach (Task task in projects[which].tasks) {
+			task.linesDone = 0;
 		}
+
 	}
 	void initProjects(){
 		//	Project 1

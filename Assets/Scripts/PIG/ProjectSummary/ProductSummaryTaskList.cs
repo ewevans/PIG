@@ -40,6 +40,17 @@ public class ProductSummaryTaskList : MonoBehaviour {
 		this.defects.GetComponent<Text> ().text = "" + data.runningDefects + " of " + defects + " allowed";
 		this.budget.GetComponent<Text> ().text = "$" + data.remainingBudget;
 
+		//Ethan: add 8/20 for project progression tracking
+		if (completedTasks == project.tasks.Count) {
+			if (PlayerPrefs.HasKey ("projectProgress")) {
+				if (PlayerPrefs.GetInt ("projectProgress") < (data.projectIndex+1)) {
+					PlayerPrefs.SetInt ("projectProgress", (data.projectIndex + 1));
+				}
+			} else {
+				PlayerPrefs.SetInt ("projectProgress", (data.projectIndex + 1));
+			}		
+		}
+
 	}
 	public void close(){
 		SceneManager.LoadScene ("Main Menu");

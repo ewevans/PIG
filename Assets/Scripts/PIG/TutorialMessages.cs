@@ -28,7 +28,7 @@ public static class TutorialMessages {
 			"indicating that the Defect limit has been reached.  Once the limit is reached, Development cards are NOT PLAYABLE " +
 			"until the Defect situation is handled."},
 		new string[]{"Budget",
-			"Your team starts with a set Budget at the beginning of each Sprint.  Each Developer costs $11 a day to keep employed, " +
+			"Your team starts with a set Budget at the beginning of each Sprint.  Each Developer costs $100 a day to keep employed, " +
 			"and can be fired with the \"Fire Developer\" Instant Effect card.\nEffect cards may also affect your Budget. "+
 			"Don't forget to plan ahead to see if you will have the money for each purchase."},
 		new string[]{"The Daily Stand-Up",

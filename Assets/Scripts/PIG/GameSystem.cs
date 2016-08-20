@@ -25,7 +25,11 @@ public class GameSystem : MonoBehaviour {
 
 
 	private bool isTutorial(){
-		return PersistantData.persistantData.projectIndex == 0 && PersistantData.persistantData.projects[PersistantData.persistantData.projectIndex].sprintsDone == 0;
+		if (PersistantData.persistantData != null)
+				return PersistantData.persistantData.projectIndex == 0 && PersistantData.persistantData.projects[PersistantData.persistantData.projectIndex].sprintsDone == 0;
+		else {
+			return false;
+		}
 	}
 	private void tutorialMessages(){
 		

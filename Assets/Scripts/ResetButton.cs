@@ -16,11 +16,11 @@ public class ResetButton : MonoBehaviour {
 	}
 
 	void whenClicked(){
+		PlayerPrefs.SetInt ("projectProgress", 0);
 		GameStats.gamestats.ResetData ();
-		//GameObject game = GetComponent<NewGame> ();
-		//NewGame game = GetComponent<NewGame>();
+
 		game.StartNewGame(2);
-		//NewGame.StartNewGame (2);
+
 
 	}
 
