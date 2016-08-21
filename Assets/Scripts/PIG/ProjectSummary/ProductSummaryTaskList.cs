@@ -10,6 +10,7 @@ public class ProductSummaryTaskList : MonoBehaviour {
 	public GameObject budget;
 	public GameObject tasks;
 	public GameObject title;
+	public GameObject successFailMessage;
 
 	// Use this for initialization
 	void Start () {
@@ -40,8 +41,12 @@ public class ProductSummaryTaskList : MonoBehaviour {
 		this.defects.GetComponent<Text> ().text = "" + data.runningDefects + " of " + defects + " allowed";
 		this.budget.GetComponent<Text> ().text = "$" + data.remainingBudget;
 
+		//Ethan: added 8/21 for SuccessFailMessage
+		this.successFailMessage.GetComponent<Text> ().text = MakeSuccessFailMessage(completedTasks, data, defects);
+
+
 		//Ethan: add 8/20 for project progression tracking
-		if (completedTasks == project.tasks.Count) {
+		if (completedTasks == project.tasks.Count && data.runningDefects < defects) {
 			if (PlayerPrefs.HasKey ("projectProgress")) {
 				if (PlayerPrefs.GetInt ("projectProgress") < (data.projectIndex+1)) {
 					PlayerPrefs.SetInt ("projectProgress", (data.projectIndex + 1));
@@ -64,7 +69,45 @@ public class ProductSummaryTaskList : MonoBehaviour {
 		entry.transform.SetParent (transform);
 		entry.transform.localScale = new Vector3 (1, 1, 1);
 	}
-	
+
+	string MakeSuccessFailMessage(int tasksCompleted, PersistantData data, int defectsAllowed) {
+		string message = "";
+		Project project = data.projects [data.projectIndex];
+		//success or fail
+		if (tasksCompleted == project.tasks.Count && data.runningDefects < defectsAllowed) {
+			message += "Success! You completed the ";
+			if (project.sprintsDone == 2) {
+				message += "Video Game Interface!\n";
+			} else if (project.sprintsDone == 3) {
+				message += "Smart Car System!\n";
+			} else if (project.sprintsDone == 4) {
+				message += "Rocket Ship!\n";
+			}
+		} else {
+			message += "Project failed!\n";
+		}
+		//budget
+		if (data.remainingBudget >= 0) {
+			message += "The Product Owner is amazed you stayed on budget. ";
+		} else {
+			message += "The Product Owner is upset too much was spent on the project.";
+		}
+
+		//defects
+		if (data.runningDefects > defectsAllowed) {
+			message += "The project is too full of defects to complete the required functionality.";
+		} else if (data.runningDefects > (defectsAllowed/2)){
+			message += "The project fulfills all requirements, but has many defects still.";
+		} else if (data.runningDefects == 0){
+			message += "The project fulfills all requirements, and runs perfectly!";
+		} else {
+			message += "The project works, but has many defects still.";
+		}
+			
+		return message;
+
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
