@@ -104,6 +104,8 @@ public class GameSystem : MonoBehaviour {
 		earlyCompletion.transform.localScale = new Vector3 (1, 1, 1);
 	}
 	public void autoPlaySelected(){
+		//reduce budget by # of developers * 100 * days left
+		sprint.budget = sprint.budget - (((int)100 * (coders + debuggers + testers)) * (sprint.sprintDuration - sprint.currentDay));
 		flatDefects (sprint.currentDay - sprint.sprintDuration);
 		sprint.currentDay = sprint.sprintDuration;
 		endTurn ();
