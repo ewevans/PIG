@@ -122,7 +122,10 @@ public class GameSystem : MonoBehaviour {
 		refreshLines ();
 	}
 	public void linesPerCoder(int lines){
-		int currentLines = sprint.updateLinesDone (Mathf.Max((lines + linesModifier) * (coders + coderMod), 0));
+		int currentLines = 0;
+		if (lines != 0) {
+			currentLines = sprint.updateLinesDone (Mathf.Max ((lines + linesModifier) * (coders + coderMod), 0));
+		} 
 		Debug.Log (currentLines + " Lines");
 		Debug.Log (lines + " Lines attempted");
 		doneEarlyCheck ();
