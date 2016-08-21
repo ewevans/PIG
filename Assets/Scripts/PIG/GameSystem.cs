@@ -407,7 +407,7 @@ public class GameSystem : MonoBehaviour {
 		if (isTutorial ()) {
 			switch (sprint.currentDay) {
 			case 3:
-				GameObject card1 = (GameObject)Instantiate (Resources.Load ("Coding75-0"));
+				GameObject card1 = (GameObject)Instantiate (Resources.Load ("Coding50"));
 				card1.transform.SetParent (hand.transform);
 				card1.transform.localScale = new Vector3 (1, 1, 1);
 				break;
@@ -458,7 +458,7 @@ public class GameSystem : MonoBehaviour {
 	}
 	private void drawCardsStart(){
 		if (isTutorial ()) {
-			GameObject card1 = (GameObject)Instantiate (Resources.Load ("Coding75-0"));
+			GameObject card1 = (GameObject)Instantiate (Resources.Load ("Coding50"));
 			card1.transform.SetParent (hand.transform);
 			card1.transform.localScale = new Vector3 (1, 1, 1);
 			GameObject card2 = (GameObject)Instantiate (Resources.Load ("ThirdPartySoftware"));
