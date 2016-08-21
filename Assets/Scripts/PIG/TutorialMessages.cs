@@ -19,9 +19,7 @@ public static class TutorialMessages {
 			"Lines of Code (LOC) by multiplying the LOC of Development cards by the number of Coders on your team.\n\n" +
 			"Debuggers have the job of removing all the Defects that are produced by the Development cards. " +
 			"Some Instant Effect cards are Debugging cards which rely on the Debuggers to work.\n\n" +
-			"Testers give a chance of drawing more valuable Debugging cards, which help complete the more difficult tasks.\n\n" +
-			"As the Sprint progresses, your team will be affected by cards you play to hire/fire developers and by events " +
-			"that occur during the Daily Standup."},
+			"Testers give a chance of drawing more valuable Debugging cards, which help complete the more difficult tasks.\n\n"},
 		new string[]{"Defects?!",
 			"Defects are produced when Development cards are played.  The current total of Defects can be seen on the Defect Bar " + 
 			"on the top left of the screen.\nAs Defects are accumulated, the Defect Bar changes from green to yellow, and finally RED " +
