@@ -278,22 +278,22 @@ public class GameSystem : MonoBehaviour {
 			if (lastingSlot1.transform.childCount > 0) {
 				GameObject card = lastingSlot1.transform.GetChild (0).gameObject;
 				card.GetComponent<Card> ().Deactivate ();
-				Destroy (card);
+				DestroyImmediate (card);
 			} else if (lastingSlot2.transform.childCount > 0) {
 				GameObject card = lastingSlot2.transform.GetChild (0).gameObject;
 				card.GetComponent<Card> ().Deactivate ();
-				Destroy (card);
+				DestroyImmediate (card);
 			}
 			break;
 		case 2:
 			if (lastingSlot2.transform.childCount > 0) {
 				GameObject card = lastingSlot2.transform.GetChild (0).gameObject;
 				card.GetComponent<Card> ().Deactivate ();
-				Destroy (card);
+				DestroyImmediate (card);
 			} else if (lastingSlot1.transform.childCount > 0) {
 				GameObject card = lastingSlot1.transform.GetChild (0).gameObject;
 				card.GetComponent<Card> ().Deactivate ();
-				Destroy (card);
+				DestroyImmediate (card);
 			}
 			break;
 		default:
@@ -356,10 +356,18 @@ public class GameSystem : MonoBehaviour {
 		//updateDialogBox ("This is the Title!", "This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used. This is my body. I'm testing the space used.");
 		if (state == State.NONE_PLAYED) {
 			//Deleting all existing cards in hand
+			/*
 			foreach (Transform child in hand.transform) {
 				
-				GameObject.Destroy (child.gameObject);
+				GameObject.DestroyImmediate (child.gameObject);
 			}
+			*/
+			int times = 0;
+			while (hand.transform.childCount > 0 && times < 10) {
+				GameObject.DestroyImmediate (hand.transform.GetChild (0).gameObject);
+				++times;
+			}
+			Debug.Log ("After Discard All: " + hand.transform.childCount + " times = " + times);
 
 			//ETHAN: in order to be able to draw tester cards, removing below in future
 			//need to fix bug that only draws 1 card half the time 
@@ -370,6 +378,7 @@ public class GameSystem : MonoBehaviour {
 				card.transform.localScale = new Vector3 (1, 1, 1);
 			}*/
 			bool drewTester = false;
+			/*
 			for (int i = 0; i < 5; i++) {
 				if (deck == null)
 					Debug.Log("deck null");
@@ -389,16 +398,44 @@ public class GameSystem : MonoBehaviour {
 					card.transform.localScale = new Vector3 (1, 1, 1);
 				}
 			}
-
+*/
 			endTurn ();
 		}
 	}
 
 	private void drawCards(){
+		if (isTutorial ()) {
+			switch (sprint.currentDay) {
+			case 3:
+				GameObject card1 = (GameObject)Instantiate (Resources.Load ("Coding75-0"));
+				card1.transform.SetParent (hand.transform);
+				card1.transform.localScale = new Vector3 (1, 1, 1);
+				break;
+			case 4:
+				GameObject card2 = (GameObject)Instantiate (Resources.Load ("RoleAllocation"));
+				card2.transform.SetParent (hand.transform);
+				card2.transform.localScale = new Vector3 (1, 1, 1);
+				break;
+			case 5:
+				GameObject card3 = (GameObject)Instantiate (Resources.Load ("DebuggingMore"));
+				card3.transform.SetParent (hand.transform);
+				card3.transform.localScale = new Vector3 (1, 1, 1);
+				break;
+			case 8:
+				GameObject card4 = (GameObject)Instantiate (Resources.Load ("BackupSystem"));
+				card4.transform.SetParent (hand.transform);
+				card4.transform.localScale = new Vector3 (1, 1, 1);
+				break;
+			default:
+				break;
+
+			}
+		}
 		//if the player has drawn a tester this round
 		bool drewTester = false;
 		Debug.Log ("drew tester is " + drewTester.ToString());
-		while (hand.transform.childCount < 6) {
+		Debug.Log ("asdf" + hand.transform.childCount);
+		while (hand.transform.childCount < 5) {
             if (deck == null)
                     Debug.Log("deck null");
 			Debug.Log (testers);
@@ -417,8 +454,20 @@ public class GameSystem : MonoBehaviour {
 				card.transform.localScale = new Vector3 (1, 1, 1);
 			}
 		}
+		Debug.Log ("after" + hand.transform.childCount);
 	}
 	private void drawCardsStart(){
+		if (isTutorial ()) {
+			GameObject card1 = (GameObject)Instantiate (Resources.Load ("Coding75-0"));
+			card1.transform.SetParent (hand.transform);
+			card1.transform.localScale = new Vector3 (1, 1, 1);
+			GameObject card2 = (GameObject)Instantiate (Resources.Load ("ThirdPartySoftware"));
+			card2.transform.SetParent (hand.transform);
+			card2.transform.localScale = new Vector3 (1, 1, 1);
+			GameObject card3 = (GameObject)Instantiate (Resources.Load ("AutomatedTools"));
+			card3.transform.SetParent (hand.transform);
+			card3.transform.localScale = new Vector3 (1, 1, 1);
+		}
 		while (hand.transform.childCount < 5) {
 			if (deck == null)
 				Debug.Log("deck null");
@@ -539,7 +588,7 @@ public class GameSystem : MonoBehaviour {
 			//clean up any existing event dialog box
 			foreach (Transform child in eventSlot.transform)
 			{
-				GameObject.Destroy(child.gameObject);
+				GameObject.DestroyImmediate(child.gameObject);
 			}
 			//Randomize probability of an event occuring
 			string[] tutMessage = TutorialMessages.getMessage(sprint.currentDay - 1);
@@ -587,7 +636,7 @@ public class GameSystem : MonoBehaviour {
 		bool activate = true;
         //destroy previous event
         foreach (Transform child in eventSlot.transform) {
-            GameObject.Destroy(child.gameObject);
+            GameObject.DestroyImmediate(child.gameObject);
         }
 		NoEventText.GetComponent<Text> ().text = "";
 

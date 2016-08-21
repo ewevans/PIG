@@ -48,7 +48,7 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 			dragItem.transform.SetParent (placeHolder.transform.parent);
 			dragItem.transform.SetSiblingIndex (placeHolder.transform.GetSiblingIndex ());
 			dragItem.transform.position = placeHolder.transform.position;
-			Destroy (placeHolder);
+			DestroyImmediate (placeHolder);
 			dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = true;
 		}
 	}
@@ -86,6 +86,8 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 				if (zone.type == DropZone.Type.DISCARD) {
 					zone.parentItem (dragItem);
 					dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = false;
+					DestroyImmediate (placeHolder);
+					placeHolder = null;
 					controller.GetComponent<GameSystem> ().endTurn ();
 				} else if (zone.type == DropZone.Type.PLAY) {
 					if (dragItem.GetComponent<Card> ().Activate ()) {
@@ -116,7 +118,8 @@ public class Hand : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoin
 				dragItem.transform.SetSiblingIndex (placeHolder.transform.GetSiblingIndex ());
 				dragItem.GetComponent<CanvasGroup> ().blocksRaycasts = true;
 			}
-			Destroy (placeHolder);
+			if(placeHolder != null)
+				DestroyImmediate (placeHolder);
 		}
 	}
 	public void OnPointerExit(PointerEventData eventData){

@@ -27,6 +27,7 @@ public class PersistantData : MonoBehaviour {
 		completedSprintTasks = 0;
 		remainingBudget = 0;
 		runningDefects = 0;
+		projects [which].sprintsDone = 0;
 
 		/*
 		foreach (Project project in projects){
