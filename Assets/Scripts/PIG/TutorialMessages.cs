@@ -4,9 +4,13 @@ using System.Collections;
 public static class TutorialMessages {
 	private static string[][] message = new string[][]{
 		new string[]{"Each Day of the Sprint",
-			"The goal of each Sprint is to complete the scheduled tasks under budget and with minimal defects " +
-			"before the Sprint is complete.\nDuring each day of the Sprint, you have the option to play an effect card " +
-			"then an optional development card.\nThe day is ended by dragging a card to the Discard pile to remove it from play."},
+			"The goal of each sprint is to complete the scheduled tasks under budget and with minimal defects " +
+			"before the sprint is complete.\n\nEach day (or turn), you have the option to play a RED Lasting Effect " +
+			"card by dragging it to one of the hourglasses OR a GREEN Instant Effect by dragging to the play pile.\n\n" +
+			"THEN you may play a BLUE Development card on top of the play pile.\n\n" +
+			"To end the turn and start the next day, drag a card you don't want to the discard pile.\n" +
+			"\n\n" +
+			"WARNING: When the defect bar is over the limit and turns solid RED, no Development cards can be played until the defects are under control."},
 		new string[]{"Play Cards",
 			"All cards are played by dragging to the correct pile.\nTo play an Instant Effect or Development card, drag them to " +
 			"the Play Pile.\nTo play a Lasting Effect, drag it to one of the Lasting Effect Piles to the left of the Play Pile."},
