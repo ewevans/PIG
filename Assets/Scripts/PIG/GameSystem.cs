@@ -408,6 +408,12 @@ public class GameSystem : MonoBehaviour {
 		}
 	}
 
+	public void clickHelpButton(){
+		string[] message = TutorialMessages.getMessage (0);
+		updateDialogBox (message[0], message[1]);
+
+	}
+
 	private void drawCards(){
 		if (isTutorial ()) {
 			switch (sprint.currentDay) {
